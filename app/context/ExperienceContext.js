@@ -9,7 +9,7 @@ export function ExperienceProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const API_URL = "http://127.0.0.1:8000/api/v1/experience/";
+    const API_URL =  process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000" + "/api/v1/experience/";
 
     useEffect(() => {
         async function fetchExperiences() {
