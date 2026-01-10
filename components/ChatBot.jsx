@@ -13,8 +13,7 @@ export default function ChatBot() {
     const [mounted, setMounted] = useState(false);
 
     // --- Logic State ---
-    // const BACKEND_URL = "https://backend-3j4r.onrender.com";
-    const BACKEND_URL = "http://127.0.0.1:8000";
+    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
