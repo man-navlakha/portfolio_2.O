@@ -9,7 +9,7 @@ export function ProjectProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const API_URL =  process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000" + "/api/v1/projects/";
+    const API_URL =  process.env.NEXT_PUBLIC_BACKEND_URL + "/api/v1/projects/" || "http://127.0.0.1:8000" + "/api/v1/projects/";
 
     useEffect(() => {
         async function fetchProjects() {
