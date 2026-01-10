@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import CallToAction from "../Components/CallToAction";
 import RevealOnScroll from "../Components/ui/RevealOnScroll";
-import ShinyText from '../../Components/ShinyText';
+import ShinyText from '../../components/ShinyText';
 import { useProjects } from '@/app/context/ProjectContext';
 import Link from 'next/link';
 import { Globe, Zap, Figma, Code, Layout as LayoutIcon } from 'lucide-react';

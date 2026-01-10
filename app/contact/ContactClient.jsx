@@ -5,7 +5,7 @@ import CallToAction from '../Components/CallToAction';
 import RevealOnScroll from '../Components/ui/RevealOnScroll';
 import AnimatedButton from '../Components/ui/AnimatedButton';
 import Scroll from '../Components/Scroll';
-import ShinyText from '../../Components/ShinyText';
+import ShinyText from '../../components/ShinyText';
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Github, Instagram, Linkedin, Mail, Twitter } from 'lucide-react';
