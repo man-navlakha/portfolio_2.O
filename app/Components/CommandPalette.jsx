@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { projects } from '@/app/data/projects';
+import { useProjects } from '@/app/context/ProjectContext';
 
 const BASE_COMMANDS = [
     {
@@ -68,15 +68,6 @@ const BASE_COMMANDS = [
     }
 ];
 
-const projectCommands = projects.map(project => ({
-    id: `project-${project.id}`,
-    title: project.title,
-    description: project.tagline,
-    icon: Grid,
-    action: (router) => router.push(`/projects/${project.id}`),
-    category: 'Projects'
-}));
-
 const socialCommands = [
     {
         id: 'social-github',
@@ -96,15 +87,25 @@ const socialCommands = [
     }
 ];
 
-const ALL_COMMANDS = [...BASE_COMMANDS, ...projectCommands, ...socialCommands];
-
 export default function CommandPalette() {
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const { theme, setTheme } = useTheme();
     const router = useRouter();
+    const { projects } = useProjects();
     const inputRef = useRef(null);
+
+    const projectCommands = projects.map(project => ({
+        id: `project-${project.id}`,
+        title: project.title,
+        description: project.tagline,
+        icon: Grid,
+        action: (router) => router.push(`/projects/${project.id}`),
+        category: 'Projects'
+    }));
+
+    const ALL_COMMANDS = [...BASE_COMMANDS, ...projectCommands, ...socialCommands];
 
     const filteredCommands = ALL_COMMANDS.filter(cmd =>
         cmd.title.toLowerCase().includes(search.toLowerCase()) ||

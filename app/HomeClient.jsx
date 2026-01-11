@@ -10,17 +10,12 @@ import CallToAction from './Components/CallToAction';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Scroll from './Components/Scroll';
 import { useProjects } from '@/app/context/ProjectContext';
-import { projects as staticProjects } from '@/app/data/projects'; // Fallback if needed
 import Link from 'next/link';
-
 
 export default function Home() {
   const { projects, loading } = useProjects();
 
-  // Use live projects if available, otherwise static (for initial hydration or dev)
-  const displayProjects = projects.length > 0
-    ? projects.filter(p => p.isFeatured)
-    : staticProjects.filter(p => p.isFeatured).slice(0, 4);
+  const displayProjects = projects.filter(p => p.isFeatured);
 
   const [activeExpertise, setActiveExpertise] = useState("item-1");
 

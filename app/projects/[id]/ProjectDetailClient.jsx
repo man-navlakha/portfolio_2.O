@@ -9,6 +9,7 @@ import {
     ArrowLeft,
     ExternalLink,
     Github,
+    Figma,
     Calendar,
     User,
     Briefcase,
@@ -20,27 +21,38 @@ import {
     ChevronRight,
     Star,
     GitFork,
-    History
+    History,
+    Zap
 } from 'lucide-react';
 
 export default function ProjectDetailClient({ params }) {
     const { id } = use(params);
-    const { projects, loading } = useProjects();
+    const { projects, loading: contextLoading, getProjectById } = useProjects();
+    const [project, setProject] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-    if (loading) return (
+    React.useEffect(() => {
+        const fetchProject = async () => {
+            setLoading(true);
+            const data = await getProjectById(id);
+            setProject(data);
+            setLoading(false);
+        };
+        fetchProject();
+    }, [id, getProjectById]);
+
+    if (loading || contextLoading) return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0a0a0a]">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-brand"></div>
         </div>
     );
 
-    const projectIndex = projects.findIndex((p) => p.id === id);
-    const project = projects[projectIndex];
-
     if (!project) {
         notFound();
     }
 
-    const nextProject = projects[(projectIndex + 1) % projects.length];
+    const projectIndex = projects.findIndex((p) => p.id === id);
+    const nextProject = projects.length > 0 ? projects[(projectIndex + 1) % projects.length] : null;
 
     return (
         <div className="min-h-screen bg-[#fafafa] dark:bg-[#050505] text-slate-900 dark:text-white pt-32 pb-24 px-4 md:px-6">
@@ -106,7 +118,7 @@ export default function ProjectDetailClient({ params }) {
                         )}
 
                         {/* Overview & Description */}
-                        {(project.overview || project.description) && (
+                        {(project.overview) && (
                             <div className="grid gap-12">
                                 {project.overview && (
                                     <RevealOnScroll>
@@ -135,6 +147,8 @@ export default function ProjectDetailClient({ params }) {
                                         </section>
                                     </RevealOnScroll>
                                 )}
+
+
                             </div>
                         )}
 
@@ -245,6 +259,33 @@ export default function ProjectDetailClient({ params }) {
                                                 <div className="flex items-center justify-between gap-4">
                                                     <code className="text-slate-300 break-all">{step.command}</code>
                                                 </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            </RevealOnScroll>
+                        )}
+
+                        {/* Lighthouse & Performance */}
+                        {project.lighthouse && (project.lighthouse.performance > 0 || project.lighthouse.testCoverage > 0) && (
+                            <RevealOnScroll>
+                                <section className="space-y-8">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-500">
+                                            <Zap size={20} />
+                                        </div>
+                                        <h2 className="text-2xl font-bold tracking-tight">Performance & Quality</h2>
+                                    </div>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        {[
+                                            { label: 'Performance', value: project.lighthouse.performance, color: 'text-emerald-500' },
+                                            { label: 'SEO', value: project.lighthouse.seo, color: 'text-blue-500' },
+                                            { label: 'Accessibility', value: project.lighthouse.accessibility, color: 'text-orange-500' },
+                                            { label: 'Test Coverage', value: project.lighthouse.testCoverage, color: 'text-purple-500' }
+                                        ].map((stat) => (
+                                            <div key={stat.label} className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 p-6 rounded-[2rem] text-center space-y-2">
+                                                <div className={`text-3xl font-black ${stat.color}`}>{stat.value}%</div>
+                                                <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400 dark:text-gray-500">{stat.label}</div>
                                             </div>
                                         ))}
                                     </div>
@@ -394,7 +435,7 @@ export default function ProjectDetailClient({ params }) {
                                             <div className="space-y-4">
                                                 {project.teamMembers.map((member, idx) => (
                                                     <div key={idx} className="flex items-center justify-between group/member">
-                                                        <span className="text-sm font-bold text-slate-700 dark:text-gray-300">{member.Name}</span>
+                                                        <span className="text-sm font-bold text-slate-700 dark:text-gray-300">{member.Name}<br /> <span className="text-xs text-slate-400 dark:text-gray-500">{member.role}</span></span>
                                                         <div className="flex gap-2">
                                                             {member.GitHub && (
                                                                 <a href={member.GitHub} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 text-slate-400 hover:text-brand transition-colors">
@@ -403,6 +444,11 @@ export default function ProjectDetailClient({ params }) {
                                                             )}
                                                             {member.LinkedIn && (
                                                                 <a href={member.LinkedIn} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 text-slate-400 hover:text-brand transition-colors">
+                                                                    <User size={14} />
+                                                                </a>
+                                                            )}
+                                                            {member.portfolio && (
+                                                                <a href={member.portfolio} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 text-slate-400 hover:text-brand transition-colors">
                                                                     <User size={14} />
                                                                 </a>
                                                             )}
@@ -416,7 +462,7 @@ export default function ProjectDetailClient({ params }) {
 
                                 {/* Actions */}
                                 <div className="pt-4 flex flex-col gap-3">
-                                    {project.liveLink && project.liveLink !== '#' && (
+                                    {(project.isWebAvailable || project.liveLink !== '#') && (
                                         <a
                                             href={project.liveLink}
                                             target="_blank"
@@ -425,6 +471,17 @@ export default function ProjectDetailClient({ params }) {
                                         >
                                             Visit Website
                                             <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        </a>
+                                    )}
+                                    {project.isAppAvailable && project.appLink && (
+                                        <a
+                                            href={project.appLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center justify-center gap-2 w-full py-4 bg-brand text-black rounded-2xl font-bold text-sm hover:opacity-90 transition-all shadow-lg active:scale-[0.98]"
+                                        >
+                                            Download App
+                                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                         </a>
                                     )}
                                     {project.githubLink && project.githubLink !== '#' && (
@@ -436,6 +493,28 @@ export default function ProjectDetailClient({ params }) {
                                         >
                                             <Github size={16} />
                                             View Source
+                                        </a>
+                                    )}
+                                    {project.apiDocsLink && (
+                                        <a
+                                            href={project.apiDocsLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center justify-center gap-2 w-full py-4 border border-slate-200 dark:border-white/10 rounded-2xl font-bold text-sm hover:bg-slate-50 dark:hover:bg-white/5 transition-all active:scale-[0.98]"
+                                        >
+                                            <Terminal size={16} />
+                                            API Documentation
+                                        </a>
+                                    )}
+                                    {project.figma && project.figma !== '#' && (
+                                        <a
+                                            href={project.figma}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center justify-center gap-2 w-full py-4 border border-slate-200 dark:border-white/10 rounded-2xl font-bold text-sm hover:bg-slate-50 dark:hover:bg-white/5 transition-all active:scale-[0.98]"
+                                        >
+                                            <Figma size={16} />
+                                            View Design
                                         </a>
                                     )}
                                 </div>

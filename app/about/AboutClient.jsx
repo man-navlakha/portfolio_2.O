@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { ArrowUpRight, Download, Brain, PenTool, Code2, Rocket, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Download, Brain, PenTool, Code2, Rocket, ShieldCheck, Sparkles, ChevronRight } from 'lucide-react';
 import CallToAction from '../Components/CallToAction';
 import RevealOnScroll from '../Components/ui/RevealOnScroll';
 import AnimatedButton from '../Components/ui/AnimatedButton';
@@ -11,6 +11,7 @@ import BentoVitals from '../Components/BentoVitals';
 
 import { useExperience } from '../context/ExperienceContext';
 import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 const AboutClient = () => {
     const { experiences, loading: expLoading } = useExperience();
@@ -72,7 +73,7 @@ const AboutClient = () => {
                                 {/* Rotating Badge */}
                                 <div className="absolute -bottom-12 -right-3 md:right-[11px] z-20 w-32 h-32 md:w-40 md:h-40 bg-white dark:bg-[#1a1a1a] rounded-full flex items-center justify-center border border-slate-200 dark:border-white/10">
                                     <div className="relative w-full h-full flex items-center justify-center">
-                                        <svg viewBox="0 0 100 100" className="w-full h-full p-2 animate-spin-slow">
+                                        <svg viewBox="0 0 100 100" className="w-full h-full p-3">
                                             <path
                                                 id="curve"
                                                 d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0"
@@ -185,18 +186,25 @@ const AboutClient = () => {
                             ) : (
                                 experiences.map((exp, index) => (
                                     <RevealOnScroll key={exp.id || index} delay={index * 100}>
-                                        <div className="group flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-8 last:border-0">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200 dark:bg-gray-800">
-                                                    <img src={exp.logo} alt={exp.company} className="w-full h-full object-cover" />
+                                        <Link href={`/experience/${exp.id}`} className="block group">
+                                            <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-8 last:border-0 cursor-pointer">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 rounded-full overflow-hidden bg-white dark:bg-gray-800 border border-slate-200 dark:border-white/10 p-1 flex items-center justify-center">
+                                                        <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">{exp.role}</h3>
+                                                        <p className="text-slate-600 dark:text-gray-400 text-sm font-medium">{exp.company}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">{exp.role}</h3>
-                                                    <p className="text-slate-600 dark:text-gray-400 text-sm">{exp.company}</p>
+                                                <div className="flex items-center gap-4">
+                                                    <span className="hidden sm:inline text-slate-500 dark:text-gray-500 text-sm font-medium tracking-tight">{exp.period}</span>
+                                                    <div className="p-2 rounded-full bg-slate-50 dark:bg-white/5 group-hover:bg-brand/10 group-hover:text-brand transition-all">
+                                                        <ChevronRight className="w-4 h-4" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <span className="text-slate-500 dark:text-gray-500 text-sm">{exp.period}</span>
-                                        </div>
+                                        </Link>
                                     </RevealOnScroll>
                                 ))
                             )}
