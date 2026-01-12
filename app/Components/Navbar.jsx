@@ -56,7 +56,7 @@ export default function Navbar() {
         >
           <div className="flex items-center justify-between gap-8">
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold tracking-wide text-slate-900 dark:text-white tracking-tighter z-10">
+            <Link href="/" className="text-xl font-bold tracking-wide font-primary text-slate-900 dark:text-white tracking-tighter z-10">
               MN
             </Link>
 

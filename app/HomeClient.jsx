@@ -48,7 +48,7 @@ export default function Home() {
               <div className="md:flex-center items-center justify-center mt-8 flex flex-col gap-4 md:flex-row">
                 <div className="bg-gray-700/30 dark:bg-gray-700/30 h-[1px] w-full"></div>
                 <p className="w-full text-pretty">
-                  A frontend developer with a strong focus on creating responsive, user-friendly interfaces and smooth digital experiences.
+                  A MERN stack developer with a strong focus on creating responsive, user-friendly interfaces and smooth digital experiences.
                 </p>
               </div>
             </RevealOnScroll>

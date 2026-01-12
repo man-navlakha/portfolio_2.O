@@ -4,7 +4,7 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import ShinyText from './ShinyText';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, X, Send, RefreshCcw, Maximize2, Minimize2, Copy, CheckCheck, FileText, ChevronLeft, Loader2, AlertCircle, Grid, User, Code2, Sparkles, Terminal } from 'lucide-react';
+import { Bot, X, Send, RefreshCcw, Maximize2, Minimize2, Copy, CheckCheck, FileText, ChevronLeft, Loader2, AlertCircle, Grid, User, Code2, Sparkles, Terminal, Square } from 'lucide-react';
 import { useChat } from '@/app/context/ChatContext';
 export default function ChatBot() {
     // --- UI State ---
@@ -91,6 +91,7 @@ export default function ChatBot() {
         }
     ];
     const chatboxEndRef = useRef(null);
+    const abortControllerRef = useRef(null);
 
     // --- Effects ---
     useEffect(() => {
@@ -218,10 +219,15 @@ export default function ChatBot() {
         setInput('');
         setLoading(true);
 
+        // Initialize AbortController
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
         try {
             const response = await fetch(`${BACKEND_URL}/api/v1/chat/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
                 body: JSON.stringify({
                     history: [userMessage],
                     session_id: sessionId
@@ -270,6 +276,7 @@ export default function ChatBot() {
                 const followUpResponse = await fetch(`${BACKEND_URL}/api/v1/chat/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    signal: controller.signal,
                     body: JSON.stringify({
                         history: [followUpMessage],
                         session_id: sessionId
@@ -304,6 +311,18 @@ export default function ChatBot() {
             if (fullResponse.includes("please provide your name, email")) { setShowHireForm(true); }
 
         } catch (error) {
+            if (error.name === 'AbortError') {
+                setMessages(prev => {
+                    const updated = [...prev.slice(0, -1)];
+                    return [...updated, {
+                        sender: 'bot',
+                        text: "_Response stopped._",
+                        time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }),
+                        suggestions: [],
+                    }];
+                });
+                return;
+            }
             console.error("API Error:", error);
             let errorMessage = "⚠️ Oops! Something went wrong. Please check your connection.";
 
@@ -322,6 +341,14 @@ export default function ChatBot() {
                 }];
             });
         } finally {
+            setLoading(false);
+            abortControllerRef.current = null;
+        }
+    };
+
+    const stopResponse = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
             setLoading(false);
         }
     };
@@ -574,8 +601,9 @@ export default function ChatBot() {
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={handleKeyDown}
-                                    placeholder="Type '/' for commands..."
-                                    className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/5 rounded-xl text-sm focus:outline-none focus:border-brand dark:focus:border-brand text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 transition-colors"
+                                    disabled={loading}
+                                    placeholder={loading ? "Waiting for AI..." : "Type '/' for commands..."}
+                                    className="w-full pl-4 pr-24 py-3 bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/5 rounded-xl text-sm focus:outline-none focus:border-brand dark:focus:border-brand text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                                 />
 
                                 {/* Slash Commands Menu */}
@@ -618,13 +646,25 @@ export default function ChatBot() {
                                     )}
                                 </AnimatePresence>
 
-                                <button
-                                    onClick={() => sendMessage(input)}
-                                    disabled={loading || !input.trim()}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
-                                </button>
+                                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                    {loading && (
+                                        <button
+                                            onClick={stopResponse}
+                                            className="p-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-lg transition-colors flex items-center gap-1.5 px-3"
+                                            title="Stop generating"
+                                        >
+                                            <Square size={14} fill="currentColor" />
+                                            <span className="text-[10px] font-bold uppercase hidden md:inline">Stop</span>
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={() => sendMessage(input)}
+                                        disabled={loading || !input.trim()}
+                                        className="p-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                                    </button>
+                                </div>
                             </div>
                             <p className="text-[10px] text-slate-400 dark:text-gray-500 mt-1.5 ml-1">
                                 🌍 I speak English, Hindi, and Gujarati!
