@@ -28,9 +28,11 @@ export default function ProjectsClient() {
         ? projects
         : projects.filter(p => p.category?.toLowerCase().includes(activeTab.toLowerCase())))
         .sort((a, b) => {
+            // First sort by featured status
             if (a.isFeatured && !b.isFeatured) return -1;
             if (!a.isFeatured && b.isFeatured) return 1;
-            return 0;
+            // Then sort by the defined order
+            return (a.order || 0) - (b.order || 0);
         });
 
     return (

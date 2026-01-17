@@ -96,7 +96,8 @@ export function ProjectProvider({ children }) {
             // Optionally update projects list if it's not already there
             setProjects(prev => {
                 if (prev.find(p => p.id === formatted.id)) return prev;
-                return [...prev, formatted];
+                const newList = [...prev, formatted];
+                return newList.sort((a, b) => (a.order || 0) - (b.order || 0));
             });
 
             return formatted;
@@ -129,11 +130,14 @@ export function ProjectProvider({ children }) {
                 // Map the API data structure to match our existing component's expected structure
                 const formattedData = data.map(formatProjectData);
 
-                setProjects(formattedData);
+                // Sort by order
+                const sortedData = formattedData.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+                setProjects(sortedData);
 
                 // Save to cache
                 localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    data: formattedData,
+                    data: sortedData,
                     timestamp: Date.now()
                 }));
             } catch (err) {

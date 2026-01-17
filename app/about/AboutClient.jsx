@@ -100,7 +100,7 @@ const AboutClient = () => {
                                 <p className="text-slate-600 dark:text-gray-400 text-lg leading-relaxed max-w-xl">
                                     A MERN stack developer with a strong focus on creating responsive, user-friendly interfaces and smooth digital experiences. I have extensive experience using React.js, building career pages and AI model interfaces.
                                 </p>
-                                <a href="https://ik.imagekit.io/pxc/mannavlakha/Man%20Navlakha%20Resume.pdf?updatedAt=1755343374880" target="_blank" rel="noopener noreferrer">
+                                <a href="https://ik.imagekit.io/pxc/mannavlakha/Man_Navlakha_MERN_Developer.pdf" target="_blank" rel="noopener noreferrer">
                                     <AnimatedButton
                                         hoverColor="bg-slate-900 dark:bg-white"
                                         hoverTextColor="group-hover:text-white dark:group-hover:text-black"
