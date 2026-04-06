@@ -103,12 +103,12 @@ export default function ProjectsClient() {
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                             <div className="absolute bottom-8 left-8 flex gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                                                {project.isLive && (
+                                                {project.liveLink && project.liveLink !== "#" && (
                                                     <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl text-white border border-white/20">
                                                         <Globe size={18} />
                                                     </div>
                                                 )}
-                                                {project.hasFigma && (
+                                                {project.figma && project.figma !== "#" && (
                                                     <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl text-white border border-white/20">
                                                         <Figma size={18} />
                                                     </div>
@@ -129,14 +129,14 @@ export default function ProjectsClient() {
                                                         </span>
                                                     ))}
                                                 </div>
-                                                <span className="text-xs font-medium text-slate-400">/ {project.year}</span>
+                                                <span className="text-xs font-medium text-slate-400">/ {project.year || new Date().getFullYear()}</span>
                                             </div>
 
                                             <div className="flex items-center gap-4">
                                                 <h3 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 dark:text-white group-hover:text-brand transition-colors duration-300">
                                                     {project.title}
                                                 </h3>
-                                                {project.status === 'Production' && (
+                                                {(project.status?.toLowerCase().includes('active') || project.status?.toLowerCase().includes('production')) && (
                                                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                                                 )}
                                             </div>

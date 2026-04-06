@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "company": "Excellent Publicity",
+    "logo": "/company/excellent%20publicity.png",
+    "role": "IT Support Intern",
+    "duration": {
+      "start": "January 2026",
+      "end": "Present",
+      "total": "4 months"
+    },
+    "location": "Ahmedabad, Gujarat, India",
+    "responsibilities": [
+      "Configuration and setup of laptops and desktops",
+      "Maintenance of PCs and laptops to ensure optimal performance",
+      "Repairing hardware and troubleshooting system issues",
+      "Providing on-call technical support to international employees",
+      "Updating and managing website data",
+      "Maintaining and organizing user data",
+      "Managing inventory of laptops, PCs, and devices",
+      "Supporting employees with technical errors and system issues",
+      "Configuring and troubleshooting Microsoft Outlook (POP settings)",
+      "Installing and managing Microsoft 365 (Office) and Windows OS",
+      "Preparing and setting up laptops/PCs for new joiners"
+    ],
+    "skills_gained": [
+      "IT Support & Troubleshooting",
+      "Hardware & Network Basics",
+      "System Administration",
+      "User Support & Communication",
+      "Microsoft 365 & Windows Management",
+      "Asset & Inventory Management"
+    ],
+    "work_type": "Internship",
+    "status": "Ongoing"
+  },
+  {
+    "id": 2,
+    "company": "HarSar Innovations",
+    "logo": "/company/harsar.png",
+    "role": "Web Developer",
+    "duration": {
+      "start": "March 2025",
+      "end": "April 2025",
+      "total": "2 months"
+    },
+    "location": "Remote",
+    "company_description": "ConsumerTech startup based in Hyderabad focused on transforming Information, Education, Entertainment, and Community through immersive and emerging technologies.",
+    "responsibilities": [
+      "Developed frontend using React.js and Tailwind CSS",
+      "Implemented responsive design for mobile and desktop compatibility",
+      "Integrated RESTful APIs for dynamic content loading",
+      "Built interactive popups and UI components",
+      "Ensured pixel-perfect implementation based on Figma designs",
+      "Developed backend APIs using Node.js and Express.js",
+      "Set up routing and controllers for request handling",
+      "Integrated PostgreSQL database for data management",
+      "Followed secure coding practices and clean architecture",
+      "Maintained codebase using Git with version control"
+    ],
+    "skills_gained": [
+      "React.js & Tailwind CSS",
+      "Full-Stack Development",
+      "API Development & Integration",
+      "Responsive UI/UX Design",
+      "Database Management (PostgreSQL)",
+      "Version Control (Git)",
+      "Secure Coding Practices"
+    ],
+    "work_type": "Full-time / Internship (Project-based)",
+    "status": "Completed"
+  },
+  {
+    "id": 3,
+    "company": "Parshwanath Solutions",
+    "logo": "/company/parshwanath%20solutions.png",
+    "role": "Information Technology Help Desk Technician",
+    "duration": {
+      "start": "February 2024",
+      "end": "October 2024",
+      "total": "9 months"
+    },
+    "location": "Ahmedabad, Gujarat, India",
+    "company_description": "An IT services company providing technical support and system management solutions for businesses and individual users.",
+    "responsibilities": [
+      "Provided technical support for desktop and laptop users, resolving hardware and software issues",
+      "Organized and managed system cabling to maintain clean and efficient setups",
+      "Installed and configured operating systems and software on desktops and laptops",
+      "Delivered quick troubleshooting and technical guidance to users",
+      "Performed regular maintenance to prevent system failures and improve performance",
+      "Monitored and updated software to ensure system reliability and security",
+      "Implemented preventive measures to reduce IT issues and improve system efficiency"
+    ],
+    "skills_gained": [
+      "IT Support & Troubleshooting",
+      "Hardware & Software Maintenance",
+      "System Installation & Configuration",
+      "Problem Solving",
+      "Customer Communication",
+      "System Monitoring & Optimization"
+    ],
+    "work_type": "Full-time",
+    "status": "Completed",
+    "summary": "This role strengthened my foundation in IT support and system management, enhancing my problem-solving abilities, technical knowledge, and communication skills in real-world environments."
+  },
+  {
+    "id": 4,
+    "company": "Naren Advertising and Marketing",
+    "role": "Advertising Graphic Designer",
+    "duration": {
+      "start": "June 2023",
+      "end": "August 2023",
+      "total": "3 months"
+    },
+    "location": "Ahmedabad, Gujarat, India",
+    "company_description": "An advertising and marketing agency focused on creative branding, promotions, and visual communication.",
+    "responsibilities": [
+      "Designed marketing creatives and promotional graphics",
+      "Worked on branding materials for campaigns",
+      "Created visually appealing content for digital platforms",
+      "Collaborated with team members on design concepts",
+      "Ensured consistency in brand identity across designs"
+    ],
+    "skills_gained": [
+      "Graphic Design",
+      "Branding & Visual Identity",
+      "Creative Thinking",
+      "Adobe Tools / Design Software",
+      "Marketing Design"
+    ],
+    "work_type": "Internship",
+    "status": "Completed"
+  },
+  {
+    "id": 5,
+    "company": "Vision World Foundation",
+    "role": "Email Campaign Manager",
+    "duration": {
+      "start": "June 2023",
+      "end": "August 2023",
+      "total": "3 months"
+    },
+    "location": "Ahmedabad, Gujarat, India",
+    "company_description": "An organization focused on outreach and communication through digital campaigns and community initiatives.",
+    "responsibilities": [
+      "Managed and executed email marketing campaigns",
+      "Created and scheduled email content",
+      "Maintained and organized contact databases",
+      "Analyzed campaign performance and engagement",
+      "Optimized email strategies for better reach and response"
+    ],
+    "skills_gained": [
+      "Email Marketing",
+      "Campaign Management",
+      "Content Creation",
+      "Data Management",
+      "Analytics & Optimization"
+    ],
+    "work_type": "Internship",
+    "status": "Completed"
+  }
+]

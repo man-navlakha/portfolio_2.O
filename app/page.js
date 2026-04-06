@@ -1,15 +1,16 @@
 import HomeClient from './HomeClient';
 
 export const metadata = {
-  title: {
-    absolute: "Man Navlakha | MERN Stack Developer & Designer"
-  },
-  description: "Crafting purpose-driven digital experiences that inspire & engage. Portfolio of Man Navlakha, a MERN stack developer focused on responsive and user-friendly interfaces.",
-  openGraph: {
-    title: "Man Navlakha | MERN Stack Developer & Designer",
-    description: "Crafting purpose-driven experiences that inspire & engage.",
-    images: ["/og-image.png"],
-  },
+  title: "Full Stack Developer | Node.js & React Expert",
+  description:
+    "Full-stack developer skilled in Node.js, React, and scalable system design. Building real-world applications and startup products.",
+  keywords: [
+    "Full stack developer",
+    "Node.js developer",
+    "React developer",
+    "Ahmedabad developer",
+    "IT support engineer"
+  ],
 };
 
 export default function Home() {

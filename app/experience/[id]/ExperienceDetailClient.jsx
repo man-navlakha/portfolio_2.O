@@ -1,8 +1,8 @@
 "use client";
 
-import React, { use, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useExperience } from '@/app/context/ExperienceContext';
-import { notFound, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import RevealOnScroll from '@/app/Components/ui/RevealOnScroll';
 import Link from 'next/link';
 import {
@@ -18,15 +18,20 @@ import {
     ChevronRight
 } from 'lucide-react';
 
-export default function ExperienceDetailClient({ params }) {
-    const { id } = use(params);
+export default function ExperienceDetailClient({ id }) {
     const router = useRouter();
-    const { experiences, loading: contextLoading, getExperienceById } = useExperience();
+    const { loading: contextLoading, getExperienceById } = useExperience();
     const [experience, setExperience] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchExperience = async () => {
+            if (!id) {
+                setExperience(null);
+                setLoading(false);
+                return;
+            }
+
             setLoading(true);
             const data = await getExperienceById(id);
             setExperience(data);
@@ -42,7 +47,24 @@ export default function ExperienceDetailClient({ params }) {
     );
 
     if (!experience) {
-        notFound();
+        return (
+            <div className="min-h-screen bg-[#fafafa] dark:bg-[#050505] text-slate-900 dark:text-white pt-32 pb-24 px-4 md:px-6">
+                <div className="max-w-3xl mx-auto">
+                    <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-10 text-center space-y-4">
+                        <h1 className="text-3xl font-bold tracking-tight">Experience Not Found</h1>
+                        <p className="text-slate-600 dark:text-gray-400">
+                            The experience you are trying to view does not exist.
+                        </p>
+                        <Link
+                            href="/experience"
+                            className="inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold bg-brand/10 text-brand hover:bg-brand/20 transition-colors"
+                        >
+                            Back to Experience
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

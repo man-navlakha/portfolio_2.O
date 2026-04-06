@@ -15,6 +15,7 @@ export default function ChatBot() {
     // --- Logic State ---
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
     const [messages, setMessages] = useState([]);
+    const MAINTENANCE_MODE = process.env.NEXT_PUBLIC_CHAT_MAINTENANCE === 'true' || false;
 
     useEffect(() => {
         setMounted(true);
@@ -44,7 +45,12 @@ export default function ChatBot() {
         }
     }, []);
 
-    const initialMessage = {
+    const initialMessage = MAINTENANCE_MODE ? {
+        sender: 'bot',
+        text: "🔧 **System Under Maintenance**\n\nOur chatbot is currently undergoing an upgrade. Please check back shortly! We'll be back online soon.\n\nThank you for your patience! ⏳",
+        time: "",
+        suggestions: []
+    } : {
         sender: 'bot',
         text: "👋 Hi! I’m Man's assistant. Ask me anything about Man",
         time: "", // Fallback
@@ -211,6 +217,10 @@ export default function ChatBot() {
     };
 
     const sendMessage = async (messageText) => {
+        if (MAINTENANCE_MODE) {
+            setMessages(prev => [...prev, { sender: 'bot', text: "🔧 Chatbot is under maintenance. Please try again later!", time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }), suggestions: [] }]);
+            return;
+        }
         if (!messageText.trim()) return;
         const userMessage = { sender: 'user', text: messageText, time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }) };
         const botPlaceholder = { sender: 'bot', text: '...', time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }), suggestions: [] };
@@ -601,8 +611,8 @@ export default function ChatBot() {
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={handleKeyDown}
-                                    disabled={loading}
-                                    placeholder={loading ? "Waiting for AI..." : "Type '/' for commands..."}
+                                    disabled={loading || MAINTENANCE_MODE}
+                                    placeholder={MAINTENANCE_MODE ? "🔧 System under maintenance..." : loading ? "Waiting for AI..." : "Type '/' for commands..."}
                                     className="w-full pl-4 pr-24 py-3 bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/5 rounded-xl text-sm focus:outline-none focus:border-brand dark:focus:border-brand text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                                 />
 
@@ -659,8 +669,9 @@ export default function ChatBot() {
                                     )}
                                     <button
                                         onClick={() => sendMessage(input)}
-                                        disabled={loading || !input.trim()}
+                                        disabled={loading || !input.trim() || MAINTENANCE_MODE}
                                         className="p-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                                        title={MAINTENANCE_MODE ? "Chatbot is under maintenance" : ""}
                                     >
                                         {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
                                     </button>

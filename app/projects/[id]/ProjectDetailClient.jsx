@@ -1,8 +1,6 @@
 'use client';
 
-import React, { use } from 'react';
-import { useProjects } from '@/app/context/ProjectContext';
-import { notFound } from 'next/navigation';
+import React from 'react';
 import RevealOnScroll from '@/app/Components/ui/RevealOnScroll';
 import Link from 'next/link';
 import {
@@ -24,34 +22,40 @@ import {
     History,
     Zap
 } from 'lucide-react';
+import { useProjects } from '@/app/context/ProjectContext';
 
-export default function ProjectDetailClient({ params }) {
-    const { id } = use(params);
-    const { projects, loading: contextLoading, getProjectById } = useProjects();
-    const [project, setProject] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+export default function ProjectDetailClient({ project: initialProject }) {
+    const { projects, loading: contextLoading } = useProjects();
+    const [project, setProject] = React.useState(initialProject);
 
-    React.useEffect(() => {
-        const fetchProject = async () => {
-            setLoading(true);
-            const data = await getProjectById(id);
-            setProject(data);
-            setLoading(false);
-        };
-        fetchProject();
-    }, [id, getProjectById]);
-
-    if (loading || contextLoading) return (
+    if (contextLoading) return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0a0a0a]">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-brand"></div>
         </div>
     );
 
     if (!project) {
-        notFound();
+        return (
+            <div className="min-h-screen bg-[#fafafa] dark:bg-[#050505] text-slate-900 dark:text-white pt-32 pb-24 px-4 md:px-6">
+                <div className="max-w-3xl mx-auto">
+                    <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-10 text-center space-y-4">
+                        <h1 className="text-3xl font-bold tracking-tight">Project Not Found</h1>
+                        <p className="text-slate-600 dark:text-gray-400">
+                            The project you are trying to view does not exist.
+                        </p>
+                        <Link
+                            href="/projects"
+                            className="inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold bg-brand/10 text-brand hover:bg-brand/20 transition-colors"
+                        >
+                            Back to Projects
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
-    const projectIndex = projects.findIndex((p) => p.id === id);
+    const projectIndex = projects.findIndex((p) => p.id === project.id);
     const nextProject = projects.length > 0 ? projects[(projectIndex + 1) % projects.length] : null;
 
     return (

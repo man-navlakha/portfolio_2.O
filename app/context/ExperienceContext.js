@@ -1,121 +1,87 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useCallback, useContext, useMemo } from "react";
+import experienceData from "../data/experience.json";
 
-const ExperienceContext = createContext();
+const ExperienceContext = createContext({
+  experiences: [],
+  loading: false,
+  error: null,
+  getExperienceById: () => null,
+});
+
+const buildPeriod = (item) => {
+  if (typeof item.period === "string" && item.period.trim()) {
+    return item.period;
+  }
+
+  if (item.duration && typeof item.duration === "object") {
+    const start = item.duration.start || "";
+    const end = item.duration.end || "";
+    const total = item.duration.total || "";
+    const range = [start, end].filter(Boolean).join(" - ");
+    return total ? `${range} (${total})` : range;
+  }
+
+  if (typeof item.date === "string") {
+    return item.date;
+  }
+
+  return "";
+};
+
+const formatExperienceData = (item) => ({
+  id: String(item.id),
+  role: item.role || item.title || "",
+  company: item.company || "",
+  period: buildPeriod(item),
+  logo: item.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(item.company || "Company")}&background=random`,
+  description: item.description || item.summary || item.company_description || "",
+  location: item.location || "",
+  skills: Array.isArray(item.skills) ? item.skills : (Array.isArray(item.skills_gained) ? item.skills_gained : []),
+  responsibilities: Array.isArray(item.responsibilities) ? item.responsibilities : [],
+  technologies: Array.isArray(item.technologies) ? item.technologies : (Array.isArray(item.skills_gained) ? item.skills_gained : []),
+  achievements: Array.isArray(item.achievements) ? item.achievements : [],
+});
 
 export function ExperienceProvider({ children }) {
-    const [experiences, setExperiences] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const { experiences, error } = useMemo(() => {
+    try {
+      return {
+        experiences: experienceData.map(formatExperienceData),
+        error: null,
+      };
+    } catch (err) {
+      console.error("Failed to load or parse experience.json", err);
+      return {
+        experiences: [],
+        error: "Failed to load experience data.",
+      };
+    }
+  }, []);
 
-    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL + "/api/v1/experience/" || "http://127.0.0.1:8000" + "/api/v1/experience/";
+  const getExperienceById = useCallback(
+    (id) => experiences.find((experience) => experience.id === String(id)) || null,
+    [experiences]
+  );
 
-    const CACHE_KEY = "experience_cache_v1";
-    const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+  const value = useMemo(
+    () => ({
+      experiences,
+      loading: false,
+      error,
+      getExperienceById,
+    }),
+    [experiences, error, getExperienceById]
+  );
 
-    const formatExperienceData = (item) => ({
-        id: String(item.id),
-        role: item.role,
-        company: item.company,
-        period: item.period, // Format: 'Mar 2025 — Apr 2025'
-        logo: item.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(item.company)}&background=random`,
-        description: item.description || "",
-        location: item.location || "",
-        skills: item.skills || [],
-        responsibilities: item.responsibilities || [],
-        technologies: item.technologies || [],
-        achievements: item.achievements || []
-    });
-
-    const getExperienceById = async (id) => {
-        const CACHE_DETAIL_KEY = `experience_detail_${id}`;
-
-        try {
-            // 1. Try context state first
-            const existing = experiences.find(e => e.id === String(id));
-            if (existing) return existing;
-
-            // 2. Try cache
-            const cachedData = localStorage.getItem(CACHE_DETAIL_KEY);
-            if (cachedData) {
-                const { data, timestamp } = JSON.parse(cachedData);
-                if (Date.now() - timestamp < CACHE_DURATION) {
-                    return data;
-                }
-            }
-
-            // 3. Fetch from API
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000"}/api/v1/experience/${id}/`);
-            if (!response.ok) throw new Error("Experience not found");
-            const data = await response.json();
-            const formatted = formatExperienceData(data);
-
-            // Save to cache
-            localStorage.setItem(CACHE_DETAIL_KEY, JSON.stringify({
-                data: formatted,
-                timestamp: Date.now()
-            }));
-
-            return formatted;
-        } catch (err) {
-            console.error(`Error fetching experience ${id}:`, err);
-            return null;
-        }
-    };
-
-    useEffect(() => {
-        async function fetchExperiences() {
-            try {
-                // Try to load from cache first
-                const cachedData = localStorage.getItem(CACHE_KEY);
-                if (cachedData) {
-                    const { data, timestamp } = JSON.parse(cachedData);
-                    const isExpired = Date.now() - timestamp > CACHE_DURATION;
-
-                    if (!isExpired) {
-                        setExperiences(data);
-                        setLoading(false);
-                        return;
-                    }
-                }
-
-                const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Failed to fetch experiences");
-                const data = await response.json();
-
-                // Map the API data structure
-                const formattedData = data.map(formatExperienceData);
-
-                setExperiences(formattedData);
-
-                // Save to cache
-                localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    data: formattedData,
-                    timestamp: Date.now()
-                }));
-            } catch (err) {
-                console.error("Experience Fetch Error:", err);
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchExperiences();
-    }, []);
-
-    return (
-        <ExperienceContext.Provider value={{ experiences, loading, error, getExperienceById }}>
-            {children}
-        </ExperienceContext.Provider>
-    );
+  return <ExperienceContext.Provider value={value}>{children}</ExperienceContext.Provider>;
 }
 
-export const useExperience = () => {
-    const context = useContext(ExperienceContext);
-    if (!context) {
-        throw new Error('useExperience must be used within an ExperienceProvider');
-    }
-    return context;
-};
+export function useExperiences() {
+  return useContext(ExperienceContext);
+}
+
+export function useExperience() {
+  return useContext(ExperienceContext);
+}

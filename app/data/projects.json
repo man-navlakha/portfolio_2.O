@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "project_name": "Pixel Class",
+    "category": "EdTech Platform",
+    "description": "Pixel Class is a centralized notes-sharing and collaboration platform designed specifically for BCA and MSc-IT students at Shreyarth University. It simplifies access to academic resources by providing notes, assignments, and study materials in one place, eliminating last-minute stress.",
+    "problem_it_solves": "Students often struggle to find notes, assignments, and important study materials at the last moment, leading to inefficiency and stress.",
+    "solution": "Provides a single platform where students can easily access, share, and collaborate on academic content in real-time.",
+    "target_users": [
+      "BCA Students",
+      "MSc-IT Students",
+      "University Peer Groups"
+    ],
+    "key_features": [
+      "Centralized notes repository",
+      "Assignment sharing",
+      "Student collaboration",
+      "Easy access to academic materials",
+      "User-friendly interface"
+    ],
+    "technology_stack": {
+      "frontend": ["React.js", "Next.js"],
+      "backend": ["Node.js", "Express.js"],
+      "database": ["MongoDB / PostgreSQL"]
+    },
+    "unique_value": "A focused, university-specific platform that ensures all academic resources are accessible in one place, improving productivity and collaboration.",
+    "future_scope": [
+      "Multi-university expansion",
+      "AI-based note recommendations",
+      "Real-time discussion system",
+      "Mobile application"
+    ],
+    "image_url": "/project/pixel.png",
+    "project_url": "https://pixelclass.netlify.app/",
+    "repository_url": "https://github.com/man-navlakha/pxc",
+    "status": "In Development / Active"
+  },
+  {
+    "id": 2,
+    "project_name": "Portfolio Website",
+    "category": "Personal Website",
+    "description": "A personal portfolio website to showcase my projects, skills, and experience. The goal is to create a professional online presence to attract potential employers and collaborators.",
+    "problem_it_solves": "Lack of a centralized platform to display my work and skills to a professional audience.",
+    "solution": "A modern, responsive, and fast-loading website that effectively communicates my capabilities and professional journey.",
+    "target_users": [
+      "Recruiters",
+      "Hiring Managers",
+      "Fellow Developers"
+    ],
+    "key_features": [
+      "Project showcase with details",
+      "About me section",
+      "Contact form",
+      "Blog for sharing insights",
+      "Responsive design for all devices"
+    ],
+    "technology_stack": {
+      "frontend": ["Next.js", "Tailwind CSS", "Framer Motion"],
+      "backend": ["Next.js API Routes"],
+      "database": ["-"]
+    },
+    "unique_value": "A highly interactive and visually appealing portfolio that not only lists projects but also tells a story about my growth as a developer.",
+    "future_scope": [
+      "Integrate a headless CMS for blog posts",
+      "Add more interactive animations",
+      "Implement a guestbook feature"
+    ],
+    "image_url": "/project/portfolio.png",
+    "status": "Active"
+  },
+  {
+    "id": 3,
+    "project_name": "Mechanic Setu",
+    "category": "On-Demand Service Platform",
+    "description": "Mechanic Setu is an on-demand roadside assistance platform that connects vehicle owners with nearby verified mechanics in real-time. It enables quick help for issues like flat tires and minor mechanical faults, ensuring convenience and faster resolution.",
+    "problem_it_solves": "Vehicle owners often face difficulty finding reliable mechanics quickly during roadside emergencies, leading to delays, stress, and safety concerns.",
+    "solution": "Provides a real-time marketplace that connects users with nearby verified mechanics, enabling fast and reliable roadside assistance.",
+    "target_users": [
+      "Car Owners",
+      "Bike Owners",
+      "Daily Commuters",
+      "Fleet Operators"
+    ],
+    "key_features": [
+      "Real-time mechanic discovery",
+      "Location-based matching",
+      "Verified mechanic profiles",
+      "Quick service request system",
+      "Emergency roadside support"
+    ],
+    "technology_stack": {
+      "frontend": ["React.js", "Next.js"],
+      "backend": ["Node.js", "Express.js"],
+      "database": ["MongoDB / PostgreSQL"],
+      "additional": ["Real-time location services", "Maps integration"]
+    },
+    "unique_value": "Bridges the gap between vehicle owners and mechanics by creating a fast, reliable, and location-based assistance network.",
+    "business_model": [
+      "Service commission per request",
+      "Subscription plans for mechanics",
+      "Featured mechanic listings"
+    ],
+    "future_scope": [
+      "Mobile app (Android & iOS)",
+      "AI-based mechanic recommendation",
+      "Integration with insurance providers",
+      "24/7 emergency support system"
+    ],
+    "image_url": "/project/mechanic.png",
+    "project_url": [
+      "https://mechanicsetu.tech/",
+      "https://mechanic.mechanicsetu.tech/"
+    ],
+    "repository_url": [
+      "https://github.com/man-navlakha/mechanic_setu",
+      "https://github.com/man-navlakha/mechanic-setu-backend",
+      "https://github.com/man-navlakha/mechanic_setu_partner_app",
+      "https://github.com/man-navlakha/mechanic_setu_partner",
+      "https://github.com/man-navlakha/mechanic_setu_app"
+    ],
+    "status": "In Development / Concept Stage"
+  },
+  {
+    "id": 4,
+    "project_name": "Enterprise Ticket System",
+    "category": "IT Support & Asset Management",
+    "description": "An enterprise-grade ticket management system designed to streamline IT support operations and asset tracking. Built with a modern Vercel-inspired UI, it enables teams to efficiently manage support requests, monitor assets, and improve response workflows.",
+    "problem_it_solves": "Organizations struggle with unorganized support requests, delayed issue resolution, and lack of proper asset tracking, leading to inefficiency and downtime.",
+    "solution": "Provides a centralized platform for managing support tickets, tracking IT assets, and improving communication between users and support teams.",
+    "target_users": [
+      "IT Support Teams",
+      "Organizations & Offices",
+      "System Administrators",
+      "Employees (End Users)"
+    ],
+    "key_features": [
+      "Ticket creation and management",
+      "Priority-based issue tracking",
+      "Asset management system",
+      "User and admin dashboards",
+      "Status tracking and updates",
+      "Modern responsive UI (Vercel-style)"
+    ],
+    "technology_stack": {
+      "frontend": ["Next.js 15"],
+      "backend": ["Node.js"],
+      "database": ["PostgreSQL"],
+      "orm": ["Prisma"]
+    },
+    "unique_value": "Combines support ticketing and asset management into a single high-performance system with a modern UI and efficient workflows.",
+    "business_context": "Developed during an internship at Excellent Publicity as part of IT support operations to improve internal system efficiency.",
+    "future_scope": [
+      "Automation for ticket assignment",
+      "AI-based issue categorization",
+      "Email and notification integration",
+      "Advanced analytics dashboard",
+      "Multi-organization support"
+    ],
+    "image_url": "/project/itsystem.png",
+    "project_url": "http://man-support-desk.netlify.app/",
+    "repository_url": "https://github.com/man-navlakha/ticket_system",
+    "status": "Completed / In Use (Internship Project)"
+  }
+]

@@ -1,64 +1,64 @@
-import ProjectDetailClient from './ProjectDetailClient';
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
+import ProjectDetailClient from "./ProjectDetailClient";
+import rawProjects from "../../data/projects.json";
+import { normalizeProjects } from "../../../lib/project-normalizer";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
+const projects = normalizeProjects(rawProjects);
 
-async function getProject(id) {
-  try {
-    const res = await fetch(`${BACKEND_URL}/api/v1/projects/${id}/`, {
-      next: { revalidate: 600 } // Cache for 10 minutes
-    });
-    if (!res.ok) return null;
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching project:", error);
-    return null;
-  }
+function getProject(id) {
+  return projects.find((project) => project.id === String(id)) || null;
 }
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const project = await getProject(id);
+  const project = getProject(id);
 
   if (!project) {
     return {
-      title: 'Project Not Found',
+      title: "Project Not Found",
     };
   }
 
-  const tagline = project.description?.split('.')[0] + ".";
+  const summary =
+    project.tagline ||
+    project.description?.substring(0, 160) ||
+    "Detailed project explanation and implementation overview.";
+  const projectPath = `/projects/${project.id}`;
 
   return {
-    title: project.title,
-    description: tagline || project.description?.substring(0, 160),
+    title: `Project - ${project.title}`,
+    description: summary,
+    alternates: {
+      canonical: projectPath,
+    },
     openGraph: {
       title: `${project.title} | Man Navlakha`,
-      description: tagline || project.description?.substring(0, 160),
-      images: project.main_image ? [{ url: project.main_image }] : [],
+      description: summary,
+      url: projectPath,
+      images: project.image ? [{ url: project.image }] : [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: project.title,
-      description: tagline || project.description?.substring(0, 160),
-      images: project.main_image ? [project.main_image] : [],
+      description: summary,
+      images: project.image ? [project.image] : [],
     },
   };
 }
 
 export async function generateStaticParams() {
-  try {
-    const res = await fetch(`${BACKEND_URL}/api/v1/projects/`);
-    if (!res.ok) return [];
-    const projects = await res.json();
-    return projects.map((project) => ({
-      id: String(project.id),
-    }));
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    return [];
-  }
+  return projects.map((project) => ({
+    id: project.id,
+  }));
 }
 
-export default async function ProjectPage({ params }) {
-  return <ProjectDetailClient params={params} />;
+export default async function ProjectDetailPage({ params }) {
+  const { id } = await params;
+  const project = getProject(id);
+
+  if (!project) {
+    notFound();
+  }
+
+  return <ProjectDetailClient project={project} />;
 }

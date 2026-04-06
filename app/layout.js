@@ -23,11 +23,18 @@ const primary = localFont({
 
 export const metadata = {
   title: {
-    default: "Man Navlakha | MERN Stack Developer & Designer",
-    template: "%s | Man Navlakha"
+    default: "Full Stack Developer | Node.js & React Expert",
+    template: "%s | Full Stack Developer"
   },
-  description: "Passionate MERN stack developer and UI/UX designer crafting purpose-driven digital experiences with React, Next.js, and modern web technologies.",
-  keywords: ["Man Navlakha", "MERN Stack Developer", "Full Stack Developer", "UI/UX Designer", "Portfolio", "React Developer", "Next.js", "Web Development"],
+  description:
+    "Full-stack developer skilled in Node.js, React, and scalable system design. Building real-world applications and startup products.",
+  keywords: [
+    "Full stack developer",
+    "Node.js developer",
+    "React developer",
+    "Ahmedabad developer",
+    "IT support engineer",
+  ],
   authors: [{ name: "Man Navlakha" }],
   creator: "Man Navlakha",
   publisher: "Man Navlakha",
@@ -44,8 +51,9 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "Man Navlakha | MERN Stack Developer & Designer",
-    description: "Crafting purpose-driven experiences that inspire & engage.",
+    title: "Full Stack Developer | Node.js & React Expert",
+    description:
+      "Full-stack developer skilled in Node.js, React, and scalable system design. Building real-world applications and startup products.",
     url: 'https://mannavlakha.com',
     siteName: 'Man Navlakha Portfolio',
     images: [
@@ -61,8 +69,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Man Navlakha | MERN Stack Developer & Designer",
-    description: "Crafting purpose-driven experiences that inspire & engage.",
+    title: "Full Stack Developer | Node.js & React Expert",
+    description:
+      "Full-stack developer skilled in Node.js, React, and scalable system design. Building real-world applications and startup products.",
     creator: '@navlakha_man', // Assuming a handle or use name
     images: ['/og-image.png'],
   },
