@@ -1,7 +1,12 @@
+import rawProjects from "./data/projects.json";
+import { normalizeProjects } from "../lib/project-normalizer";
+
+const projects = normalizeProjects(rawProjects);
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
 
 export default async function sitemap() {
-    const baseUrl = 'https://mannavlakha.com';
+    const baseUrl = 'https://man-navlakha.netlify.app/';
 
     const routes = ['', '/about', '/projects', '/contact', '/experience'].map(
         (route) => ({

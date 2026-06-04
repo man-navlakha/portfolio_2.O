@@ -43,7 +43,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://mannavlakha.com'),
+  metadataBase: new URL('https://man-navlakha.netlify.app/'),
   alternates: {
     canonical: '/',
     languages: {
@@ -54,7 +54,7 @@ export const metadata = {
     title: "Full Stack Developer | Node.js & React Expert",
     description:
       "Full-stack developer skilled in Node.js, React, and scalable system design. Building real-world applications and startup products.",
-    url: 'https://mannavlakha.com',
+    url: 'https://man-navlakha.netlify.app/',
     siteName: 'Man Navlakha Portfolio',
     images: [
       {
@@ -108,7 +108,7 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Man Navlakha',
-    url: 'https://mannavlakha.com',
+    url: 'https://man-navlakha.netlify.app/',
     jobTitle: "MERN Stack Developer",
     sameAs: [
       'https://github.com/man-navlakha',

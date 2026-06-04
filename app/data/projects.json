@@ -160,5 +160,88 @@
     "project_url": "http://man-support-desk.netlify.app/",
     "repository_url": "https://github.com/man-navlakha/ticket_system",
     "status": "Completed / In Use (Internship Project)"
+  },
+  {
+    "id": 5,
+    "project_name": "EP SEO Audit - For Excellent Publicity",
+    "category": "Enterprise SEO & Core Web Vitals Platform",
+    "description": "EP SEO Audit streamlines the auditing process into three distinct, friction-free phases: Domain Discovery with a headless, render-aware crawler, Multi-Surface Scoring against 250+ SEO signals, and Unified Report Delivery that generates a clean report with precise engineering fixes.",
+    "how_it_works": [
+      "Domain Discovery: System deploys a headless, render-aware crawler that respects robots.txt rules and map graphs, ensuring it scans exactly what Googlebot sees.",
+      "Multi-Surface Scoring: Runs a comprehensive pass checking 250+ SEO signals simultaneously against modern search standards.",
+      "Unified Report Delivery: Merges findings into a centralized, severity-prioritized dashboard. Generates a clean report detailing where an issue sits alongside an exact engineering fix."
+    ],
+    "problem_it_solves": "Friction between SEO needs and coding implementation, outdated tools that ignore AI search overviews, and subscription fatigue from disjointed SEO platforms.",
+    "solution": "Unifies everything into a single ecosystem, giving stakeholders an easily digestible overview. It bridges the gap between SEO and Engineering with ready-to-paste fixes and future-proofs sites for LLM overviews.",
+    "target_users": [
+      "SEO Specialists",
+      "Engineering Teams",
+      "Digital Marketing Agencies",
+      "Website Owners"
+    ],
+    "business_benefits": [
+      "Bridges the Gap Between SEO & Engineering: Provides evidence screenshots, highlights specific failing code elements, and gives developers ready-to-paste fixes for backlogs like Linear.",
+      "Future-Proofs Against AI Search Overviews: Optimizes site to ensure it is indexable and citable by LLMs, conversational engines, and AI summary interfaces (ChatGPT, Perplexity, Google AI Overviews).",
+      "Saves Time and Tool Creep: Unifies multiple tools (speed, local maps, schemas, etc.) into a single ecosystem."
+    ],
+    "key_features": [
+      "Technical SEO & Crawlability: JS-Rendered HTML Diffing, canonical error tracking, and sitemap parities",
+      "Core Web Vitals & Performance: Real Field Data (CrUX) tracking and INP/LCP Attribution Maps",
+      "Rich Schema Validation: Automatic JSON-LD generation and eligibility audits against native validator hooks",
+      "E-E-A-T & Content Optimization: Entity Coverage scanning and Thin Content Detection",
+      "Local SEO & Maps: Geo-Grid Tracking and cross-platform NAP Consistency Engines",
+      "AI Search & Optimization (GEO): LLM Compliance checks (llms.txt) and passage-level Citation Readiness"
+    ],
+    "technology_stack": {
+      "frontend": ["Next.js", "React", "Tailwind CSS"],
+      "backend": ["Node.js", "Express.js"],
+      "database": ["PostgreSQL", "Redis"]
+    },
+    "unique_value": "Eliminates the struggle of translating SEO needs into code while preparing websites for both traditional algorithms and conversational AI search engines.",
+    "future_scope": [
+      "Automated report generation and scheduling",
+      "Integration with more third-party analytics services",
+      "AI-powered content writing assistant"
+    ],
+    "image_url": "/project/seo1.png",
+    "project_url": "https://seo-audit-rose.vercel.app/",
+    "repository_url": "https://github.com/man-navlakha/seo-audit",
+    "status": "In Development"
+  },
+  {
+    "id": 6,
+    "project_name": "PixStock",
+    "category": "Developer-First Asset Infrastructure",
+    "description": "PixStock is a comprehensive asset management platform built for product teams requiring predictable media storage and fast delivery. Designed with a developer-first approach, it automates asset ingestion and lifecycle tasks while offering a suite of specialized APIs to dynamically generate developer showcases, branded SVG grids, and high-quality stock imagery.",
+    "problem_it_solves": "Product teams and developers often lack a predictable, dedicated infrastructure for media storage and dynamic generation of developer-specific visual assets (like repo cards and tech stack icons).",
+    "solution": "Provides a developer-friendly API prioritizing fast media delivery and automation, along with specialized endpoints for dynamically generating custom SVG profiles and resolving stock media.",
+    "target_users": [
+      "Developers",
+      "Product Teams",
+      "Open Source Contributors"
+    ],
+    "key_features": [
+      "Predictable Asset Infrastructure with stable identifiers",
+      "Developer-first API for optimized asset delivery",
+      "Automated asset ingestion and lifecycle management",
+      "GitHub Stats API for dynamic profile stat cards",
+      "Pin API for rendering repository showcase cards",
+      "Tech Stack Icons API for branded SVG icon grids",
+      "Animal & Vehicle APIs for high-quality stock imagery resolution"
+    ],
+    "technology_stack": {
+      "frontend": ["React", "Tailwind CSS"],
+      "backend": ["Node.js", "Express"],
+      "deployment": ["Netlify"]
+    },
+    "unique_value": "Developer-centric platform merging robust media infrastructure with targeted APIs that generate dynamic, high-quality visuals for developer profiles and product pages.",
+    "my_role_and_learnings": "Architected both the backend API infrastructure and the user-facing documentation. Deepened understanding of scalable API design, dynamic image generation (SVGs), and creating developer-centric tools with clean, accessible documentation.",
+    "future_scope": [
+      "Expansion of dynamic image generation tools",
+      "Enhanced user dashboard for asset management"
+    ],
+    "image_url": "/project/pixstock.png",
+    "project_url": "https://pix-stock.netlify.app/",
+    "status": "Completed / Active"
   }
 ]

@@ -5,6 +5,6 @@ export default function robots() {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://mannavlakha.com/sitemap.xml',
+        sitemap: 'https://man-navlakha.netlify.app/sitemap.xml',
     }
 }

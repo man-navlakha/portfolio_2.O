@@ -38,13 +38,13 @@ export default function Navbar() {
   return (
     <>
       {/* Top Fade */}
-      <div className="fixed top-0 left-0 right-0 h-40 bg-gradient-to-b from-slate-50 dark:from-[#0a0a0a] to-transparent pointer-events-none z-40" />
+      {/* <div className="fixed top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#f0f0f0a1] dark:from-[#0a0a0a] to-transparent pointer-events-none z-40" /> */}
 
       {/* Desktop Navbar */}
       <div className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${isScrolled ? "md:pt-4" : "pt-0"}`}>
 
         {/* Bottom Fade */}
-        <div className="fixed bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-50 dark:from-[#0a0a0a] to-transparent pointer-events-none z-40" />
+        {/* <div className="fixed -bottom-20 left-0 right-0 h-40 bg-gradient-to-t from-[#f0f0f0a1] dark:from-[#0a0a0a] to-transparent pointer-events-none z-40" /> */}
 
         <header
           className={`
