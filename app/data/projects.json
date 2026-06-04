@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "pixel-class",
     "project_name": "Pixel Class",
     "category": "EdTech Platform",
     "description": "Pixel Class is a centralized notes-sharing and collaboration platform designed specifically for BCA and MSc-IT students at Shreyarth University. It simplifies access to academic resources by providing notes, assignments, and study materials in one place, eliminating last-minute stress.",
@@ -36,7 +36,7 @@
     "status": "In Development / Active"
   },
   {
-    "id": 2,
+    "id": "portfolio-website",
     "project_name": "Portfolio Website",
     "category": "Personal Website",
     "description": "A personal portfolio website to showcase my projects, skills, and experience. The goal is to create a professional online presence to attract potential employers and collaborators.",
@@ -69,7 +69,7 @@
     "status": "Active"
   },
   {
-    "id": 3,
+    "id": "mechanic-setu",
     "project_name": "Mechanic Setu",
     "category": "On-Demand Service Platform",
     "description": "Mechanic Setu is an on-demand roadside assistance platform that connects vehicle owners with nearby verified mechanics in real-time. It enables quick help for issues like flat tires and minor mechanical faults, ensuring convenience and faster resolution.",
@@ -121,7 +121,7 @@
     "status": "In Development / Concept Stage"
   },
   {
-    "id": 4,
+    "id": "enterprise-ticket-system",
     "project_name": "Enterprise Ticket System",
     "category": "IT Support & Asset Management",
     "description": "An enterprise-grade ticket management system designed to streamline IT support operations and asset tracking. Built with a modern Vercel-inspired UI, it enables teams to efficiently manage support requests, monitor assets, and improve response workflows.",
@@ -162,7 +162,7 @@
     "status": "Completed / In Use (Internship Project)"
   },
   {
-    "id": 5,
+    "id": "ep-seo-audit",
     "project_name": "EP SEO Audit - For Excellent Publicity",
     "category": "Enterprise SEO & Core Web Vitals Platform",
     "description": "EP SEO Audit streamlines the auditing process into three distinct, friction-free phases: Domain Discovery with a headless, render-aware crawler, Multi-Surface Scoring against 250+ SEO signals, and Unified Report Delivery that generates a clean report with precise engineering fixes.",
@@ -209,7 +209,7 @@
     "status": "In Development"
   },
   {
-    "id": 6,
+    "id": "pixstock",
     "project_name": "PixStock",
     "category": "Developer-First Asset Infrastructure",
     "description": "PixStock is a comprehensive asset management platform built for product teams requiring predictable media storage and fast delivery. Designed with a developer-first approach, it automates asset ingestion and lifecycle tasks while offering a suite of specialized APIs to dynamically generate developer showcases, branded SVG grids, and high-quality stock imagery.",

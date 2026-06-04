@@ -1,12 +1,44 @@
 [
   {
-    "id": 1,
+    "id": "excellent-publicity",
+    "company": "Excellent Publicity",
+    "logo": "/company/excellent%20publicity.png",
+    "role": "Information Technology Support Technician",
+    "duration": {
+      "start": "April 2026",
+      "end": "Present",
+      "total": "1 month"
+    },
+    "location": "Ahmedabad, Gujarat, India",
+    "responsibilities": [
+      "Engineered SEO automation workflows to enhance digital visibility and streamline marketing data collection.",
+      "Administered Google Workspace environments, overseeing user accounts, security protocols, and collaborative tools.",
+      "Performed expert hardware repairs and component replacements to extend the lifecycle of IT assets.",
+      "Maintained a diverse fleet of laptop and desktop systems through regular updates and performance tuning.",
+      "Managed the full asset lifecycle, including the strategic assignment and tracking of devices to end-users.",
+      "Executed complex Outlook configurations utilizing POP services to ensure seamless mail synchronization.",
+      "Troubleshot and resolved intricate network connectivity and peripheral hardware issues.",
+      "Spearheaded the deployment of new software packages and security patches across organizational workstations."
+    ],
+    "skills_gained": [
+      "IT Support & Troubleshooting",
+      "Hardware & Network Basics",
+      "System Administration",
+      "User Support & Communication",
+      "Microsoft 365 & Windows Management",
+      "Asset & Inventory Management"
+    ],
+    "work_type": "Full-time",
+    "status": "Ongoing"
+  },
+  {
+    "id": "excellent-publicity-internship",
     "company": "Excellent Publicity",
     "logo": "/company/excellent%20publicity.png",
     "role": "IT Support Intern",
     "duration": {
       "start": "January 2026",
-      "end": "Present",
+      "end": "April 2026",
       "total": "4 months"
     },
     "location": "Ahmedabad, Gujarat, India",
@@ -32,10 +64,10 @@
       "Asset & Inventory Management"
     ],
     "work_type": "Internship",
-    "status": "Ongoing"
+    "status": "Completed"
   },
   {
-    "id": 2,
+    "id": "harsar-innovations",
     "company": "HarSar Innovations",
     "logo": "/company/harsar.png",
     "role": "Web Developer",
@@ -71,7 +103,7 @@
     "status": "Completed"
   },
   {
-    "id": 3,
+    "id": "parshwanath-solutions",
     "company": "Parshwanath Solutions",
     "logo": "/company/parshwanath%20solutions.png",
     "role": "Information Technology Help Desk Technician",
@@ -104,7 +136,7 @@
     "summary": "This role strengthened my foundation in IT support and system management, enhancing my problem-solving abilities, technical knowledge, and communication skills in real-world environments."
   },
   {
-    "id": 4,
+    "id": "naren-advertising",
     "company": "Naren Advertising and Marketing",
     "role": "Advertising Graphic Designer",
     "duration": {
@@ -132,7 +164,7 @@
     "status": "Completed"
   },
   {
-    "id": 5,
+    "id": "vision-world-foundation",
     "company": "Vision World Foundation",
     "role": "Email Campaign Manager",
     "duration": {
