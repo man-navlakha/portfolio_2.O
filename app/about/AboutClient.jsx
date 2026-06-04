@@ -137,7 +137,7 @@ const AboutClient = () => {
                                     color="#30af5b"
                                     shineColor="#000000" text="✦ STEPS I FOLLOW" className=' text-xl' />
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">My Design Process</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Crafting Work That Matters</h2>
                             <p className="text-slate-600 dark:text-gray-400 mb-16">I follow a structured process to ensure high-quality results.</p>
                         </RevealOnScroll>
 
@@ -184,7 +184,7 @@ const AboutClient = () => {
                                     <Loader2 className="w-8 h-8 animate-spin text-brand" />
                                 </div>
                             ) : (
-                                experiences.map((exp, index) => (
+                                experiences.slice(0, 3).map((exp, index) => (
                                     <RevealOnScroll key={exp.id || index} delay={index * 100}>
                                         <Link href={`/experience/${exp.id}`} className="block group">
                                             <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-8 last:border-0 cursor-pointer">
