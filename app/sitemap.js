@@ -1,4 +1,6 @@
 import rawProjects from "./data/projects.json";
+import fs from "fs";
+import path from "path";
 import { normalizeProjects } from "../lib/project-normalizer";
 
 const projects = normalizeProjects(rawProjects);
@@ -8,7 +10,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:800
 export default async function sitemap() {
     const baseUrl = 'https://man-navlakha.netlify.app/';
 
-    const routes = ['', '/about', '/projects', '/contact', '/experience'].map(
+    const routes = ['', '/about', '/projects', '/contact', '/experience', '/blog'].map(
         (route) => ({
             url: `${baseUrl}${route}`,
             lastModified: new Date().toISOString().split('T')[0],
@@ -35,5 +37,24 @@ export default async function sitemap() {
         console.error("Error fetching projects for sitemap:", error);
     }
 
-    return [...routes, ...projectRoutes];
+    // Read blogs index
+    let blogRoutes = [];
+    try {
+        const blogIndexPath = path.join(process.cwd(), "public", "Blog", "blog.json");
+        const rawBlogs = fs.readFileSync(blogIndexPath, "utf-8");
+        const blogs = JSON.parse(rawBlogs);
+        
+        blogRoutes = blogs
+            .filter(blog => blog.status === true && blog.index !== "no")
+            .map((blog) => ({
+                url: `${baseUrl}/blog/${blog.slug}`,
+                lastModified: blog.date || new Date().toISOString().split('T')[0],
+                changeFrequency: 'monthly',
+                priority: 0.7,
+            }));
+    } catch (e) {
+        console.error("Error reading blogs for sitemap:", e);
+    }
+
+    return [...routes, ...projectRoutes, ...blogRoutes];
 }

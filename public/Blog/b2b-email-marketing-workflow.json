@@ -1,0 +1,172 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "My B2B Email Marketing Workflow in 2026",
+                "description": "This is the workflow I use for finding prospects, enriching lead data, setting up outreach infrastructure, and running email campaigns."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Email marketing is not about sending thousands of emails. It is about reaching the right people with the right message.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 1: Find Your Target Audience",
+                "description": "Before sending emails, you need a targeted prospect list. I usually start by identifying businesses that match my ideal customer profile."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "Apollo",
+                    "EasyLeadz",
+                    "LinkedIn",
+                    "Company Directories",
+                    "Public Business Databases"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 2: Enrich Your Data",
+                "description": "Raw lead data is not enough. Data enrichment helps create better personalization and improves campaign performance."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Company Website",
+                    "Industry",
+                    "LinkedIn Profile",
+                    "Employee Count",
+                    "Location",
+                    "Technology Stack"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 3: Buy an Outreach Domain",
+                "description": "Never use your primary business domain for cold outreach. Use a dedicated outreach domain that closely matches your brand."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Avoid domains with numbers, unnecessary hyphens, or spammy words. Keep it clean and professional.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 4: Configure Email Infrastructure",
+                "description": "Once the domain is ready, connect it with a reliable email provider."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "Google Workspace",
+                    "Microsoft 365",
+                    "Zoho Mail"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 5: Create Multiple Sender Accounts",
+                "description": "I prefer creating multiple sender accounts per domain so campaign volume can be distributed naturally."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "john@domain.com",
+                    "alex@domain.com",
+                    "emma@domain.com",
+                    "sales@domain.com",
+                    "partnerships@domain.com"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 6: Warm Up Email Accounts",
+                "description": "Do not launch campaigns immediately. Build sender reputation first."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "A proper warm-up process helps improve inbox placement and reduces spam risk.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 7: Launch Campaigns",
+                "description": "Once infrastructure and deliverability are ready, start outreach campaigns using dedicated email marketing tools."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "Smartlead",
+                    "Instantly",
+                    "Saleshandy",
+                    "Lemlist"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Step 8: Monitor and Improve",
+                "description": "Track open rates, reply rates, bounce rates, and spam complaints. Email marketing is an ongoing optimization process."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "How many emails should a new account send daily?",
+                "answer": "Start slowly and increase volume gradually while monitoring deliverability metrics."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Should I use my primary business domain?",
+                "answer": "For outreach campaigns, a dedicated outreach domain is generally safer for protecting your primary domain reputation."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "The biggest mistake beginners make is focusing on volume instead of relevance. Better targeting almost always beats sending more emails.",
+                "color": "blue"
+            }
+        }
+    ]
+}

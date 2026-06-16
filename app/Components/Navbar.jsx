@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Moon, Sun, Home, User, Grid, Send, Briefcase, Bot } from "lucide-react";
+import { Moon, Sun, Home, User, Grid, BookOpen, Briefcase, Bot } from "lucide-react";
 import { useChat } from "../context/ChatContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -33,6 +33,7 @@ export default function Navbar() {
     { name: "About", to: "/about", icon: <User size={20} /> },
     { name: "Projects", to: "/projects", icon: <Grid size={20} /> },
     { name: "Experience", to: "/experience", icon: <Briefcase size={20} /> },
+    { name: "Blog", to: "/blog", icon: <BookOpen size={20} /> },
   ];
 
   return (
@@ -63,7 +64,7 @@ export default function Navbar() {
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1">
               {links.map((link) => {
-                const isActive = pathname === link.to;
+                const isActive = link.to === "/" ? pathname === "/" : pathname.startsWith(link.to);
 
                 return (
                   <Link

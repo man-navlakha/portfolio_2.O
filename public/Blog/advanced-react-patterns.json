@@ -1,0 +1,103 @@
+{
+  "blocks": [
+    {
+      "type": "title-description",
+      "data": {
+        "title": "Introduction to React Patterns",
+        "description": "React has evolved significantly over the years. What started as simple class components has morphed into a powerful functional paradigm driven by Hooks. In this post, we'll explore the most impactful patterns that will help you write cleaner, more maintainable React code."
+      }
+    },
+    {
+      "type": "highlight",
+      "data": {
+        "text": "Always remember: state should be placed as close to where it's needed as possible to avoid unnecessary re-renders and keep your component tree performant.",
+        "color": "blue"
+      }
+    },
+    {
+      "type": "image",
+      "data": {
+        "src": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=80",
+        "alt": "Code architecture diagram",
+        "caption": "A clean component tree leads to a faster application."
+      }
+    },
+    {
+      "type": "title-description",
+      "data": {
+        "title": "The Custom Hook Pattern",
+        "description": "Custom hooks allow you to extract component logic into reusable functions. They're the most fundamental pattern in modern React and the key to DRY (Don't Repeat Yourself) code."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "javascript",
+        "code": "import { useState, useEffect } from 'react';\n\nexport function useWindowSize() {\n  const [size, setSize] = useState([0, 0]);\n\n  useEffect(() => {\n    function updateSize() {\n      setSize([window.innerWidth, window.innerHeight]);\n    }\n    window.addEventListener('resize', updateSize);\n    updateSize();\n    return () => window.removeEventListener('resize', updateSize);\n  }, []);\n\n  return size;\n}",
+        "show_copy_button": true
+      }
+    },
+    {
+      "type": "title-description",
+      "data": {
+        "title": "Why Use Custom Hooks?",
+        "description": "Here are the core advantages of extracting logic into custom hooks:"
+      }
+    },
+    {
+      "type": "data-list",
+      "data": {
+        "style": "bullets",
+        "items": [
+          "It makes your components much cleaner and easier to read.",
+          "It allows you to share logic between completely unrelated components.",
+          "It is significantly easier to unit test pure logic without rendering UI.",
+          "It follows the separation of concerns principle naturally."
+        ]
+      }
+    },
+    {
+      "type": "external-link",
+      "data": {
+        "title": "Read more about Custom Hooks on React Docs",
+        "url": "https://react.dev/learn/reusing-logic-with-custom-hooks"
+      }
+    },
+    {
+      "type": "title-description",
+      "data": {
+        "title": "Check out my related projects",
+        "description": "I used these exact patterns when building the Solvinger AI code review tool. Check it out below!"
+      }
+    },
+    {
+      "type": "project-link",
+      "data": {
+        "title": "Solvinger AI",
+        "description": "An AI-powered code review tool built with React, Next.js, and advanced custom hooks.",
+        "url": "/projects/solvinger",
+        "icon": "bot"
+      }
+    },
+    {
+      "type": "title-description",
+      "data": {
+        "title": "Frequently Asked Questions"
+      }
+    },
+    {
+      "type": "faq",
+      "data": {
+        "question": "When should I extract logic into a custom hook?",
+        "answer": "You should extract logic into a custom hook when you find yourself writing the same useEffect or useState logic in two different components. If the logic is only used once, it's perfectly fine to keep it inside the component."
+      }
+    },
+    {
+      "type": "faq",
+      "data": {
+        "question": "Can custom hooks return UI (JSX)?",
+        "answer": "Technically yes, but it is an anti-pattern. Custom hooks should return data or functions. If you want to return UI, you should build a standard React Component instead."
+      }
+    }
+  ]
+}

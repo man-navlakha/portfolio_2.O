@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "advanced-react-patterns",
+    "title": "Advanced React Patterns in 2026",
+    "short_description": "Learn the best patterns for building scalable React apps with modern hooks, compound components, and render delegation.",
+    "img_link": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1600&q=80",
+    "status": true,
+    "index": "yes",
+    "date": "2026-06-16",
+    "tags": [
+      "React",
+      "Architecture"
+    ],
+    "read_time": "6 min read",
+    "meta_details": {
+      "keywords": "React, Nextjs, Patterns, HOC, Render Props, Custom Hooks",
+      "canonical_link": "https://man-navlakha.netlify.app/blog/advanced-react-patterns",
+      "og_type": "article"
+    }
+  },
+  {
+    "slug": "b2b-email-marketing-workflow",
+    "title": "My B2B Email Marketing Workflow in 2026",
+    "short_description": "A practical guide to lead generation, data enrichment, email infrastructure setup, domain management, and cold email campaigns.",
+    "img_link": "/blogs-img/b2b-email-2026.png",
+    "status": true,
+    "index": "yes",
+    "date": "2026-06-17",
+    "tags": [
+      "GTM",
+      "Email Marketing",
+      "Lead Generation"
+    ],
+    "read_time": "8 min read",
+    "meta_details": {
+      "keywords": "B2B Email Marketing, Cold Email, Lead Generation, Apollo, Smartlead, GTM Strategy, Email Deliverability",
+      "canonical_link": "https://man-navlakha.netlify.app/blog/b2b-email-marketing-workflow",
+      "og_type": "article"
+    }
+  }
+]
