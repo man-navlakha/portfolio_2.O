@@ -16,6 +16,8 @@ export default function useVoiceMode() {
   const [isSupported, setIsSupported] = useState(false);
   const [error, setError] = useState(null);
   const [volume, setVolume] = useState(0); // 0-1 for visualizations
+  const [audioDevices, setAudioDevices] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState('');
 
   // ─── Refs ───────────────────────────────────────────────────────────────
   const recognitionRef = useRef(null);
@@ -30,6 +32,53 @@ export default function useVoiceMode() {
   const restartingRef = useRef(false);
   const onSpeakEndCallbackRef = useRef(null);
   const isSpeakingRef = useRef(false);
+  const selectedDeviceIdRef = useRef('');
+  const ttsQueueRef = useRef([]);
+
+  // ─── Tone Generator ─────────────────────────────────────────────────────
+  const playAudioTone = useCallback((type) => {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      const now = ctx.currentTime;
+      if (type === 'mic-on') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.1, now + 0.05);
+        gainNode.gain.linearRampToValueAtTime(0, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+      } else if (type === 'mic-off') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(440, now + 0.1);
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.1, now + 0.05);
+        gainNode.gain.linearRampToValueAtTime(0, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+      } else if (type === 'call-end') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.2);
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.1, now + 0.05);
+        gainNode.gain.linearRampToValueAtTime(0, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      }
+    } catch (e) {
+      console.warn('Audio tone failed', e);
+    }
+  }, []);
 
   // ─── Check support on mount ─────────────────────────────────────────────
   useEffect(() => {
@@ -95,9 +144,34 @@ export default function useVoiceMode() {
   }
 
   // ─── Audio analysis for volume visualization ────────────────────────────
+  const cleanupAudio = useCallback(() => {
+    if (volumeIntervalRef.current) {
+      clearInterval(volumeIntervalRef.current);
+      volumeIntervalRef.current = null;
+    }
+    if (micStreamRef.current) {
+      micStreamRef.current.getTracks().forEach(t => t.stop());
+      micStreamRef.current = null;
+    }
+    if (audioContextRef.current) {
+      audioContextRef.current.close().catch(() => {});
+      audioContextRef.current = null;
+    }
+    if (analyserRef.current) {
+      try { analyserRef.current.disconnect(); } catch(e) {}
+      analyserRef.current = null;
+    }
+    setVolume(0);
+  }, []);
+
   const startAudioAnalysis = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const constraints = {
+        audio: selectedDeviceIdRef.current 
+          ? { deviceId: { exact: selectedDeviceIdRef.current } } 
+          : true
+      };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       micStreamRef.current = stream;
 
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -117,27 +191,30 @@ export default function useVoiceMode() {
         const average = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
         setVolume(Math.min(average / 128, 1));
       }, 50);
+
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const audioInputs = devices.filter(d => d.kind === 'audioinput');
+      setAudioDevices(audioInputs);
+      
+      if (!selectedDeviceIdRef.current && audioInputs.length > 0) {
+        const track = stream.getAudioTracks()[0];
+        const activeDevice = audioInputs.find(d => d.label === track.label) || audioInputs[0];
+        setSelectedDeviceId(activeDevice.deviceId);
+        selectedDeviceIdRef.current = activeDevice.deviceId;
+      }
     } catch (err) {
       console.warn('Audio analysis failed:', err);
     }
   }, []);
 
-  const cleanupAudio = useCallback(() => {
-    if (volumeIntervalRef.current) {
-      clearInterval(volumeIntervalRef.current);
-      volumeIntervalRef.current = null;
-    }
+  const changeMicrophone = useCallback((deviceId) => {
+    setSelectedDeviceId(deviceId);
+    selectedDeviceIdRef.current = deviceId;
     if (micStreamRef.current) {
-      micStreamRef.current.getTracks().forEach(t => t.stop());
-      micStreamRef.current = null;
+      cleanupAudio();
+      startAudioAnalysis();
     }
-    if (audioContextRef.current) {
-      audioContextRef.current.close().catch(() => {});
-      audioContextRef.current = null;
-    }
-    analyserRef.current = null;
-    setVolume(0);
-  }, []);
+  }, [cleanupAudio, startAudioAnalysis]);
 
   // ─── Start Listening (STT) ─────────────────────────────────────────────
   const startListening = useCallback(() => {
@@ -277,101 +354,99 @@ export default function useVoiceMode() {
     stopListeningInternal();
   }, [stopListeningInternal]);
 
-  // ─── Speak Text (TTS) ──────────────────────────────────────────────────
-  const speakText = useCallback((text, onEnd) => {
-    if (!synthRef.current || !text?.trim()) {
-      onEnd?.();
-      return;
-    }
-
-    // Cancel any ongoing speech
-    synthRef.current.cancel();
-    
-    onSpeakEndCallbackRef.current = onEnd || null;
-
-    // Clean text for speech (remove markdown, links, etc.)
-    const cleanText = text
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // [text](url) → text
-      .replace(/#{1,6}\s/g, '')                   // headers
-      .replace(/\*\*([^*]+)\*\*/g, '$1')           // bold
-      .replace(/\*([^*]+)\*/g, '$1')               // italic
-      .replace(/`([^`]+)`/g, '$1')                 // code
-      .replace(/```[\s\S]*?```/g, '')              // code blocks
-      .replace(/\n{2,}/g, '. ')                    // double newlines → pause
-      .replace(/[-•]/g, '')                        // bullets
-      .replace(/\|{3}SUGGESTIONS\|{3}.*/s, '')     // strip suggestions
-      .replace(/\[SHOW_HIRE_FORM\]/g, '')          // strip hire form trigger
-      .trim();
-
-    if (!cleanText) {
-      onEnd?.();
-      return;
-    }
-
-    // Split into sentences for more natural speech
-    const sentences = cleanText
-      .split(/(?<=[.!?])\s+/)
-      .filter(s => s.trim().length > 0);
-
-    if (sentences.length === 0) {
-      onEnd?.();
-      return;
-    }
-
-    setIsSpeaking(true);
-    isSpeakingRef.current = true;
-
-    let currentIndex = 0;
-
-    const speakNext = () => {
-      if (!isSpeakingRef.current) return;
-
-      if (currentIndex >= sentences.length) {
-        setIsSpeaking(false);
-        isSpeakingRef.current = false;
-        onSpeakEndCallbackRef.current?.();
-        onSpeakEndCallbackRef.current = null;
-        return;
-      }
-
-      const utterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
-
-      if (selectedVoiceRef.current) {
-        utterance.voice = selectedVoiceRef.current;
-      }
-
-      utterance.rate = 1.05;   // Slightly faster for natural feel
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-
-      utterance.onend = () => {
-        if (!isSpeakingRef.current) return;
-        currentIndex++;
-        speakNext();
-      };
-
-      utterance.onerror = (e) => {
-        if (!isSpeakingRef.current) return;
-        console.error('TTS error:', e);
-        currentIndex++;
-        speakNext();
-      };
-
-      synthRef.current.speak(utterance);
-    };
-
-    speakNext();
-  }, []);
-
   // ─── Stop Speaking (TTS) ───────────────────────────────────────────────
   const stopSpeaking = useCallback(() => {
     isSpeakingRef.current = false;
+    ttsQueueRef.current = [];
     if (synthRef.current) {
       synthRef.current.cancel();
     }
     setIsSpeaking(false);
     onSpeakEndCallbackRef.current = null;
   }, []);
+
+  // ─── Seamless Speaking (TTS Queue) ─────────────────────────────────────
+  const processSpeechQueue = useCallback(() => {
+    if (!synthRef.current) return;
+    if (isSpeakingRef.current) return;
+    
+    if (ttsQueueRef.current.length === 0) {
+      setIsSpeaking(false);
+      isSpeakingRef.current = false;
+      if (onSpeakEndCallbackRef.current) {
+        onSpeakEndCallbackRef.current();
+        onSpeakEndCallbackRef.current = null;
+      }
+      return;
+    }
+
+    isSpeakingRef.current = true;
+    setIsSpeaking(true);
+    const text = ttsQueueRef.current.shift();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    if (selectedVoiceRef.current) {
+      utterance.voice = selectedVoiceRef.current;
+    }
+    utterance.rate = 1.05;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    utterance.onend = () => {
+      isSpeakingRef.current = false;
+      processSpeechQueue();
+    };
+
+    utterance.onerror = (e) => {
+      isSpeakingRef.current = false;
+      processSpeechQueue();
+    };
+
+    synthRef.current.speak(utterance);
+  }, []);
+
+  const addToSpeechQueue = useCallback((text) => {
+    const cleanText = text
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/#{1,6}\s/g, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/\n{2,}/g, '. ')
+      .replace(/[-•]/g, '')
+      .replace(/\|{3}SUGGESTIONS\|{3}.*/s, '')
+      .replace(/\[SHOW_HIRE_FORM\]/g, '')
+      .trim();
+
+    if (!cleanText) return;
+
+    const sentences = cleanText
+      .split(/(?<=[.!?])\s+/)
+      .filter(s => s.trim().length > 0);
+
+    if (sentences.length === 0) return;
+
+    ttsQueueRef.current.push(...sentences);
+    if (!isSpeakingRef.current) {
+      processSpeechQueue();
+    }
+  }, [processSpeechQueue]);
+
+  const finalizeSpeechQueue = useCallback((onEnd) => {
+    onSpeakEndCallbackRef.current = onEnd || null;
+    if (!isSpeakingRef.current && ttsQueueRef.current.length === 0) {
+      onEnd?.();
+      onSpeakEndCallbackRef.current = null;
+    }
+  }, []);
+
+  // Backwards compatibility for full text speak
+  const speakText = useCallback((text, onEnd) => {
+    stopSpeaking();
+    addToSpeechQueue(text);
+    finalizeSpeechQueue(onEnd);
+  }, [stopSpeaking, addToSpeechQueue, finalizeSpeechQueue]);
 
   // ─── Reset transcript ──────────────────────────────────────────────────
   const resetTranscript = useCallback(() => {
@@ -388,12 +463,18 @@ export default function useVoiceMode() {
     isSupported,
     error,
     volume,
+    audioDevices,
+    selectedDeviceId,
 
     // Actions
     startListening,
     stopListening,
     speakText,
+    addToSpeechQueue,
+    finalizeSpeechQueue,
     stopSpeaking,
     resetTranscript,
+    changeMicrophone,
+    playAudioTone,
   };
 }
