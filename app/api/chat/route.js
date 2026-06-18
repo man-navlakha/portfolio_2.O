@@ -18,152 +18,100 @@ function checkRateLimit(ip) {
   return record.count <= RATE_LIMIT_MAX;
 }
 
+// ─── Local Data Imports (Single Source of Truth) ──────────────────────────────
+import profile from '@/app/data/profile.json';
+import experienceData from '@/app/data/experience.json';
+import projectsData from '@/app/data/projects.json';
+import blogData from '@/public/Blog/blog.json';
+import aiSkills from '@/app/data/ai-skills.json';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://man-navlakha.netlify.app';
+
+function getPortfolioContext() {
+  let context = `## ABOUT MAN NAVLAKHA\n`;
+
+  if (profile.fullName) context += `- Full Name: ${profile.fullName}\n`;
+  if (profile.location) context += `- Location: ${profile.location}\n`;
+  if (profile.role) context += `- Role: ${profile.role}\n`;
+  if (profile.email) context += `- Email: ${profile.email}\n`;
+  if (profile.linkedin) context += `- LinkedIn: ${profile.linkedin}\n`;
+  if (profile.github) context += `- GitHub: ${profile.github}\n`;
+  if (profile.website) context += `- Website: ${profile.website}\n`;
+  if (profile.bio) context += `- Bio: ${profile.bio}\n`;
+  if (profile.education) context += `- Education: ${profile.education}\n`;
+  if (profile.availableFor) context += `- Available for: ${profile.availableFor}\n`;
+  if (profile.skills) {
+    context += `\n## SKILLS\n${profile.skills}\n`;
+  }
+
+  if (experienceData && experienceData.length > 0) {
+    context += `\n## EXPERIENCE (${experienceData.length} Roles)\n`;
+    experienceData.forEach((exp, i) => {
+      context += `\n### ${i + 1}. ${exp.role} — ${exp.company} (${exp.duration.start} – ${exp.duration.end})\n`;
+      context += `- ${exp.work_type} | ${exp.location}\n`;
+      if (exp.logo) {
+        const logoUrl = exp.logo.startsWith('http') ? exp.logo : `${SITE_URL}${exp.logo}`;
+        context += `- Company Logo: ${logoUrl}\n`;
+      }
+      if (exp.responsibilities) {
+        exp.responsibilities.forEach(desc => {
+          context += `- ${desc}\n`;
+        });
+      }
+      if (exp.skills_gained) {
+        context += `- Skills: ${exp.skills_gained.join(', ')}\n`;
+      }
+    });
+  }
+
+  if (projectsData && projectsData.length > 0) {
+    context += `\n## PROJECTS (${projectsData.length} Projects)\n`;
+    projectsData.forEach((proj, i) => {
+      context += `\n### ${i + 1}. ${proj.project_name} — ${proj.status}\n`;
+      context += `- Category: ${proj.category}\n`;
+      if (proj.image_url) {
+        const imgUrl = proj.image_url.startsWith('http') ? proj.image_url : `${SITE_URL}${proj.image_url}`;
+        context += `- Screenshot: ${imgUrl}\n`;
+      }
+      if (proj.project_url) {
+        const urls = Array.isArray(proj.project_url) ? proj.project_url.join(', ') : proj.project_url;
+        context += `- URL: ${urls}\n`;
+      }
+      if (proj.repository_url) {
+        const repos = Array.isArray(proj.repository_url) ? proj.repository_url.join(', ') : proj.repository_url;
+        context += `- GitHub: ${repos}\n`;
+      }
+      if (proj.description) context += `- Description: ${proj.description}\n`;
+      if (proj.key_features) context += `- Features: ${proj.key_features.join(', ')}\n`;
+      if (proj.technology_stack) {
+        const tech = Object.values(proj.technology_stack).flat().join(', ');
+        context += `- Tech: ${tech}\n`;
+      }
+      if (proj.problem_it_solves) context += `- Solves: ${proj.problem_it_solves}\n`;
+    });
+  }
+
+  if (blogData && blogData.length > 0) {
+    const publishedBlogs = blogData.filter(b => b.status === true);
+    context += `\n## BLOG POSTS (${publishedBlogs.length} Articles)\n`;
+    publishedBlogs.forEach((blog, i) => {
+      context += `\n### ${i + 1}. ${blog.title}\n`;
+      context += `- Published: ${blog.date}\n`;
+      context += `- Read time: ${blog.read_time}\n`;
+      context += `- Tags: ${blog.tags.join(', ')}\n`;
+      context += `- Description: ${blog.short_description}\n`;
+      context += `- Link: ${SITE_URL}/blog/${blog.slug}\n`;
+      if (blog.img_link) {
+        const blogImg = blog.img_link.startsWith('http') ? blog.img_link : `${SITE_URL}${blog.img_link}`;
+        context += `- Cover Image: ${blogImg}\n`;
+      }
+    });
+  }
+
+  return context;
+}
+
 // ─── Portfolio Knowledge Base ─────────────────────────────────────────────────
-const PORTFOLIO_CONTEXT = `
-## ABOUT MAN NAVLAKHA
-- Full Name: Man Navlakha
-- Location: Ahmedabad, Gujarat, India
-- Role: Full Stack Developer (MERN Stack) & IT Support Technician
-- Email: mannnavlakha1021@gmail.com
-- LinkedIn: https://www.linkedin.com/in/navlakhaman/
-- GitHub: https://github.com/man-navlakha
-- Website: https://man-navlakha.netlify.app
-- Bio: A passionate creative developer specializing in building high-quality, impactful digital experiences. Expert in React.js, Next.js, Node.js. Built the entire career page for HarSar Innovations and an AI model for code review in the Solvinger project. Speaks English, Hindi, and Gujarati.
-- Education: BCA/MSc-IT at Shreyarth University
-- Available for: Interview, Freelance projects, Collaborations
-- Resume: https://drive.google.com/file/d/11z2oLFM9nlOEB4X5IflsfNLAx-qMjlVU/view?usp=sharing (IT support), 
-
-## SKILLS
-### Frontend
-- React.js, Next.js (App Router & Pages Router), JavaScript (ES2024), TypeScript (basics)
-- Tailwind CSS, Framer Motion, HTML5, CSS3, Responsive Design, SEO Optimization
-### Backend
-- Node.js, Express.js, REST API Design, API Integration
-### Databases
-- MongoDB, PostgreSQL, Prisma ORM
-### Tools & Design
-- Git, GitHub, Figma, Adobe Tools, VS Code, Vercel, Netlify
-### Specialties
-- UI/UX Design, Branding, Digital Marketing, Email Marketing, SEO Automation
-### Other
-- Google Workspace Administration, IT Support, Microsoft 365
-
-## EXPERIENCE (6 Roles)
-
-### 1. Information Technology Support Technician — Excellent Publicity (April 2026 – Present)
-- Full-time | Ahmedabad, Gujarat, India
-- Engineered SEO automation workflows for digital visibility
-- Administered Google Workspace: users, security, collaborative tools
-- Hardware repairs, laptop/desktop maintenance & performance tuning
-- Full IT asset lifecycle management
-- Outlook configurations with POP services
-- Network & peripheral hardware troubleshooting
-- Software deployment & security patch management
-- Skills: IT Support, System Administration, Microsoft 365, Asset Management
-
-### 2. IT Support Intern — Excellent Publicity (January 2026 – April 2026)
-- 4 months | Ahmedabad, Gujarat, India
-- Laptop & desktop configuration and setup
-- On-call technical support for international employees
-- Website data management, inventory management
-- Microsoft 365, Windows OS installation & management
-- Skills: IT Support, Hardware/Network Basics, User Communication
-
-### 3. Web Developer — HarSar Innovations (March 2025 – April 2025)
-- 2 months | Remote | Full-time/Project-based
-- Built entire career page using React.js & Tailwind CSS
-- Integrated RESTful APIs for dynamic content
-- Backend APIs with Node.js, Express.js
-- PostgreSQL database integration
-- Skills: React.js, Tailwind CSS, Full-Stack, API Development, PostgreSQL, Git
-
-### 4. Information Technology Help Desk Technician — Parshwanath Solutions (February 2024 – October 2024)
-- 9 months | Ahmedabad, Gujarat, India
-- Desktop/laptop technical support
-- OS & software installation & configuration
-- Preventive maintenance & system optimization
-- Skills: IT Support, Hardware Maintenance, Problem Solving
-
-### 5. Advertising Graphic Designer — Naren Advertising and Marketing (June 2023 – August 2023)
-- 3 months (Internship) | Ahmedabad, Gujarat, India
-- Designed marketing creatives & promotional graphics
-- Branding materials for campaigns
-- Digital platform content creation
-- Skills: Graphic Design, Branding, Adobe Tools, Creative Thinking
-
-### 6. Email Campaign Manager — Vision World Foundation (June 2023 – August 2023)
-- 3 months (Internship) | Ahmedabad, Gujarat, India
-- Email marketing campaign management & scheduling
-- Contact database maintenance
-- Campaign performance analysis & optimization
-- Skills: Email Marketing, Campaign Management, Data Management
-
-## PROJECTS (6 Projects)
-
-### 1. Pixel Class — EdTech Platform
-- URL: https://pixelclass.netlify.app/
-- GitHub: https://github.com/man-navlakha/pxc
-- Status: In Development / Active
-- A centralized notes-sharing & collaboration platform for BCA and MSc-IT students at Shreyarth University
-- Features: Notes repository, assignment sharing, student collaboration, user-friendly interface
-- Tech: React.js, Next.js, Node.js, Express.js, MongoDB/PostgreSQL
-- Solves: Students struggling to find notes & assignments at last moment
-
-### 2. Portfolio Website — Personal Website
-- URL: https://man-navlakha.netlify.app
-- Status: Active
-- Modern, responsive personal portfolio showcasing projects, skills, experience
-- Features: Project showcase, about section, contact form, blog, responsive design
-- Tech: Next.js, Tailwind CSS, Framer Motion
-
-### 3. Mechanic Setu — On-Demand Service Platform
-- URLs: https://mechanicsetu.tech/, https://mechanic.mechanicsetu.tech/
-- GitHub: https://github.com/man-navlakha/mechanic_setu
-- Status: In Development / Concept Stage
-- On-demand roadside assistance platform connecting vehicle owners with nearby verified mechanics in real-time
-- Features: Real-time mechanic discovery, location-based matching, verified profiles, emergency support
-- Tech: React.js, Next.js, Node.js, Express.js, MongoDB/PostgreSQL, Maps integration
-
-### 4. Enterprise Ticket System — IT Support & Asset Management
-- URL: http://man-support-desk.netlify.app/
-- GitHub: https://github.com/man-navlakha/ticket_system
-- Status: Completed / In Use (Internship Project)
-- Enterprise-grade ticket management for IT support and asset tracking (Vercel-inspired UI)
-- Features: Ticket creation, priority-based tracking, asset management, user/admin dashboards
-- Tech: Next.js 15, Node.js, PostgreSQL, Prisma ORM
-- Built during internship at Excellent Publicity
-
-### 5. EP SEO Audit — Enterprise SEO Platform
-- URL: https://seo-audit-rose.vercel.app/
-- GitHub: https://github.com/man-navlakha/seo-audit
-- Status: In Development
-- Built for Excellent Publicity — streamlines SEO auditing into 3 phases: Domain Discovery, Multi-Surface Scoring (250+ signals), Unified Report Delivery
-- Features: JS-rendered HTML diffing, Core Web Vitals, Rich Schema Validation, E-E-A-T, Local SEO, AI Search Optimization
-- Tech: Next.js, React, Tailwind CSS, Node.js, Express.js, PostgreSQL, Redis
-
-### 6. PixStock — Developer-First Asset Infrastructure
-- URL: https://pix-stock.netlify.app/
-- Status: Completed / Active
-- Comprehensive asset management platform for product teams — dynamic GitHub stat cards, tech stack icons API, stock imagery
-- Features: Stable asset identifiers, GitHub Stats API, Pin API, Tech Stack Icons API
-- Tech: React, Tailwind CSS, Node.js, Express, Netlify
-
-## BLOG POSTS
-1. "Advanced React Patterns in 2026" — React, Architecture | 6 min read | Published: 2026-06-16
-   URL: https://man-navlakha.netlify.app/blog/advanced-react-patterns
-   Topics: Modern hooks, compound components, render delegation, scalable architecture
-
-2. "My B2B Email Marketing Workflow in 2026" — GTM, Email Marketing, Lead Generation | 8 min read | Published: 2026-06-17
-   URL: https://man-navlakha.netlify.app/blog/b2b-email-marketing-workflow
-   Topics: Lead generation, data enrichment, email infrastructure, domain management, cold email
-
-## AREAS OF EXPERTISE
-1. Full-Stack Web Development — React, Next.js, Node.js, clean code, performance
-2. UI/UX Design — Figma, intuitive interfaces, seamless user experiences
-3. Branding — Brand identity, logo design, typography, color theory
-4. IT Support & System Administration — Hardware, software, network, Microsoft 365
-5. Digital Marketing — Email campaigns, SEO, social media
-`;
 
 // ─── Hire-Intent Detection ────────────────────────────────────────────────────
 const HIRE_KEYWORDS = [
@@ -180,8 +128,36 @@ function detectHireIntent(message) {
 }
 
 // ─── System Prompt ────────────────────────────────────────────────────────────
-function buildSystemPrompt() {
+function buildSystemPrompt(context, isVoiceMode = false) {
+  let enhancedBehaviors = '';
+  if (aiSkills) {
+    enhancedBehaviors += `\nPERSONA: ${aiSkills.persona}\n`;
+    enhancedBehaviors += `TONE: ${aiSkills.tone}\n\n`;
+    
+    if (aiSkills.ai_skills && aiSkills.ai_skills.length > 0) {
+      enhancedBehaviors += `YOUR CAPABILITIES & SKILLS:\n`;
+      aiSkills.ai_skills.forEach(skill => {
+        enhancedBehaviors += `- [${skill.name}]: ${skill.instruction}\n`;
+      });
+    }
+
+    if (aiSkills.custom_rules && aiSkills.custom_rules.length > 0) {
+      enhancedBehaviors += `\nBEHAVIORAL RULES:\n`;
+      aiSkills.custom_rules.forEach(rule => {
+        enhancedBehaviors += `- ${rule}\n`;
+      });
+    }
+
+    if (isVoiceMode && aiSkills.voice_mode_rules && aiSkills.voice_mode_rules.length > 0) {
+      enhancedBehaviors += `\nVOICE MODE OVERRIDES:\n`;
+      aiSkills.voice_mode_rules.forEach(rule => {
+        enhancedBehaviors += `- ${rule}\n`;
+      });
+    }
+  }
+
   return `You are "Man's AI Assistant" — a smart, friendly, and professional chatbot embedded in Man Navlakha's personal portfolio website.
+${enhancedBehaviors}
 
 YOUR ROLE:
 You exist ONLY to answer questions about Man Navlakha — his skills, projects, work experience, blog posts, and contact/availability information.
@@ -196,11 +172,19 @@ STRICT RULES:
 7. After EVERY response (no exceptions), append exactly 3 relevant follow-up questions in this EXACT format on a new line:
    |||SUGGESTIONS|||["Question 1?", "Question 2?", "Question 3?"]
 
+IMAGE & MEDIA RULES:
+- When showing projects, include their screenshot using markdown image syntax: ![Project Name](screenshot_url)
+- When showing experience/companies, include the company logo: ![Company Name](logo_url)
+- When showing blog posts, include the cover image: ![Blog Title](cover_image_url)
+- Only use image URLs provided in the knowledge base — never fabricate URLs.
+- When linking to blog posts, use the provided blog link URL.
+
 KNOWLEDGE BASE ABOUT MAN NAVLAKHA:
-${PORTFOLIO_CONTEXT}
+${context}
 
 RESPONSE FORMAT:
-- Use clear markdown formatting (bold, bullets, links)
+- Use clear markdown formatting (bold, bullets, links, images)
+- Include relevant images when discussing projects, experience, or blogs
 - Keep answers focused and helpful
 - End EVERY response with the |||SUGGESTIONS||| line`;
 }
@@ -242,7 +226,7 @@ export async function POST(req) {
     return new Response('Invalid JSON', { status: 400 });
   }
 
-  const { message, history = [] } = body;
+  const { message, history = [], isVoiceMode = false } = body;
   if (!message?.trim()) {
     return new Response('Message is required', { status: 400 });
   }
@@ -262,9 +246,11 @@ Please fill out the quick form below and Man will get back to you as soon as pos
     });
   }
 
+  const portfolioContext = getPortfolioContext();
+
   // Build chat messages in OpenAI format
   const messages = [
-    { role: 'system', content: buildSystemPrompt() },
+    { role: 'system', content: buildSystemPrompt(portfolioContext, isVoiceMode) },
   ];
 
   // Add conversation history

@@ -413,6 +413,7 @@ export default function ChatBot() {
         body: JSON.stringify({
           message: msg,
           history: historySnapshot.slice(-10),
+          isVoiceMode: isVoiceMode,
         }),
       });
 
