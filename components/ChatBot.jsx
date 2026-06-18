@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bot, X, RefreshCcw, Maximize2, Minimize2, Copy, CheckCheck,
   FileText, ChevronLeft, ChevronDown, Loader2, AlertCircle, Grid, Code2,
-  Sparkles, Terminal, Square, Check, ArrowUp, Menu, PenLine
+  Sparkles, Terminal, Square, Check, ArrowUp, Menu, PenLine, Mic
 } from 'lucide-react';
 import { useChat } from '@/app/context/ChatContext';
+import useVoiceMode from '@/hooks/useVoiceMode';
+import VoiceModeOverlay from './VoiceModeOverlay';
 
 // ─── CSS Keyframes ────────────────────────────────────────────────────────────
 const KEYFRAMES_CSS = `
@@ -230,6 +232,10 @@ export default function ChatBot() {
   const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [isVoiceMode, setIsVoiceMode] = useState(false);
+
+  // Voice mode hook
+  const voiceHook = useVoiceMode();
 
   // Refs
   const chatEndRef = useRef(null);
@@ -489,6 +495,12 @@ export default function ChatBot() {
       abortControllerRef.current = null;
     }
   }, [input, isStreaming, isWaiting, messages, startRevealTimer, stopRevealTimer]);
+
+  // ── Voice mode: send message handler ──────────────────────────────────
+  const sendVoiceMessage = useCallback((text) => {
+    if (!text?.trim()) return;
+    sendMessage(text);
+  }, [sendMessage]);
 
   // ── Stop generation ───────────────────────────────────────────────────────
   const stopResponse = () => {
@@ -936,7 +948,7 @@ export default function ChatBot() {
                         minHeight: '24px',
                       }}
                     />
-                    <div className="shrink-0 flex items-center">
+                    <div className="shrink-0 flex items-center gap-1.5">
                       {isLoading ? (
                         <button
                           onClick={stopResponse}
@@ -945,11 +957,25 @@ export default function ChatBot() {
                         >
                           <Square size={16} strokeWidth={2.5} />
                         </button>
-                      ) : (
+                      ) : input.trim() ? (
                         <button
                           onClick={() => sendMessage(input)}
-                          disabled={!input.trim()}
-                          className="w-10 h-10 rounded-full bg-[#1b2f6b] text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-all"
+                          className="w-10 h-10 rounded-full bg-[#1b2f6b] text-white flex items-center justify-center hover:opacity-90 transition-all"
+                        >
+                          <ArrowUp size={20} strokeWidth={2.5} />
+                        </button>
+                      ) : voiceHook.isSupported ? (
+                        <button
+                          onClick={() => setIsVoiceMode(true)}
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-500/20"
+                          title="Voice mode"
+                        >
+                          <Mic size={18} strokeWidth={2.5} />
+                        </button>
+                      ) : (
+                        <button
+                          disabled
+                          className="w-10 h-10 rounded-full bg-[#1b2f6b] text-white flex items-center justify-center opacity-50 cursor-not-allowed"
                         >
                           <ArrowUp size={20} strokeWidth={2.5} />
                         </button>
@@ -984,6 +1010,16 @@ export default function ChatBot() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* ── Voice Mode Overlay ── */}
+      <VoiceModeOverlay
+        isOpen={isVoiceMode}
+        onClose={() => setIsVoiceMode(false)}
+        voiceHook={voiceHook}
+        onSendMessage={sendVoiceMessage}
+        isProcessing={isWaiting || isStreaming}
+        streamingText={streamingText}
+      />
     </>
   );
 }
