@@ -226,13 +226,13 @@ export async function POST(req) {
     return new Response('Invalid JSON', { status: 400 });
   }
 
-  const { message, history = [], isVoiceMode = false } = body;
-  if (!message?.trim()) {
+  const { message, history = [], isVoiceMode = false, type = 'chat', path = '/' } = body;
+  if (type !== 'suggestions' && !message?.trim()) {
     return new Response('Message is required', { status: 400 });
   }
 
   // Detect hire intent BEFORE calling AI — instant form trigger
-  if (detectHireIntent(message)) {
+  if (type !== 'suggestions' && detectHireIntent(message)) {
     const hireResponse = `I'd love to connect about a potential opportunity! 🎉
 
 Man is currently **open to freelance projects, collaborations, and full-time opportunities**.
@@ -248,34 +248,56 @@ Please fill out the quick form below and Man will get back to you as soon as pos
 
   const portfolioContext = getPortfolioContext();
 
-  // Build chat messages in OpenAI format
-  const messages = [
-    { role: 'system', content: buildSystemPrompt(portfolioContext, isVoiceMode) },
-  ];
+  let messages = [];
 
-  // Add conversation history
-  const recentHistory = history
-    .filter(msg => msg.sender === 'user' || msg.sender === 'bot')
-    .slice(-10);
+  if (type === 'suggestions') {
+    messages = [
+      {
+        role: 'system',
+        content: `You are generating suggested questions for Man Navlakha's portfolio AI assistant. 
+The user is currently on the page path: "${path}".
+Generate exactly 4 short, engaging questions the user could ask you based on this page context.
+If it's a blog page, ask about the blog content. If it's a projects page, ask about projects.
+Context about Man Navlakha:
+${portfolioContext}
+Return ONLY a valid JSON array of 4 strings. No markdown formatting outside the JSON array.
+Example: ["What is this blog about?", "How long did this project take?", "What is your role?", "Are you available to hire?"]`
+      }
+    ];
+  } else {
+    // Build chat messages in OpenAI format
+    messages = [
+      { role: 'system', content: buildSystemPrompt(portfolioContext, isVoiceMode) },
+    ];
 
-  for (const msg of recentHistory) {
-    const cleanText = typeof msg.text === 'string'
-      ? msg.text.split('|||SUGGESTIONS|||')[0].replace('[SHOW_HIRE_FORM]', '').trim()
-      : '';
-    if (cleanText) {
-      messages.push({
-        role: msg.sender === 'user' ? 'user' : 'assistant',
-        content: cleanText,
-      });
+    // Add conversation history
+    const recentHistory = history
+      .filter(msg => msg.sender === 'user' || msg.sender === 'bot')
+      .slice(-10);
+
+    for (const msg of recentHistory) {
+      const cleanText = typeof msg.text === 'string'
+        ? msg.text.split('|||SUGGESTIONS|||')[0].replace('[SHOW_HIRE_FORM]', '').trim()
+        : '';
+      if (cleanText) {
+        messages.push({
+          role: msg.sender === 'user' ? 'user' : 'assistant',
+          content: cleanText,
+        });
+      }
     }
+
+    // Add current user message
+    messages.push({ role: 'user', content: message.trim() });
   }
 
-  // Add current user message
-  messages.push({ role: 'user', content: message.trim() });
-
   // Try models in order — fallback if one fails
-  for (let i = 0; i < MODELS_TO_TRY.length; i++) {
-    const modelName = MODELS_TO_TRY[i];
+  const modelsToUse = type === 'suggestions'
+    ? ['meta-llama/llama-3.2-3b-instruct:free', ...MODELS_TO_TRY]
+    : MODELS_TO_TRY;
+
+  for (let i = 0; i < modelsToUse.length; i++) {
+    const modelName = modelsToUse[i];
     try {
       const response = await fetch(OPENROUTER_API_URL, {
         method: 'POST',
@@ -288,7 +310,7 @@ Please fill out the quick form below and Man will get back to you as soon as pos
         body: JSON.stringify({
           model: modelName,
           messages,
-          stream: true,
+          stream: type !== 'suggestions',
           temperature: 0.7,
           top_p: 0.9,
           max_tokens: 1024,
@@ -301,12 +323,32 @@ Please fill out the quick form below and Man will get back to you as soon as pos
         const isQuotaError = response.status === 429 || errorText.includes('rate limit') || errorText.includes('quota');
         const isModelError = response.status === 404 || response.status === 400 || errorText.includes('not available');
 
-        if ((isQuotaError || isModelError) && i < MODELS_TO_TRY.length - 1) {
-          console.warn(`Model ${modelName} failed (${response.status}), trying ${MODELS_TO_TRY[i + 1]}...`);
+        if ((isQuotaError || isModelError) && i < modelsToUse.length - 1) {
+          console.warn(`Model ${modelName} failed (${response.status}), trying ${modelsToUse[i + 1]}...`);
           continue;
         }
 
         throw new Error(`OpenRouter API error: ${response.status} ${errorText}`);
+      }
+
+      if (type === 'suggestions') {
+        const data = await response.json();
+        const content = data.choices?.[0]?.message?.content || '[]';
+        let suggestions = [];
+        try {
+          suggestions = JSON.parse(content);
+        } catch(e) {
+          const match = content.match(/\[.*?\]/s);
+          if (match) {
+            try { suggestions = JSON.parse(match[0]); } catch(err) {}
+          }
+        }
+        if (!suggestions || suggestions.length === 0) {
+           suggestions = ["What are your skills?", "Tell me about your projects", "What's your experience?", "Are you available to hire?"];
+        }
+        return new Response(JSON.stringify({ suggestions }), {
+          headers: { 'Content-Type': 'application/json' },
+        });
       }
 
       // Stream the SSE response back as plain text
@@ -369,8 +411,8 @@ Please fill out the quick form below and Man will get back to you as soon as pos
       const isModelError = errorMsg.includes('404') || errorMsg.includes('not available') || errorMsg.includes('not found');
 
       // If quota or model error and we have more models to try, continue
-      if ((isQuotaError || isModelError) && i < MODELS_TO_TRY.length - 1) {
-        console.warn(`Model ${modelName} failed, trying ${MODELS_TO_TRY[i + 1]}...`);
+      if ((isQuotaError || isModelError) && i < modelsToUse.length - 1) {
+        console.warn(`Model ${modelName} failed, trying ${modelsToUse[i + 1]}...`);
         continue;
       }
 

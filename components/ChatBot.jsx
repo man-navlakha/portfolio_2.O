@@ -8,6 +8,7 @@ import {
   Sparkles, Terminal, Square, Check, ArrowUp, Menu, PenLine, Mic
 } from 'lucide-react';
 import { useChat } from '@/app/context/ChatContext';
+import { usePathname } from 'next/navigation';
 import useVoiceMode from '@/hooks/useVoiceMode';
 import VoiceModeOverlay from './VoiceModeOverlay';
 
@@ -215,9 +216,12 @@ function HireForm({ onClose, onSuccess }) {
 
 // ─── Main ChatBot Component ───────────────────────────────────────────────────
 export default function ChatBot() {
+  const pathname = usePathname();
   const { isChatOpen: isOpen, setIsChatOpen: setIsOpen } = useChat();
   const [isExpanded, setIsExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [fetchedSuggestionsPath, setFetchedSuggestionsPath] = useState(null);
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
 
   // Messages & streaming
   const [messages, setMessages] = useState([]);
@@ -278,6 +282,41 @@ export default function ChatBot() {
       setMessages([{ ...INITIAL_MESSAGE, time: timeNow }]);
     }
   }, []);
+
+  // ── Fetch dynamic suggestions based on pathname ───────────────────────────
+  useEffect(() => {
+    if (!pathname || fetchedSuggestionsPath === pathname || messages.length > 1) return;
+
+    const fetchSuggestions = async () => {
+      setFetchedSuggestionsPath(pathname);
+      setIsFetchingSuggestions(true);
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'suggestions', path: pathname })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.suggestions && data.suggestions.length > 0) {
+            setMessages(prev => {
+              const newMsgs = [...prev];
+              if (newMsgs[0]?.isInitial) {
+                newMsgs[0] = { ...newMsgs[0], suggestions: data.suggestions };
+              }
+              return newMsgs;
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch suggestions:", err);
+      } finally {
+        setIsFetchingSuggestions(false);
+      }
+    };
+
+    fetchSuggestions();
+  }, [pathname, messages.length, fetchedSuggestionsPath]);
 
   // ── Persist chat ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -514,6 +553,7 @@ export default function ChatBot() {
     localStorage.removeItem('chatHistory_v2');
     const timeNow = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
     setMessages([{ ...INITIAL_MESSAGE, time: timeNow }]);
+    setFetchedSuggestionsPath(null);
     setStreamingText('');
     setIsStreaming(false);
     setIsWaiting(false);
@@ -570,7 +610,7 @@ export default function ChatBot() {
       const href = props.href || '';
       const text = props.children?.toString() || '';
       const isDocument = href.includes('drive.google.com/file') || href.endsWith('.pdf') || text.toLowerCase().includes('resume');
-      
+
       if (isDocument) {
         return (
           <a {...props} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 mt-2 mb-1 bg-slate-100 dark:bg-[#202c33] rounded-xl hover:opacity-90 transition-opacity w-fit min-w-[240px] max-w-[95%] border border-slate-200 dark:border-white/5 no-underline">
@@ -628,16 +668,20 @@ export default function ChatBot() {
       <style>{KEYFRAMES_CSS}</style>
 
       {/* ── Floating open/close button (desktop only) ── */}
+
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-xl transition-all duration-300 hover:scale-110 border hidden md:flex
-          ${isOpen
-            ? 'bg-slate-900 text-white dark:bg-white dark:text-black border-slate-700 dark:border-white/20 rotate-90'
-            : 'bg-white text-slate-900 dark:bg-[#1a1a1a] dark:text-white border-slate-200 dark:border-white/10'
+        className={`fixed bottom-15 right-6 z-100 hidden md:flex items-center gap-3 px-6 py-4 rounded-full shadow-xl transition-all duration-300 hover:scale-105 border
+    ${isOpen
+            ? "bg-slate-900 text-white dark:bg-white dark:text-black border-slate-700 dark:border-white/20"
+            : "bg-white text-slate-900 dark:bg-[#1a1a1a] dark:text-white border-slate-200 dark:border-white/10"
           }`}
-        style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}
       >
-        {isOpen ? <X size={24} /> : <Bot size={24} />}
+        {isOpen ? <X size={20} /> : <Bot size={20} />}
+
+        <span className="font-medium">
+          {isOpen ? "Close Assistant" : "Chat with Man's AI"}
+        </span>
       </button>
 
       {/* ── Overlay ── */}
@@ -723,16 +767,23 @@ export default function ChatBot() {
               <p className="text-sm text-slate-500 dark:text-gray-500 mb-8 max-w-[80%]">
                 Ask me anything about his projects, skills, or experience
               </p>
-              <div className="flex flex-wrap gap-2 justify-center max-w-[90%]">
-                {welcomeSuggestions.map((s, i) => (
-                  <button
-                    key={i}
-                    onClick={() => sendMessage(s)}
-                    className="text-xs border border-slate-200 dark:border-white/10 px-4 py-2.5 rounded-full text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/20 transition-all"
-                  >
-                    {s}
-                  </button>
-                ))}
+              <div className="flex flex-col gap-2.5 w-full max-w-[85%] mx-auto">
+                {isFetchingSuggestions ? (
+                  // Animated loaders for suggestions
+                  [1, 2, 3, 4].map((i) => (
+                    <div key={i} className="h-[46px] w-full bg-slate-100 dark:bg-white/5 rounded-2xl animate-pulse"></div>
+                  ))
+                ) : (
+                  welcomeSuggestions.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => sendMessage(s)}
+                      className="text-sm text-left border border-slate-200 dark:border-white/10 px-4 py-3 rounded-2xl text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm leading-snug"
+                    >
+                      {s}
+                    </button>
+                  ))
+                )}
               </div>
             </div>
           ) : (
