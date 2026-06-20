@@ -292,35 +292,54 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
   }
 
   // Try models in order — fallback if one fails
+  const useGeminiNative = isVoiceMode && !!process.env.GEMINI_API_KEY;
+
+  // Try models in order — fallback if one fails
   const modelsToUse = type === 'suggestions'
     ? ['meta-llama/llama-3.2-3b-instruct:free', ...MODELS_TO_TRY]
-    : MODELS_TO_TRY;
+    : useGeminiNative
+      ? ['gemini-2.5-flash', 'gemini-1.5-flash', ...MODELS_TO_TRY] // Gemini native first
+      : MODELS_TO_TRY;
 
   for (let i = 0; i < modelsToUse.length; i++) {
     const modelName = modelsToUse[i];
+    const isGeminiNative = useGeminiNative && modelName.startsWith('gemini-');
+    
+    const apiUrl = isGeminiNative 
+      ? 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions'
+      : OPENROUTER_API_URL;
+      
+    const currentApiKey = isGeminiNative ? process.env.GEMINI_API_KEY : apiKey;
+    
     try {
-      const response = await fetch(OPENROUTER_API_URL, {
+      const headers = {
+        'Authorization': `Bearer ${currentApiKey}`,
+        'Content-Type': 'application/json',
+      };
+      
+      // Only add OpenRouter-specific headers when using OpenRouter
+      if (!isGeminiNative) {
+        headers['HTTP-Referer'] = 'https://man-navlakha.netlify.app';
+        headers['X-Title'] = 'Man Navlakha Portfolio Chatbot';
+      }
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://man-navlakha.netlify.app',
-          'X-Title': 'Man Navlakha Portfolio Chatbot',
-        },
+        headers,
         body: JSON.stringify({
           model: modelName,
           messages,
           stream: type !== 'suggestions',
-          temperature: 0.7,
+          temperature: isVoiceMode ? 0.6 : 0.7,
           top_p: 0.9,
-          max_tokens: 1024,
+          max_tokens: isVoiceMode ? 400 : 1024,
         }),
       });
 
       // If non-OK status, parse error and maybe try next model
       if (!response.ok) {
         const errorText = await response.text();
-        const isQuotaError = response.status === 429 || errorText.includes('rate limit') || errorText.includes('quota');
+        const isQuotaError = response.status === 429 || response.status === 402 || errorText.includes('rate limit') || errorText.includes('quota');
         const isModelError = response.status === 404 || response.status === 400 || errorText.includes('not available');
 
         if ((isQuotaError || isModelError) && i < modelsToUse.length - 1) {
@@ -328,7 +347,7 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
           continue;
         }
 
-        throw new Error(`OpenRouter API error: ${response.status} ${errorText}`);
+        throw new Error(`API error (${isGeminiNative ? 'Gemini' : 'OpenRouter'}): ${response.status} ${errorText}`);
       }
 
       if (type === 'suggestions') {

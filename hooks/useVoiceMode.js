@@ -118,29 +118,58 @@ export default function useVoiceMode() {
 
   // ─── Pick best voice ────────────────────────────────────────────────────
   function pickBestVoice(voices) {
-    // Preference order: natural/enhanced English voices
-    const preferred = [
-      'Google UK English Female',
-      'Google UK English Male',
-      'Google US English',
-      'Microsoft Zira',
-      'Microsoft David',
-      'Samantha',   // macOS
-      'Daniel',     // macOS
-      'Karen',      // macOS
-      'Alex',       // macOS
+    // Priority 1: High-quality Natural/Neural voices (best quality)
+    const premiumPatterns = [
+      'Google UK English Female',  // Chrome's best female voice
+      'Google UK English Male',    // Chrome's best male voice
+      'Google US English',         // Chrome's US voice
+      'Microsoft Aria',            // Edge Neural (very natural)
+      'Microsoft Jenny',           // Edge Neural
+      'Microsoft Guy',             // Edge Neural
+      'Microsoft Ana',             // Edge Neural
+      'Microsoft Zira',            // Windows built-in (decent)
+      'Microsoft David',           // Windows built-in
     ];
 
-    for (const name of preferred) {
+    for (const name of premiumPatterns) {
       const match = voices.find(v => v.name.includes(name));
-      if (match) return match;
+      if (match) {
+        console.log('🎙️ Voice selected:', match.name);
+        return match;
+      }
     }
 
-    // Fallback: any English voice
-    const englishVoice = voices.find(v =>
-      v.lang.startsWith('en') && !v.name.includes('espeak')
+    // Priority 2: Any voice with "Natural" or "Neural" in the name
+    const neuralVoice = voices.find(v =>
+      v.lang.startsWith('en') &&
+      (v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Premium') || v.name.includes('Enhanced'))
     );
-    return englishVoice || voices[0];
+    if (neuralVoice) {
+      console.log('🎙️ Voice selected (neural):', neuralVoice.name);
+      return neuralVoice;
+    }
+
+    // Priority 3: macOS premium voices
+    const macVoices = ['Samantha', 'Karen', 'Daniel', 'Moira', 'Tessa', 'Alex'];
+    for (const name of macVoices) {
+      const match = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+      if (match) {
+        console.log('🎙️ Voice selected (mac):', match.name);
+        return match;
+      }
+    }
+
+    // Priority 4: Any English voice that is NOT espeak (espeak sounds very robotic)
+    const englishVoice = voices.find(v =>
+      v.lang.startsWith('en') && !v.name.toLowerCase().includes('espeak')
+    );
+    if (englishVoice) {
+      console.log('🎙️ Voice selected (en fallback):', englishVoice.name);
+      return englishVoice;
+    }
+
+    console.log('🎙️ Voice selected (last resort):', voices[0]?.name);
+    return voices[0];
   }
 
   // ─── Audio analysis for volume visualization ────────────────────────────
@@ -358,16 +387,57 @@ export default function useVoiceMode() {
   const stopSpeaking = useCallback(() => {
     isSpeakingRef.current = false;
     ttsQueueRef.current = [];
-    if (synthRef.current) {
-      synthRef.current.cancel();
-    }
     setIsSpeaking(false);
     onSpeakEndCallbackRef.current = null;
+    
+    // Stop Web Audio playback if it's running
+    if (audioContextRef.current) {
+      try {
+        // Suspend current context and create a new one to cleanly stop all sources
+        audioContextRef.current.close().catch(() => {});
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContextRef.current = audioContext;
+        
+        // Re-connect mic analyser if mic is active
+        if (micStreamRef.current) {
+          const source = audioContext.createMediaStreamSource(micStreamRef.current);
+          const analyser = audioContext.createAnalyser();
+          analyser.fftSize = 256;
+          analyser.smoothingTimeConstant = 0.8;
+          source.connect(analyser);
+          analyserRef.current = analyser;
+        }
+      } catch (e) {
+        console.warn('Failed to reset audio context:', e);
+      }
+    }
   }, []);
 
-  // ─── Seamless Speaking (TTS Queue) ─────────────────────────────────────
-  const processSpeechQueue = useCallback(() => {
-    if (!synthRef.current) return;
+  // ─── Seamless PCM Audio Speaking (Web Audio Queue) ─────────────────────
+  // Helper to decode Base64 to ArrayBuffer
+  const base64ToArrayBuffer = (base64) => {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  };
+
+  // Helper to convert L16 PCM (16-bit signed integer) to Float32Array
+  const int16ToFloat32 = (int16Array) => {
+    const float32Array = new Float32Array(int16Array.length);
+    for (let i = 0; i < int16Array.length; i++) {
+      const int = int16Array[i];
+      // If the high bit is on, it's a negative number, convert using 2's complement
+      const signed = int > 0x7FFF ? int - 0x10000 : int;
+      float32Array[i] = signed / 0x8000;
+    }
+    return float32Array;
+  };
+
+  const processSpeechQueue = useCallback(async () => {
     if (isSpeakingRef.current) return;
     
     if (ttsQueueRef.current.length === 0) {
@@ -380,54 +450,110 @@ export default function useVoiceMode() {
       return;
     }
 
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    const ctx = audioContextRef.current;
+    if (ctx.state === 'suspended') {
+      await ctx.resume();
+    }
+
     isSpeakingRef.current = true;
     setIsSpeaking(true);
-    const text = ttsQueueRef.current.shift();
+    
+    const textChunk = ttsQueueRef.current.shift();
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    if (selectedVoiceRef.current) {
-      utterance.voice = selectedVoiceRef.current;
+    try {
+      // Fetch the TTS base64 audio for this chunk
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: textChunk })
+      });
+      
+      if (!res.ok) throw new Error('Failed to fetch TTS');
+      const data = await res.json();
+      const base64Chunk = data.audioBase64;
+      if (!base64Chunk) throw new Error('No audio returned');
+
+      // Decode the Gemini L16 PCM at 24000Hz base64 chunk
+      const arrayBuffer = base64ToArrayBuffer(base64Chunk);
+      
+      // Gemini sends 16-bit little-endian PCM
+      const int16Array = new Int16Array(arrayBuffer);
+      const float32Array = int16ToFloat32(int16Array);
+
+      const audioBuffer = ctx.createBuffer(1, float32Array.length, 24000);
+      audioBuffer.copyToChannel(float32Array, 0);
+
+      const source = ctx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(ctx.destination);
+
+      source.onended = () => {
+        isSpeakingRef.current = false;
+        processSpeechQueue(); // play next chunk
+      };
+
+      source.start();
+    } catch (err) {
+      console.error('Audio playback error:', err);
+      // Fallback: If TTS fails, at least don't freeze the queue
+      isSpeakingRef.current = false;
+      processSpeechQueue(); 
     }
-    utterance.rate = 1.05;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-
-    utterance.onend = () => {
-      isSpeakingRef.current = false;
-      processSpeechQueue();
-    };
-
-    utterance.onerror = (e) => {
-      isSpeakingRef.current = false;
-      processSpeechQueue();
-    };
-
-    synthRef.current.speak(utterance);
   }, []);
 
-  const addToSpeechQueue = useCallback((text) => {
-    const cleanText = text
+  function cleanTextForSpeech(text) {
+    return text
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
       .replace(/#{1,6}\s/g, '')
       .replace(/\*\*([^*]+)\*\*/g, '$1')
       .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/_([^_]+)_/g, '$1')
       .replace(/`([^`]+)`/g, '$1')
       .replace(/```[\s\S]*?```/g, '')
-      .replace(/\n{2,}/g, '. ')
-      .replace(/[-•]/g, '')
       .replace(/\|{3}SUGGESTIONS\|{3}.*/s, '')
       .replace(/\[SHOW_HIRE_FORM\]/g, '')
+      .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F000}-\u{1FFFF}]/gu, '')
+      .replace(/[-•▸▹►]/g, '')
+      .replace(/https?:\/\/[^\s)]+/g, 'link')
+      .replace(/\be\.g\./gi, 'for example')
+      .replace(/\bi\.e\./gi, 'that is')
+      .replace(/\betc\./gi, 'etcetera')
+      .replace(/\bvs\./gi, 'versus')
+      .replace(/\n{2,}/g, '. ')
+      .replace(/\n/g, ' ')
+      .replace(/\s{2,}/g, ' ')
       .trim();
+  }
 
+  const addToSpeechQueue = useCallback((text) => {
+    const cleanText = cleanTextForSpeech(text);
     if (!cleanText) return;
 
+    // Split into sentences for smoother delivery — smaller chunks = more responsive
     const sentences = cleanText
       .split(/(?<=[.!?])\s+/)
-      .filter(s => s.trim().length > 0);
+      .filter(s => s.trim().length > 2); // Skip tiny fragments
 
     if (sentences.length === 0) return;
 
-    ttsQueueRef.current.push(...sentences);
+    // Group very short sentences together (sounds more natural than pausing after 3 words)
+    const grouped = [];
+    let buffer = '';
+    for (const sentence of sentences) {
+      if (buffer.length + sentence.length < 80) {
+        buffer += (buffer ? ' ' : '') + sentence;
+      } else {
+        if (buffer) grouped.push(buffer);
+        buffer = sentence;
+      }
+    }
+    if (buffer) grouped.push(buffer);
+
+    ttsQueueRef.current.push(...grouped);
     if (!isSpeakingRef.current) {
       processSpeechQueue();
     }
@@ -441,7 +567,7 @@ export default function useVoiceMode() {
     }
   }, []);
 
-  // Backwards compatibility for full text speak
+  // Backwards compatibility for full text speak (fallback if audio fails)
   const speakText = useCallback((text, onEnd) => {
     stopSpeaking();
     addToSpeechQueue(text);

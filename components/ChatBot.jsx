@@ -303,7 +303,7 @@ export default function ChatBot() {
 
   // ── Fetch dynamic suggestions based on pathname ───────────────────────────
   useEffect(() => {
-    if (!pathname || fetchedSuggestionsPath === pathname || messages.length > 1) return;
+    if (!pathname || fetchedSuggestionsPath === pathname || messages.length > 1 || isVoiceMode) return;
 
     const fetchSuggestions = async () => {
       setFetchedSuggestionsPath(pathname);
