@@ -1,9 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { 
-  ArrowUpRight, Github, Instagram, Linkedin, Mail, Star, ChevronDown,
-  Calendar, MapPin, Briefcase, CheckCircle2, Code2, Award, Building2, Clock, ChevronRight
-} from 'lucide-react';
+import { ArrowUpRight, MapPin, CheckCircle2, Building2, Clock } from 'lucide-react';
 import RevealOnScroll from './Components/ui/RevealOnScroll'
 import ShinyText from '../components/ShinyText'
 import HoverText from './Components/ui/HoverText'
@@ -120,64 +117,64 @@ export default function Home({ topBlogs = [] }) {
               <div className="relative z-10 w-full mb-12">
                 <RevealOnScroll delay={200}>
                   <div className="flex flex-col md:flex-row md:items-center gap-10 md:gap-14 border-b border-slate-200 dark:border-white/10 pb-16 pt-6">
-                      <div className="w-32 h-32 md:w-52 md:h-52 rounded-[2.5rem] overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 md:p-10 shrink-0 flex items-center justify-center shadow-2xl group/logo hover:scale-105 transition-transform duration-500">
-                          <img src={currentExperience.logo} alt={currentExperience.company} className="w-full h-full object-contain group-hover/logo:scale-110 transition-transform duration-700" />
+                    <div className="w-32 h-32 md:w-52 md:h-52 rounded-[2.5rem] overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 md:p-10 shrink-0 flex items-center justify-center shadow-2xl group/logo hover:scale-105 transition-transform duration-500">
+                      <img src={currentExperience.logo} alt={currentExperience.company} className="w-full h-full object-contain group-hover/logo:scale-110 transition-transform duration-700" />
+                    </div>
+                    <div className="space-y-4">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-[10px] font-bold uppercase tracking-widest">
+                        <Clock size={12} /> {currentExperience.period || 'Ongoing'}
                       </div>
-                      <div className="space-y-4">
-                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-[10px] font-bold uppercase tracking-widest">
-                              <Clock size={12} /> {currentExperience.period || 'Ongoing'}
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 dark:text-white leading-none">
+                        {currentExperience.role}
+                      </h1>
+                      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-slate-500 dark:text-gray-400 font-medium">
+                        <div className="flex items-center gap-2">
+                          <Building2 size={18} className="text-brand" />
+                          <span className="text-xl">{currentExperience.company}</span>
+                        </div>
+                        {currentExperience.location && (
+                          <div className="flex items-center gap-2">
+                            <MapPin size={18} />
+                            <span>{currentExperience.location}</span>
                           </div>
-                          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 dark:text-white leading-none">
-                              {currentExperience.role}
-                          </h1>
-                          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-slate-500 dark:text-gray-400 font-medium">
-                              <div className="flex items-center gap-2">
-                                  <Building2 size={18} className="text-brand" />
-                                  <span className="text-xl">{currentExperience.company}</span>
-                              </div>
-                              {currentExperience.location && (
-                                  <div className="flex items-center gap-2">
-                                      <MapPin size={18} />
-                                      <span>{currentExperience.location}</span>
-                                  </div>
-                              )}
-                          </div>
+                        )}
                       </div>
+                    </div>
                   </div>
                 </RevealOnScroll>
 
                 <div className="mt-12">
-                    <RevealOnScroll>
-                        <section className="space-y-8 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 p-8 md:p-10 rounded-[2.5rem]">
-                            <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
-                                <CheckCircle2 className="text-emerald-500" size={24} />
-                                Key Responsibilities
-                            </h2>
-                            <ul className="space-y-4">
-                                {currentExperience.responsibilities?.slice(0, 4).map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-4 group">
-                                        <div className="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0 group-hover:scale-150 transition-transform" />
-                                        <span className="text-slate-700 dark:text-gray-300 leading-relaxed">{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            
-                            <div className="pt-6 flex justify-start items-center gap-4">
-                                <Link href="/experience">
-                                    <AnimatedButton
-                                        hoverColor="bg-slate-900 dark:bg-white"
-                                        hoverTextColor="group-hover:text-white dark:group-hover:text-black"
-                                    >
-                                        Show All Experience
-                                    </AnimatedButton>
-                                </Link>
-                                <Link href={`/experience/${currentExperience.id}`} className="group flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-brand transition-colors ml-4 cursor-pointer">
-                                    <span>View Details</span>
-                                    <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                </Link>
-                            </div>
-                        </section>
-                    </RevealOnScroll>
+                  <RevealOnScroll>
+                    <section className="space-y-8 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 p-8 md:p-10 rounded-[2.5rem]">
+                      <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
+                        <CheckCircle2 className="text-emerald-500" size={24} />
+                        Key Responsibilities
+                      </h2>
+                      <ul className="space-y-4">
+                        {currentExperience.responsibilities?.slice(0, 4).map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-4 group">
+                            <div className="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0 group-hover:scale-150 transition-transform" />
+                            <span className="text-slate-700 dark:text-gray-300 leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="pt-6 flex justify-start items-center gap-4">
+                        <Link href="/experience">
+                          <AnimatedButton
+                            hoverColor="bg-slate-900 dark:bg-white"
+                            hoverTextColor="group-hover:text-white dark:group-hover:text-black"
+                          >
+                            Show All Experience
+                          </AnimatedButton>
+                        </Link>
+                        <Link href={`/experience/${currentExperience.id}`} className="group flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-brand transition-colors ml-4 cursor-pointer">
+                          <span>View Details</span>
+                          <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </Link>
+                      </div>
+                    </section>
+                  </RevealOnScroll>
                 </div>
               </div>
             </div>

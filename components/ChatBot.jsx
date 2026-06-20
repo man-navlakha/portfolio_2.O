@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bot, X, RefreshCcw, Maximize2, Minimize2, Copy, CheckCheck,
@@ -46,6 +47,13 @@ const KEYFRAMES_CSS = `
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: rgba(156, 163, 175, 0.5);
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 `;
 
@@ -222,6 +230,16 @@ export default function ChatBot() {
   const [mounted, setMounted] = useState(false);
   const [fetchedSuggestionsPath, setFetchedSuggestionsPath] = useState(null);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+
+  const handleSuggestionScroll = (e) => {
+    const scrollLeft = e.target.scrollLeft;
+    const cardWidth = 232; // 220px width + 12px gap
+    const index = Math.max(0, Math.round(scrollLeft / cardWidth));
+    if (index !== activeSuggestionIndex) {
+      setActiveSuggestionIndex(index);
+    }
+  };
 
   // Messages & streaming
   const [messages, setMessages] = useState([]);
@@ -480,7 +498,15 @@ export default function ChatBot() {
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
         fullResponse += chunk;
-        streamBufferRef.current = fullResponse;
+        
+        let cleanBuffer = fullResponse;
+        const sepIdx = cleanBuffer.indexOf('|||SUGGESTIONS|||');
+        if (sepIdx !== -1) {
+          cleanBuffer = cleanBuffer.substring(0, sepIdx);
+        }
+        cleanBuffer = cleanBuffer.replace('[SHOW_HIRE_FORM]', '');
+        
+        streamBufferRef.current = cleanBuffer;
       }
 
       // Stream from API is done — wait for reveal to finish
@@ -653,6 +679,12 @@ export default function ChatBot() {
         <code {...props}>{children}</code>
       </div>
     ),
+    table: ({ node, ...props }) => <div className="overflow-x-auto my-3"><table {...props} className="min-w-full divide-y divide-slate-200 dark:divide-white/10 text-sm border border-slate-200 dark:border-white/10 rounded-lg overflow-hidden block" /></div>,
+    thead: ({ node, ...props }) => <thead {...props} className="bg-slate-50 dark:bg-white/5" />,
+    tbody: ({ node, ...props }) => <tbody {...props} className="divide-y divide-slate-200 dark:divide-white/10" />,
+    tr: ({ node, ...props }) => <tr {...props} />,
+    th: ({ node, ...props }) => <th {...props} className="px-4 py-2.5 text-left text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider" />,
+    td: ({ node, ...props }) => <td {...props} className="px-4 py-2 whitespace-normal text-slate-600 dark:text-gray-300" />,
   };
 
   // ── Get display text for streaming (strip markers) ────────────────────────
@@ -750,15 +782,15 @@ export default function ChatBot() {
 
         {/* ─── Chat Body ─── */}
         <div
-          className={`flex-1 overflow-y-auto custom-scrollbar bg-white dark:bg-black ${isWelcomeState ? 'flex items-center justify-center' : ''}`}
+          className="flex-1 overflow-y-auto custom-scrollbar bg-white dark:bg-black relative"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {isWelcomeState ? (
             /* ── Welcome Screen ── */
-            <div className="flex flex-col items-center justify-center px-6 text-center">
-              <div className="mb-5" style={{ animation: 'sparkle-float 3s ease-in-out infinite' }}>
+            <div className="flex flex-col items-center justify-center min-h-full pb-36 md:pb-32 pt-8 px-6 text-center">
+              <div className="mb-3" style={{ animation: 'sparkle-float 3s ease-in-out infinite' }}>
                 <div className="w-14 h-14 rounded-2xl bg-brand/10 dark:bg-brand/10 flex items-center justify-center">
-                  <Sparkles size={28} className="text-brand" />
+                  <Sparkles size={20} className="text-brand" />
                 </div>
               </div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1.5">
@@ -767,23 +799,39 @@ export default function ChatBot() {
               <p className="text-sm text-slate-500 dark:text-gray-500 mb-8 max-w-[80%]">
                 Ask me anything about his projects, skills, or experience
               </p>
-              <div className="flex flex-col gap-2.5 w-full max-w-[85%] mx-auto">
+              <div
+                className="flex gap-3 overflow-x-auto hide-scrollbar w-full pb-4 px-6 snap-x snap-mandatory items-center min-h-[100px]"
+                onScroll={handleSuggestionScroll}
+              >
                 {isFetchingSuggestions ? (
                   // Animated loaders for suggestions
-                  [1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-[46px] w-full bg-slate-100 dark:bg-white/5 rounded-2xl animate-pulse"></div>
+                  [1, 2, 3, 4].map((i, idx) => (
+                    <div
+                      key={i}
+                      className={`w-[220px] h-[90px] shrink-0 bg-slate-100 dark:bg-white/5 rounded-[20px] animate-pulse snap-center transition-all duration-300 ${idx === activeSuggestionIndex ? 'scale-100 opacity-100' : 'scale-70 opacity-60'}`}
+                    ></div>
                   ))
                 ) : (
                   welcomeSuggestions.map((s, i) => (
                     <button
                       key={i}
                       onClick={() => sendMessage(s)}
-                      className="text-sm text-left border border-slate-200 dark:border-white/10 px-4 py-3 rounded-2xl text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/20 transition-all shadow-sm leading-snug"
+                      className={`text-[13px] text-left border border-slate-200 dark:border-white/10 p-4 rounded-[20px] text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300 shadow-sm leading-relaxed shrink-0 w-[220px] whitespace-normal snap-center flex flex-col justify-start items-start ${i === activeSuggestionIndex ? 'scale-100 opacity-100 bg-white/50 dark:bg-white/5' : 'scale-90 opacity-60'}`}
                     >
                       {s}
                     </button>
                   ))
                 )}
+              </div>
+
+              {/* Pagination Dots */}
+              <div className="flex justify-center gap-1.5 mt-2 mb-4">
+                {(isFetchingSuggestions ? [1, 2, 3, 4] : welcomeSuggestions).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${i === activeSuggestionIndex ? 'w-4 bg-brand' : 'w-1.5 bg-slate-200 dark:bg-slate-700'}`}
+                  />
+                ))}
               </div>
             </div>
           ) : (
@@ -838,7 +886,7 @@ export default function ChatBot() {
                     )}
                     <div className={`text-sm leading-relaxed ${isError ? 'text-red-600 dark:text-red-300' : 'text-slate-700 dark:text-gray-300'}`}>
                       <div className="prose prose-sm dark:prose-invert max-w-none prose-p:mb-2.5 prose-li:leading-relaxed">
-                        <ReactMarkdown components={markdownComponents}>{msg.text}</ReactMarkdown>
+                        <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
                       </div>
                     </div>
 
@@ -865,13 +913,13 @@ export default function ChatBot() {
                         initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.3 }}
-                        className="flex flex-wrap gap-2 mt-4"
+                        className="flex flex-col items-end gap-2 my-4 w-full"
                       >
                         {msg.suggestions.map((s, i) => (
                           <button
                             key={i}
                             onClick={() => sendMessage(s)}
-                            className="text-xs border border-slate-200 dark:border-white/10 px-3.5 py-2 rounded-full text-slate-600 dark:text-gray-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/20 transition-all"
+                            className="text-[13px] border border-[#30af5b] text-[#30af5b] dark:border-[#30af5b] dark:text-[#30af5b] hover:bg-[#30af5b] hover:text-white dark:hover:bg-[#30af5b] dark:hover:text-black px-4 py-2.5 rounded-[18px] rounded-br-sm transition-all max-w-[85%] text-left leading-relaxed font-medium bg-transparent"
                           >
                             {s}
                           </button>
@@ -895,7 +943,7 @@ export default function ChatBot() {
                 >
                   <div className="text-sm leading-relaxed text-slate-700 dark:text-gray-300">
                     <div className="prose prose-sm dark:prose-invert max-w-none prose-p:mb-2.5 prose-li:leading-relaxed">
-                      <ReactMarkdown components={markdownComponents}>
+                      <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>
                         {streamDisplayText}
                       </ReactMarkdown>
                       <BlinkingCursor />
