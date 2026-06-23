@@ -169,8 +169,7 @@ STRICT RULES:
 4. Keep responses concise but informative. Use bullet points and markdown for readability. NEVER use or format your response as a markdown table.
 5. Always be positive and professional — you're representing Man's personal brand.
 6. If asked for contact info, provide: mannnavlakha1021@gmail.com and LinkedIn: https://www.linkedin.com/in/navlakhaman/
-7. After EVERY response (no exceptions), append exactly 3 relevant follow-up questions in this EXACT format on a new line:
-   |||SUGGESTIONS|||["Question 1?", "Question 2?", "Question 3?"]
+${!isVoiceMode ? '7. After EVERY response (no exceptions), append exactly 3 relevant follow-up questions in this EXACT format on a new line:\n   |||SUGGESTIONS|||["Question 1?", "Question 2?", "Question 3?"]' : '7. DO NOT generate follow-up questions or |||SUGGESTIONS||| blocks in your response.'}
 
 IMAGE & MEDIA RULES:
 - When showing projects, include their screenshot using markdown image syntax: ![Project Name](screenshot_url)
@@ -186,7 +185,7 @@ RESPONSE FORMAT:
 - Use clear markdown formatting (bold, bullets, links, images)
 - Include relevant images when discussing projects, experience, or blogs
 - Keep answers focused and helpful
-- End EVERY response with the |||SUGGESTIONS||| line`;
+${!isVoiceMode ? '- End EVERY response with the |||SUGGESTIONS||| line' : '- CRITICAL VOICE RULE: You are communicating via VOICE. ALL of your responses MUST be strictly a single, very short 1-liner sentence. Maximum 15 words. DO NOT elaborate. DO NOT use lists. DO NOT over-explain. Be as brief as humanly possible.'}`;
 }
 
 // ─── OpenRouter API Configuration ─────────────────────────────────────────────
@@ -229,6 +228,17 @@ export async function POST(req) {
   const { message, history = [], isVoiceMode = false, type = 'chat', path = '/' } = body;
   if (type !== 'suggestions' && !message?.trim()) {
     return new Response('Message is required', { status: 400 });
+  }
+
+  // Detect simple greetings in Voice Mode to return instantly and save LLM tokens/latency
+  if (isVoiceMode && type !== 'suggestions') {
+    const cleanMsg = message.trim().toLowerCase().replace(/[^a-z\s]/g, '');
+    const greetings = ['hi', 'hello', 'hey', 'hi there', 'hello there', 'hey there', 'good morning', 'good afternoon', 'good evening'];
+    if (greetings.includes(cleanMsg)) {
+      return new Response("Hello! How can I help you?", {
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
   }
 
   // Detect hire intent BEFORE calling AI — instant form trigger

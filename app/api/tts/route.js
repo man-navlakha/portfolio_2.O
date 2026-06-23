@@ -8,48 +8,26 @@ export async function POST(req) {
       return NextResponse.json({ error: 'No text provided' }, { status: 400 });
     }
 
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-    if (!GEMINI_API_KEY) {
-      return NextResponse.json({ error: 'Gemini API key is missing' }, { status: 500 });
-    }
+    const url = `https://tts-production-57ce.up.railway.app/tts/live?text=${encodeURIComponent(text)}&voice=af_heart&lang_code=a`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text }] }],
-        generationConfig: {
-          responseModalities: ["AUDIO"],
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: {
-                voiceName: "Puck" // High-quality, warm, conversational voice
-              }
-            }
-          }
-        }
-      }),
-    });
+    const response = await fetch(url);
 
     if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini TTS Error: ${response.status} ${errText}`);
+      throw new Error(`Kokoro TTS Error: ${response.status}`);
     }
 
-    const data = await response.json();
-    const base64Audio = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    const arrayBuffer = await response.arrayBuffer();
 
-    if (!base64Audio) {
-      throw new Error('No audio data received from Gemini TTS');
-    }
-
-    // Return the base64 audio to the client
-    return NextResponse.json({ audioBase64: base64Audio });
+    return new NextResponse(arrayBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'audio/wav',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      },
+    });
     
   } catch (error) {
-    console.error('TTS generation failed:', error);
+    console.error('Kokoro TTS generation failed:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

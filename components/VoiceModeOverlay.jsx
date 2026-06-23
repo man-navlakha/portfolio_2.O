@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, MicOff, Mic, Phone } from 'lucide-react';
 import VoiceOrb from './VoiceOrb';
+import HireForm from './HireForm';
 
 const OVERLAY_CSS = `
 .voice-overlay-glass {
@@ -48,6 +49,16 @@ function stripMarkdown(text) {
     .trim();
 }
 
+function getCompleteSpeechText(text) {
+  if (!text) return '';
+
+  const boundaryMatches = [...text.matchAll(/[.!?](?=\s|$)/g)];
+  if (boundaryMatches.length === 0) return '';
+
+  const lastBoundary = boundaryMatches[boundaryMatches.length - 1];
+  return text.slice(0, lastBoundary.index + 1).trim();
+}
+
 export default function VoiceModeOverlay({
   isOpen,
   onClose,
@@ -55,6 +66,9 @@ export default function VoiceModeOverlay({
   onSendMessage,
   isProcessing,
   streamingText,
+  showHireForm = false,
+  onCloseHireForm,
+  onHireSuccess,
 }) {
   const {
     isListening,
@@ -87,6 +101,16 @@ export default function VoiceModeOverlay({
   const lastStreamingTextRef = useRef('');
   const hasSpokeRef = useRef(false);
   const processedTextLengthRef = useRef(0);
+  const showHireFormRef = useRef(showHireForm);
+
+  useEffect(() => {
+    showHireFormRef.current = showHireForm;
+    if (showHireForm) {
+      stopListening();
+      setPhase('idle');
+      setStatusText('Project inquiry');
+    }
+  }, [showHireForm, stopListening]);
 
   // ─── Auto-start listening when overlay opens ────────────────────────────
   useEffect(() => {
@@ -152,21 +176,23 @@ export default function VoiceModeOverlay({
     if (streamingText && isProcessingRef.current) {
       lastStreamingTextRef.current = streamingText;
 
-      // Look for completed sentences in the newly arrived text
-      const newText = streamingText.slice(processedTextLengthRef.current);
-      // Regex matches up to the last sentence boundary (. ! ? \n) followed by a space or end of string
-      const match = newText.match(/^[\s\S]*[.!?\n](?=\s|$)/);
-      if (match) {
-         const sentenceToSpeak = match[0];
-         processedTextLengthRef.current += sentenceToSpeak.length;
-         addToSpeechQueue(sentenceToSpeak);
-      }
-
       const clean = stripMarkdown(streamingText);
       if (clean) {
         setPhase('speaking');
         setStatusText('Speaking...');
         setDisplayText(clean);
+
+        const completeText = getCompleteSpeechText(clean);
+        if (completeText.length > processedTextLengthRef.current) {
+          const nextSpeechText = completeText
+            .slice(processedTextLengthRef.current)
+            .trim();
+
+          if (nextSpeechText) {
+            addToSpeechQueue(nextSpeechText);
+            processedTextLengthRef.current = completeText.length;
+          }
+        }
       }
     }
   }, [streamingText, addToSpeechQueue]);
@@ -176,14 +202,17 @@ export default function VoiceModeOverlay({
     if (!isProcessing && isProcessingRef.current && lastTranscriptRef.current && !hasSpokeRef.current) {
       hasSpokeRef.current = true;
 
-      // Feed any remaining text that wasn't matched as a full sentence
       const savedText = lastStreamingTextRef.current;
-      const remainingText = savedText.slice(processedTextLengthRef.current);
-      if (remainingText.trim()) {
-         addToSpeechQueue(remainingText);
-      }
-      
       const cleanText = stripMarkdown(savedText);
+
+      const remainingText = cleanText
+        .slice(processedTextLengthRef.current)
+        .trim();
+      if (remainingText) {
+        addToSpeechQueue(remainingText);
+        processedTextLengthRef.current = cleanText.length;
+      }
+
       if (cleanText) {
         setPhase('speaking');
         setStatusText('Speaking...');
@@ -191,6 +220,17 @@ export default function VoiceModeOverlay({
       }
 
       finalizeSpeechQueue(() => {
+        if (showHireFormRef.current) {
+          isProcessingRef.current = false;
+          lastTranscriptRef.current = '';
+          lastStreamingTextRef.current = '';
+          processedTextLengthRef.current = 0;
+          hasSpokeRef.current = false;
+          setPhase('idle');
+          setStatusText('Project inquiry');
+          return;
+        }
+
         // After speaking completes — auto-listen for next turn
         isProcessingRef.current = false;
         lastTranscriptRef.current = '';
@@ -218,8 +258,9 @@ export default function VoiceModeOverlay({
     processedTextLengthRef.current = 0;
     hasSpokeRef.current = false;
     setPhase('idle');
+    onCloseHireForm?.();
     onClose();
-  }, [playAudioTone, stopListening, stopSpeaking, resetTranscript, onClose]);
+  }, [playAudioTone, stopListening, stopSpeaking, resetTranscript, onClose, onCloseHireForm]);
 
   // ─── Handle mic toggle ────────────────────────────────────────────────
   const handleMicToggle = useCallback(() => {
@@ -296,7 +337,7 @@ export default function VoiceModeOverlay({
             </motion.button>
           </div>
 
-          {/* ─── Center — Orb + Status + Transcript ─── */}
+          {/* ─── Center — Orb/Form + Status + Transcript ─── */}
           <div className="flex-1 flex flex-col items-center justify-center px-6 min-h-0">
             {/* Status text */}
             <motion.div
@@ -311,57 +352,73 @@ export default function VoiceModeOverlay({
               </p>
             </motion.div>
 
-            {/* Orb */}
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 20 }}
-              className="shrink-0"
-            >
-              <VoiceOrb mode={orbMode} volume={volume} size={110} />
-            </motion.div>
+            {showHireForm ? (
+              <motion.div
+                initial={{ opacity: 0, y: 14, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.25 }}
+                className="w-full max-w-md"
+              >
+                <HireForm
+                  onClose={onCloseHireForm}
+                  onSuccess={onHireSuccess}
+                />
+              </motion.div>
+            ) : (
+              <>
+                {/* Orb */}
+                <motion.div
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 20 }}
+                  className="shrink-0"
+                >
+                  <VoiceOrb mode={orbMode} volume={volume} size={110} />
+                </motion.div>
 
-            {/* Transcript / Response display */}
-            <div className="w-full max-w-md mt-4 min-h-[60px] max-h-[140px] overflow-y-auto voice-scrollbar">
-              <AnimatePresence mode="wait">
-                {displayText && (
-                  <motion.div
-                    key={phase + '-text'}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-center px-4"
-                  >
-                    <p className={`text-sm leading-relaxed ${phase === 'listening'
-                      ? 'text-slate-800 dark:text-white/90'
-                      : phase === 'thinking'
-                        ? 'text-purple-600 dark:text-purple-300/70'
-                        : 'text-cyan-700 dark:text-cyan-200/70'
-                      }`}>
-                      {displayText}
-                      {phase === 'listening' && interimTranscript && (
-                        <span className="text-slate-400 dark:text-white/30"> {interimTranscript}</span>
-                      )}
-                    </p>
-                  </motion.div>
-                )}
+                {/* Transcript / Response display */}
+                <div className="w-full max-w-md mt-4 min-h-[60px] max-h-[140px] overflow-y-auto voice-scrollbar">
+                  <AnimatePresence mode="wait">
+                    {displayText && (
+                      <motion.div
+                        key={phase + '-text'}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-center px-4"
+                      >
+                        <p className={`text-sm leading-relaxed ${phase === 'listening'
+                          ? 'text-slate-800 dark:text-white/90'
+                          : phase === 'thinking'
+                            ? 'text-purple-600 dark:text-purple-300/70'
+                            : 'text-cyan-700 dark:text-cyan-200/70'
+                          }`}>
+                          {displayText}
+                          {phase === 'listening' && interimTranscript && (
+                            <span className="text-slate-400 dark:text-white/30"> {interimTranscript}</span>
+                          )}
+                        </p>
+                      </motion.div>
+                    )}
 
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center px-4"
-                  >
-                    <p className="text-xs text-red-500 dark:text-red-400/80">{error}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                    {error && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-center px-4"
+                      >
+                        <p className="text-xs text-red-500 dark:text-red-400/80">{error}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </>
+            )}
           </div>
 
           {/* ─── Bottom controls ─── */}
-          <div className="shrink-0 flex flex-col items-center gap-4 pb-8 pt-4 px-6">
+          {!showHireForm && <div className="shrink-0 flex flex-col items-center gap-4 pb-8 pt-4 px-6">
             <div className="flex items-center gap-4">
               {/* Mic toggle button */}
               <motion.button
@@ -435,7 +492,7 @@ export default function VoiceModeOverlay({
                 </select>
               </motion.div>
             )}
-          </div>
+          </div>}
         </motion.div>
       </AnimatePresence>
     </>

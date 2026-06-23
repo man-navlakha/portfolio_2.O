@@ -34,6 +34,8 @@ export default function useVoiceMode() {
   const isSpeakingRef = useRef(false);
   const selectedDeviceIdRef = useRef('');
   const ttsQueueRef = useRef([]);
+  const audioElementRef = useRef(null); // Reference to native HTML Audio
+  const prefetchedAudioRef = useRef(null);
 
   // ─── Tone Generator ─────────────────────────────────────────────────────
   const playAudioTone = useCallback((type) => {
@@ -390,52 +392,41 @@ export default function useVoiceMode() {
     setIsSpeaking(false);
     onSpeakEndCallbackRef.current = null;
     
-    // Stop Web Audio playback if it's running
-    if (audioContextRef.current) {
-      try {
-        // Suspend current context and create a new one to cleanly stop all sources
-        audioContextRef.current.close().catch(() => {});
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        audioContextRef.current = audioContext;
-        
-        // Re-connect mic analyser if mic is active
-        if (micStreamRef.current) {
-          const source = audioContext.createMediaStreamSource(micStreamRef.current);
-          const analyser = audioContext.createAnalyser();
-          analyser.fftSize = 256;
-          analyser.smoothingTimeConstant = 0.8;
-          source.connect(analyser);
-          analyserRef.current = analyser;
-        }
-      } catch (e) {
-        console.warn('Failed to reset audio context:', e);
-      }
+    // Stop native HTML Audio playback if it's running
+    if (audioElementRef.current) {
+      audioElementRef.current.pause();
+      audioElementRef.current.src = '';
+      audioElementRef.current = null;
+    }
+
+    if (prefetchedAudioRef.current?.audio) {
+      prefetchedAudioRef.current.audio.pause();
+      prefetchedAudioRef.current.audio.src = '';
+      prefetchedAudioRef.current = null;
     }
   }, []);
 
-  // ─── Seamless PCM Audio Speaking (Web Audio Queue) ─────────────────────
-  // Helper to decode Base64 to ArrayBuffer
-  const base64ToArrayBuffer = (base64) => {
-    const binaryString = window.atob(base64);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes.buffer;
-  };
+  const createTtsAudio = useCallback((textChunk) => {
+    const url = `https://tts-production-57ce.up.railway.app/tts/live?text=${encodeURIComponent(textChunk)}&voice=af_heart&lang_code=a`;
+    const audio = new window.Audio(url);
+    audio.preload = 'auto';
+    return audio;
+  }, []);
 
-  // Helper to convert L16 PCM (16-bit signed integer) to Float32Array
-  const int16ToFloat32 = (int16Array) => {
-    const float32Array = new Float32Array(int16Array.length);
-    for (let i = 0; i < int16Array.length; i++) {
-      const int = int16Array[i];
-      // If the high bit is on, it's a negative number, convert using 2's complement
-      const signed = int > 0x7FFF ? int - 0x10000 : int;
-      float32Array[i] = signed / 0x8000;
+  const prefetchNextAudio = useCallback(() => {
+    if (prefetchedAudioRef.current || ttsQueueRef.current.length === 0) return;
+
+    const nextText = ttsQueueRef.current[0];
+    const audio = createTtsAudio(nextText);
+    prefetchedAudioRef.current = { text: nextText, audio };
+
+    try {
+      audio.load();
+    } catch (err) {
+      console.warn('Audio prefetch failed:', err);
+      prefetchedAudioRef.current = null;
     }
-    return float32Array;
-  };
+  }, [createTtsAudio]);
 
   const processSpeechQueue = useCallback(async () => {
     if (isSpeakingRef.current) return;
@@ -463,47 +454,47 @@ export default function useVoiceMode() {
     setIsSpeaking(true);
     
     const textChunk = ttsQueueRef.current.shift();
+    let audio = null;
+
+    if (prefetchedAudioRef.current?.text === textChunk) {
+      audio = prefetchedAudioRef.current.audio;
+      prefetchedAudioRef.current = null;
+    } else {
+      if (prefetchedAudioRef.current?.audio) {
+        prefetchedAudioRef.current.audio.pause();
+        prefetchedAudioRef.current.audio.src = '';
+      }
+      prefetchedAudioRef.current = null;
+      audio = createTtsAudio(textChunk);
+    }
+
+    prefetchNextAudio();
 
     try {
-      // Fetch the TTS base64 audio for this chunk
-      const res = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: textChunk })
-      });
-      
-      if (!res.ok) throw new Error('Failed to fetch TTS');
-      const data = await res.json();
-      const base64Chunk = data.audioBase64;
-      if (!base64Chunk) throw new Error('No audio returned');
+      // Store reference to stop it if user closes voice mode
+      audioElementRef.current = audio;
 
-      // Decode the Gemini L16 PCM at 24000Hz base64 chunk
-      const arrayBuffer = base64ToArrayBuffer(base64Chunk);
-      
-      // Gemini sends 16-bit little-endian PCM
-      const int16Array = new Int16Array(arrayBuffer);
-      const float32Array = int16ToFloat32(int16Array);
-
-      const audioBuffer = ctx.createBuffer(1, float32Array.length, 24000);
-      audioBuffer.copyToChannel(float32Array, 0);
-
-      const source = ctx.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(ctx.destination);
-
-      source.onended = () => {
+      audio.onended = () => {
+        audioElementRef.current = null;
         isSpeakingRef.current = false;
         processSpeechQueue(); // play next chunk
       };
 
-      source.start();
+      audio.onerror = (e) => {
+        console.error('Audio playback error:', e);
+        audioElementRef.current = null;
+        isSpeakingRef.current = false;
+        processSpeechQueue(); // Fallback to next chunk
+      };
+
+      // Play instantly as it streams
+      await audio.play();
     } catch (err) {
-      console.error('Audio playback error:', err);
-      // Fallback: If TTS fails, at least don't freeze the queue
+      console.error('Audio initialization error:', err);
       isSpeakingRef.current = false;
       processSpeechQueue(); 
     }
-  }, []);
+  }, [createTtsAudio, prefetchNextAudio]);
 
   function cleanTextForSpeech(text) {
     return text
@@ -523,6 +514,9 @@ export default function useVoiceMode() {
       .replace(/\bi\.e\./gi, 'that is')
       .replace(/\betc\./gi, 'etcetera')
       .replace(/\bvs\./gi, 'versus')
+      .replace(/\bMan\b/g, 'Mun')       // Phonetic fix for TTS pronunciation
+      .replace(/\bMan's\b/g, "Mun's")   // Phonetic fix for TTS pronunciation
+      .replace(/\bMan\./g, 'Mun.')      // Phonetic fix for TTS pronunciation
       .replace(/\n{2,}/g, '. ')
       .replace(/\n/g, ' ')
       .replace(/\s{2,}/g, ' ')
@@ -533,31 +527,61 @@ export default function useVoiceMode() {
     const cleanText = cleanTextForSpeech(text);
     if (!cleanText) return;
 
-    // Split into sentences for smoother delivery — smaller chunks = more responsive
-    const sentences = cleanText
-      .split(/(?<=[.!?])\s+/)
-      .filter(s => s.trim().length > 2); // Skip tiny fragments
-
-    if (sentences.length === 0) return;
-
-    // Group very short sentences together (sounds more natural than pausing after 3 words)
-    const grouped = [];
-    let buffer = '';
-    for (const sentence of sentences) {
-      if (buffer.length + sentence.length < 80) {
-        buffer += (buffer ? ' ' : '') + sentence;
-      } else {
-        if (buffer) grouped.push(buffer);
-        buffer = sentence;
+    // Kokoro can silently drop characters near its sequence limit, so stay under
+    // the risky range while avoiding tiny fragments that create extra requests.
+    const MAX_LEN = 145;
+    const MIN_COMBINE_LEN = 45;
+    
+    if (cleanText.length <= MAX_LEN) {
+      ttsQueueRef.current.push(cleanText);
+    } else {
+      // 1. Try splitting by sentence boundaries
+      let parts = cleanText.split(/(?<=[.!?])\s+/);
+      
+      const safeChunks = [];
+      for (let part of parts) {
+        if (part.trim().length === 0) continue;
+        
+        if (part.length <= MAX_LEN) {
+          safeChunks.push(part);
+        } else {
+          // 2. If a single sentence is STILL too long, split by commas, semicolons, or conjunctions
+          let subParts = part.split(/(?<=[,;:])\s+|(?=\b(?:and|or|but|because|offering|which|that)\b)/i);
+          let temp = '';
+          for (let sub of subParts) {
+            if (temp.length + sub.length < MAX_LEN) {
+              temp += (temp ? ' ' : '') + sub;
+            } else {
+              if (temp) safeChunks.push(temp.trim());
+              temp = sub;
+            }
+          }
+          if (temp) safeChunks.push(temp.trim());
+        }
       }
+      
+      // Combine tiny chunks so we don't spam the API with 3-word requests.
+      const finalChunks = [];
+      let buffer = '';
+      for (let c of safeChunks) {
+        if (buffer.length < MIN_COMBINE_LEN && buffer.length + c.length < MAX_LEN) {
+          buffer += (buffer ? ' ' : '') + c;
+        } else {
+          if (buffer) finalChunks.push(buffer);
+          buffer = c;
+        }
+      }
+      if (buffer) finalChunks.push(buffer);
+      
+      ttsQueueRef.current.push(...finalChunks);
     }
-    if (buffer) grouped.push(buffer);
 
-    ttsQueueRef.current.push(...grouped);
     if (!isSpeakingRef.current) {
       processSpeechQueue();
+    } else {
+      prefetchNextAudio();
     }
-  }, [processSpeechQueue]);
+  }, [processSpeechQueue, prefetchNextAudio]);
 
   const finalizeSpeechQueue = useCallback((onEnd) => {
     onSpeakEndCallbackRef.current = onEnd || null;
