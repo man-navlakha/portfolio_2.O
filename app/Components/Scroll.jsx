@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image';
 
 const Scroll = () => {
   return (
@@ -46,10 +47,11 @@ const Scroll = () => {
               className="inline-flex items-center gap-2 rounded-3xl border border-slate-200 dark:border-white/10 px-6 py-2 text-sm shadow-sm dark:shadow-none bg-white dark:bg-[#1a1a1a] text-slate-900 dark:text-white break-keep whitespace-pre transition-colors"
             >
               <div className="relative flex h-6 w-6 whitespace-pre">
-                <img
+                <Image
                   alt={skill.name}
                   loading="lazy"
                   decoding="async"
+                  fill
                   className="object-contain h-full w-full"
                   src={skill.src}
                 />

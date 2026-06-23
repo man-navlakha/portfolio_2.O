@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Calendar, Clock } from 'lucide-react';
 import RevealOnScroll from '../Components/ui/RevealOnScroll';
 import ShinyText from '../../components/ShinyText';
@@ -47,9 +48,10 @@ export default function BlogClient({ blogs }) {
                                         {/* Image Container */}
                                         {blog.img_link && (
                                             <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-white/5 shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] group-hover:-translate-y-2">
-                                                <img
+                                                <Image
                                                     src={blog.img_link}
                                                     alt={blog.title}
+                                                    fill
                                                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                                 />
                                                 {/* Overlay */}

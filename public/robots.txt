@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://man-navlakha.netlify.app/
+
+# Sitemaps
+Sitemap: https://man-navlakha.netlify.app/sitemap.xml

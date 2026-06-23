@@ -136,7 +136,6 @@ export default function useVoiceMode() {
     for (const name of premiumPatterns) {
       const match = voices.find(v => v.name.includes(name));
       if (match) {
-        console.log('🎙️ Voice selected:', match.name);
         return match;
       }
     }
@@ -147,7 +146,6 @@ export default function useVoiceMode() {
       (v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Premium') || v.name.includes('Enhanced'))
     );
     if (neuralVoice) {
-      console.log('🎙️ Voice selected (neural):', neuralVoice.name);
       return neuralVoice;
     }
 
@@ -156,7 +154,6 @@ export default function useVoiceMode() {
     for (const name of macVoices) {
       const match = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
       if (match) {
-        console.log('🎙️ Voice selected (mac):', match.name);
         return match;
       }
     }
@@ -166,11 +163,9 @@ export default function useVoiceMode() {
       v.lang.startsWith('en') && !v.name.toLowerCase().includes('espeak')
     );
     if (englishVoice) {
-      console.log('🎙️ Voice selected (en fallback):', englishVoice.name);
       return englishVoice;
     }
 
-    console.log('🎙️ Voice selected (last resort):', voices[0]?.name);
     return voices[0];
   }
 
@@ -246,6 +241,25 @@ export default function useVoiceMode() {
       startAudioAnalysis();
     }
   }, [cleanupAudio, startAudioAnalysis]);
+
+  // ─── Internal stop (used by silence timer) ──────────────────────────────
+  const stopListeningInternal = useCallback(() => {
+    isListeningRef.current = false;
+    setIsListening(false);
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+    if (recognitionRef.current) {
+      try {
+        restartingRef.current = false;
+        recognitionRef.current.abort(); // Abort instead of stop to immediately kill it
+      } catch (e) { /* ignore */ }
+      recognitionRef.current = null;
+    }
+    cleanupAudio();
+    setInterimTranscript('');
+  }, [cleanupAudio]);
 
   // ─── Start Listening (STT) ─────────────────────────────────────────────
   const startListening = useCallback(() => {
@@ -359,27 +373,7 @@ export default function useVoiceMode() {
       console.error('Failed to start recognition:', err);
       setError('Failed to start speech recognition');
     }
-  }, [startAudioAnalysis]);
-
-  // ─── Internal stop (used by silence timer) ──────────────────────────────
-  const stopListeningInternal = useCallback(() => {
-    isListeningRef.current = false;
-    setIsListening(false);
-    if (silenceTimerRef.current) {
-      clearTimeout(silenceTimerRef.current);
-      silenceTimerRef.current = null;
-    }
-    if (recognitionRef.current) {
-      try {
-        restartingRef.current = false;
-        recognitionRef.current.abort(); // Abort instead of stop to immediately kill it
-      } catch (e) { /* ignore */ }
-      recognitionRef.current = null;
-    }
-    cleanupAudio();
-    setInterimTranscript('');
-  }, [cleanupAudio]);
-
+  }, [startAudioAnalysis, stopListeningInternal]);
   // ─── Stop Listening (STT) — public ─────────────────────────────────────
   const stopListening = useCallback(() => {
     stopListeningInternal();

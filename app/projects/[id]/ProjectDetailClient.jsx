@@ -3,6 +3,7 @@
 import React from 'react';
 import RevealOnScroll from '@/app/Components/ui/RevealOnScroll';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
     ArrowLeft,
     ExternalLink,
@@ -93,7 +94,7 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                 <div className="flex flex-col md:flex-row md:items-center gap-6">
                                     {project.logo && (
                                         <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-2 shrink-0">
-                                            <img src={project.logo} alt={`${project.title} logo`} className="w-full h-full object-contain" />
+                                            <Image src={project.logo} alt={`${project.title} logo`} width={80} height={80} className="w-full h-full object-contain" />
                                         </div>
                                     )}
                                     <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-slate-900 to-slate-500 dark:from-white dark:to-white/40 bg-clip-text text-transparent">
@@ -111,9 +112,10 @@ export default function ProjectDetailClient({ project: initialProject }) {
                         {project.image && (
                             <RevealOnScroll delay={300}>
                                 <div className={`w-full aspect-video rounded-[2rem] overflow-hidden ${project.color || 'bg-slate-100 dark:bg-white/5'} relative shadow-2xl group`}>
-                                    <img
+                                    <Image
                                         src={project.image}
                                         alt={project.title}
+                                        fill
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -190,10 +192,11 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                     </div>
                                     <div className="grid md:grid-cols-2 gap-6">
                                         {project.designScreens.map((screen, idx) => (
-                                            <div key={idx} className="aspect-[4/3] rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 group">
-                                                <img
+                                            <div key={idx} className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 group">
+                                                <Image
                                                     src={screen}
                                                     alt={`${project.title} screen ${idx + 1}`}
+                                                    fill
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                 />
                                             </div>
@@ -259,7 +262,7 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                                 <div className="absolute top-0 right-0 p-4 text-[10px] text-slate-500 uppercase tracking-widest pointer-events-none">
                                                     Step {idx + 1}
                                                 </div>
-                                                <div className="text-emerald-400 mb-2">// {step.step}</div>
+                                                <div className="text-emerald-400 mb-2">{`// ${step.step}`}</div>
                                                 <div className="flex items-center justify-between gap-4">
                                                     <code className="text-slate-300 break-all">{step.command}</code>
                                                 </div>
@@ -537,9 +540,10 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                     <Link key={relatedP.id} href={`/projects/${relatedP.id}`} className="group block">
                                         <div className="aspect-video rounded-2xl overflow-hidden bg-slate-100 dark:bg-white/5 mb-4 relative">
                                             {relatedP.image && (
-                                                <img
+                                                <Image
                                                     src={relatedP.image}
                                                     alt={relatedP.title}
+                                                    fill
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                 />
                                             )}

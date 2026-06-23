@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react'
 import { ArrowUpRight, Download, Brain, PenTool, Code2, Rocket, ShieldCheck, Sparkles, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 import CallToAction from '../Components/CallToAction';
 import RevealOnScroll from '../Components/ui/RevealOnScroll';
 import AnimatedButton from '../Components/ui/AnimatedButton';
@@ -94,7 +95,7 @@ const ContactClient = () => {
                             </div>
 
                             <h1 className="text-5xl md:text-6xl font-bold mb-16 max-w-2xl leading-tight text-slate-900 dark:text-white">
-                                Let's start a project together
+                                Let&apos;s start a project together
                             </h1>
                         </RevealOnScroll>
 
@@ -201,16 +202,17 @@ const ContactClient = () => {
                                             shineColor="#000000" text="Available for work" /></span>
                                     </div>
 
-                                    <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-2 border-slate-200 dark:border-white/10">
-                                        <img
+                                    <div className="relative w-20 h-20 rounded-full overflow-hidden mb-6 border-2 border-slate-200 dark:border-white/10">
+                                        <Image
                                             src="https://ik.imagekit.io/pxc/mannavlakha/t-man-removebg.png?updatedAt=1755338197921"
                                             alt="Profile"
+                                            fill
                                             className="w-full h-full object-cover bg-[#f0f0f0] dark:bg-[#1a1a1a]"
                                         />
                                     </div>
 
                                     <p className="text-slate-600 dark:text-gray-400 leading-relaxed mb-8">
-                                        My inbox is always open. Whether you have a project or just want to say Hi. I would love to hear from you. Feel free to contact me and I'll get back to you.
+                                        My inbox is always open. Whether you have a project or just want to say Hi. I would love to hear from you. Feel free to contact me and I&apos;ll get back to you.
                                     </p>
 
                                     <div className="flex items-center gap-6">

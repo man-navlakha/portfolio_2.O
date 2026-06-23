@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowUpRight, Calendar, Clock } from "lucide-react";
 import fs from "fs";
 import path from "path";
@@ -167,9 +168,10 @@ export default async function BlogPost({ params }) {
             {/* Hero Image */}
             {blogMeta.img_link && (
               <div className="relative w-full aspect-video rounded-[2.5rem] overflow-hidden mb-16 bg-slate-100 dark:bg-white/5 shadow-2xl">
-                <img
+                <Image
                   src={blogMeta.img_link}
                   alt={blogMeta.title}
+                  fill
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -201,9 +203,10 @@ export default async function BlogPost({ params }) {
                         {/* Image */}
                         {post.img_link && (
                           <div className="relative aspect-[16/10] rounded-[2rem] overflow-hidden bg-slate-100 dark:bg-white/5 shadow-lg transition-transform duration-700 group-hover:scale-[1.02] group-hover:-translate-y-1">
-                            <img
+                            <Image
                               src={post.img_link}
                               alt={post.title}
+                              fill
                               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

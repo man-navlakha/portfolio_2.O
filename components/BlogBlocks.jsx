@@ -149,9 +149,11 @@ function ImageBlock({ data }) {
   return (
     <div className="flex flex-col gap-3 my-4">
       <div className="relative w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-white/10">
-        <img
+        <Image
           src={data.src}
           alt={data.alt || "Blog Image"}
+          width={800}
+          height={400}
           className="w-full h-auto object-cover"
         />
       </div>

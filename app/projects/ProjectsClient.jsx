@@ -6,6 +6,7 @@ import RevealOnScroll from "../Components/ui/RevealOnScroll";
 import ShinyText from '../../components/ShinyText';
 import { useProjects } from '@/app/context/ProjectContext';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Globe, Zap, Figma, Code, Layout as LayoutIcon } from 'lucide-react';
 
 export default function ProjectsClient() {
@@ -88,9 +89,10 @@ export default function ProjectsClient() {
                                         {/* Image Container */}
                                         <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-white/5 shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] group-hover:-translate-y-2">
                                             {project.image ? (
-                                                <img
+                                                <Image
                                                     src={project.image}
                                                     alt={project.title}
+                                                    fill
                                                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                                 />
                                             ) : (

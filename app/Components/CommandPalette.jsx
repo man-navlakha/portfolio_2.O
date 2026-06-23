@@ -155,7 +155,7 @@ export default function CommandPalette() {
 
     useEffect(() => {
         if (isOpen) {
-            setSelectedIndex(0);
+            setTimeout(() => setSelectedIndex(0), 0);
             setTimeout(() => inputRef.current?.focus(), 10);
             document.body.style.overflow = 'hidden';
         } else {
@@ -208,7 +208,7 @@ export default function CommandPalette() {
                             <div className="max-h-[60vh] overflow-y-auto p-2 scrollbar-hide">
                                 {filteredCommands.length === 0 ? (
                                     <div className="py-12 text-center">
-                                        <p className="text-slate-400 dark:text-gray-500 text-sm">No commands found for "{search}"</p>
+                                        <p className="text-slate-400 dark:text-gray-500 text-sm">No commands found for &quot;{search}&quot;</p>
                                     </div>
                                 ) : (
                                     categories.map(category => (

@@ -17,7 +17,7 @@ export default function Navbar() {
 
   // Handle hydration mismatch
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
   }, []);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { useExperience } from '@/app/context/ExperienceContext';
 import { useRouter } from 'next/navigation';
 import RevealOnScroll from '@/app/Components/ui/RevealOnScroll';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
     ArrowLeft,
     Calendar,
@@ -71,7 +72,7 @@ export default function ExperienceDetailClient({ id }) {
         <div className="min-h-screen bg-[#fafafa] dark:bg-[#050505] text-slate-900 dark:text-white pt-32 pb-24 px-4 md:px-6 relative overflow-hidden">
             {/* Large Background Logo Watermark */}
             <div className="absolute -left-20 top-40 opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none rotate-12 hidden lg:block">
-                <img src={experience.logo} alt="" className="w-[500px] h-[500px] object-contain grayscale" />
+                <Image src={experience.logo} alt="" width={500} height={500} className="object-contain grayscale" />
             </div>
 
             <div className="max-w-4xl mx-auto relative z-10">
@@ -95,7 +96,7 @@ export default function ExperienceDetailClient({ id }) {
                     <RevealOnScroll delay={200}>
                         <div className="flex flex-col md:flex-row md:items-center gap-10 md:gap-14 border-b border-slate-200 dark:border-white/10 pb-16">
                             <div className="w-32 h-32 md:w-52 md:h-52 rounded-[2.5rem] overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 md:p-10 shrink-0 flex items-center justify-center shadow-2xl group/logo hover:scale-105 transition-transform duration-500">
-                                <img src={experience.logo} alt={experience.company} className="w-full h-full object-contain group-hover/logo:scale-110 transition-transform duration-700" />
+                                <Image src={experience.logo} alt={experience.company} width={208} height={208} className="w-full h-full object-contain group-hover/logo:scale-110 transition-transform duration-700" />
                             </div>
                             <div className="space-y-4">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-[10px] font-bold uppercase tracking-widest">

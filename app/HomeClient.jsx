@@ -12,6 +12,7 @@ import Scroll from './Components/Scroll';
 import { useProjects } from '@/app/context/ProjectContext';
 import { useExperience } from '@/app/context/ExperienceContext';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home({ topBlogs = [] }) {
   const { projects, loading } = useProjects();
@@ -118,7 +119,7 @@ export default function Home({ topBlogs = [] }) {
                 <RevealOnScroll delay={200}>
                   <div className="flex flex-col md:flex-row md:items-center gap-10 md:gap-14 border-b border-slate-200 dark:border-white/10 pb-16 pt-6">
                     <div className="w-32 h-32 md:w-52 md:h-52 rounded-[2.5rem] overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 md:p-10 shrink-0 flex items-center justify-center shadow-2xl group/logo hover:scale-105 transition-transform duration-500">
-                      <img src={currentExperience.logo} alt={currentExperience.company} className="w-full h-full object-contain group-hover/logo:scale-110 transition-transform duration-700" />
+                      <Image src={currentExperience.logo} alt={currentExperience.company} width={128} height={128} className="w-full h-full object-contain group-hover/logo:scale-110 transition-transform duration-700" />
                     </div>
                     <div className="space-y-4">
                       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-[10px] font-bold uppercase tracking-widest">
@@ -192,7 +193,7 @@ export default function Home({ topBlogs = [] }) {
               </div>
 
               <h2 className="text-5xl md:text-6xl font-bold mb-4 text-slate-900 font-primary dark:text-white">Selected Projects</h2>
-              <p className="text-slate-600 dark:text-gray-400 text-lg mb-16">Here's a curated selection showcasing my expertise and the achieved results.</p>
+              <p className="text-slate-600 dark:text-gray-400 text-lg mb-16">Here&apos;s a curated selection showcasing my expertise and the achieved results.</p>
             </RevealOnScroll>
 
             <div className="grid md:grid-cols-2 gap-x-8 gap-y-16">
@@ -201,9 +202,10 @@ export default function Home({ topBlogs = [] }) {
                   <Link href={`/projects/${project.id}`}>
                     <div className="group cursor-pointer">
                       <div className={`aspect-[4/3] rounded-3xl overflow-hidden mb-6 ${project.color} relative`}>
-                        <img
+                        <Image
                           src={project.image}
                           alt={project.title}
+                          fill
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>
@@ -221,7 +223,7 @@ export default function Home({ topBlogs = [] }) {
             </div>
 
             <RevealOnScroll>
-              <a href="/projects">
+              <Link href="/projects">
                 <div className="flex justify-center mt-16">
                   <AnimatedButton
                     hoverColor="bg-slate-900 dark:bg-white"
@@ -230,7 +232,7 @@ export default function Home({ topBlogs = [] }) {
                     View All Projects
                   </AnimatedButton>
                 </div>
-              </a>
+              </Link>
             </RevealOnScroll>
           </div>
         </section>
@@ -287,10 +289,11 @@ export default function Home({ topBlogs = [] }) {
 
               <RevealOnScroll delay={200}>
                 <div className="relative aspect-video rounded-3xl overflow-hidden bg-gray-200 dark:bg-gray-900">
-                  <img
+                  <Image
                     key={activeExpertise}
                     src={expertiseImages[activeExpertise]}
                     alt="Expertise"
+                    fill
                     className="w-full h-full object-cover opacity-80 animate-fade-in transition-all duration-500"
                   />
                 </div>
@@ -324,9 +327,10 @@ export default function Home({ topBlogs = [] }) {
                       <div className="group relative transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]">
                         {blog.img_link && (
                           <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-white/5 shadow-2xl transition-transform duration-700 group-hover:scale-[1.02] group-hover:-translate-y-2">
-                            <img
+                            <Image
                               src={blog.img_link}
                               alt={blog.title}
+                              fill
                               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

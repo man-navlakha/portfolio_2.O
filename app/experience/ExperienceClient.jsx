@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Loader2, ChevronRight } from 'lucide-react';
 import { useExperience } from '../context/ExperienceContext';
 import RevealOnScroll from '../Components/ui/RevealOnScroll';
@@ -27,7 +28,7 @@ const ExperienceClient = () => {
     <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] pt-32 pb-24 px-6 relative overflow-hidden">
       <div className="absolute -left-20 top-60 opacity-[0.02] dark:opacity-[0.04] pointer-events-none select-none rotate-12 hidden lg:block transition-all duration-1000">
         {hoveredLogo && (
-          <img key={hoveredLogo} src={hoveredLogo} alt="" className="w-[600px] h-[600px] object-contain grayscale animate-fade-in" />
+          <Image key={hoveredLogo} src={hoveredLogo} alt="" width={600} height={600} className="object-contain grayscale animate-fade-in" />
         )}
       </div>
 
@@ -57,7 +58,7 @@ const ExperienceClient = () => {
                   <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
                     <div className="md:w-1/4 shrink-0">
                       <div className="w-24 h-24 md:w-40 md:h-40 rounded-[2rem] overflow-hidden bg-white dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/10 p-4 md:p-8 shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform duration-500 group-hover:shadow-xl">
-                        <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
+                        <Image src={exp.logo} alt={exp.company} width={160} height={160} className="w-full h-full object-contain" />
                       </div>
                     </div>
 

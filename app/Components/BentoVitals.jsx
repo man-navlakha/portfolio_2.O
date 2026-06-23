@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Clock, Music, Cpu, Code2, Globe2, Coffee, Zap } from 'lucide-react';
+import Image from 'next/image';
 
 const LiveClock = () => {
     const [time, setTime] = useState(new Date());
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        setTimeout(() => setMounted(true), 0);
         const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
@@ -104,10 +105,11 @@ const TechWiggle = () => {
 const MiniMap = () => {
     return (
         <div className="h-full w-full relative group overflow-hidden">
-            <img
+            <Image
                 src="https://ik.imagekit.io/pxc/mannavlakha/image.png?q=80&w=1000&auto=format&fit=crop"
                 className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
                 alt="Location Map"
+                fill
             />
             <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-transparent transition-colors" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

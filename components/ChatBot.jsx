@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation';
 import useVoiceMode from '@/hooks/useVoiceMode';
 import VoiceModeOverlay from './VoiceModeOverlay';
 import HireForm from './HireForm';
+import Image from 'next/image';
 
 // ─── CSS Keyframes ────────────────────────────────────────────────────────────
 const KEYFRAMES_CSS = `
@@ -249,7 +250,7 @@ export default function ChatBot() {
     };
 
     fetchSuggestions();
-  }, [pathname, messages.length, fetchedSuggestionsPath]);
+  }, [pathname, messages.length, fetchedSuggestionsPath, isVoiceMode]);
 
   // ── Persist chat ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -585,11 +586,13 @@ export default function ChatBot() {
       return <a {...props} target="_blank" rel="noopener noreferrer" className="text-brand underline decoration-brand/30 hover:decoration-brand transition-colors" />
     },
     img: ({ src, alt }) => (
-      <img
-        src={src} alt={alt}
-        className="mt-2 h-48 md:h-64 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity border border-slate-200 dark:border-white/10"
-        onClick={() => setLightboxImage(src)}
-      />
+      <div className="relative w-full mt-2 h-48 md:h-64">
+        <Image
+          src={src} alt={alt} fill
+          className="object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity border border-slate-200 dark:border-white/10"
+          onClick={() => setLightboxImage(src)}
+        />
+      </div>
     ),
     p: ({ node, ...props }) => <div {...props} className="mb-2.5 last:mb-0 leading-relaxed" />,
     ul: ({ node, ...props }) => <ul {...props} className="list-disc ml-5 mb-2.5 space-y-1.5" />,
@@ -1032,7 +1035,9 @@ export default function ChatBot() {
               >
                 <ChevronLeft size={24} />
               </button>
-              <img src={lightboxImage} alt="Full view" className="max-w-full max-h-full rounded-lg shadow-2xl" />
+              <div className="relative w-[90vw] h-[90vh]">
+                <Image src={lightboxImage} alt="Full view" fill className="object-contain rounded-lg shadow-2xl" />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

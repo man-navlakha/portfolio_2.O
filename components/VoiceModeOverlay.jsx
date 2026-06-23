@@ -107,8 +107,10 @@ export default function VoiceModeOverlay({
     showHireFormRef.current = showHireForm;
     if (showHireForm) {
       stopListening();
-      setPhase('idle');
-      setStatusText('Project inquiry');
+      setTimeout(() => {
+        setPhase('idle');
+        setStatusText('Project inquiry');
+      }, 0);
     }
   }, [showHireForm, stopListening]);
 
@@ -126,9 +128,11 @@ export default function VoiceModeOverlay({
 
     if (!isOpen) {
       hasAutoStarted.current = false;
-      setPhase('idle');
-      setDisplayText('');
-      setStatusText('Tap the mic to start');
+      setTimeout(() => {
+        setPhase('idle');
+        setDisplayText('');
+        setStatusText('Tap the mic to start');
+      }, 0);
       lastStreamingTextRef.current = '';
       hasSpokeRef.current = false;
       processedTextLengthRef.current = 0;
@@ -140,8 +144,10 @@ export default function VoiceModeOverlay({
     if (isListening) {
       const fullTranscript = transcript + (interimTranscript ? ' ' + interimTranscript : '');
       if (fullTranscript.trim()) {
-        setDisplayText(fullTranscript.trim());
-        setStatusText('Listening...');
+        setTimeout(() => {
+          setDisplayText(fullTranscript.trim());
+          setStatusText('Listening...');
+        }, 0);
       }
     }
   }, [transcript, interimTranscript, isListening]);
@@ -153,8 +159,10 @@ export default function VoiceModeOverlay({
       hasSpokeRef.current = false;
       lastStreamingTextRef.current = '';
       processedTextLengthRef.current = 0;
-      setPhase('thinking');
-      setStatusText('Thinking...');
+      setTimeout(() => {
+        setPhase('thinking');
+        setStatusText('Thinking...');
+      }, 0);
 
       const userText = transcript.trim();
       lastTranscriptRef.current = userText;
@@ -166,8 +174,10 @@ export default function VoiceModeOverlay({
   // ─── Track processing state from parent ────────────────────────────────
   useEffect(() => {
     if (isProcessing && phase !== 'speaking') {
-      setPhase('thinking');
-      setStatusText('Thinking...');
+      setTimeout(() => {
+        setPhase('thinking');
+        setStatusText('Thinking...');
+      }, 0);
     }
   }, [isProcessing, phase]);
 
@@ -178,9 +188,11 @@ export default function VoiceModeOverlay({
 
       const clean = stripMarkdown(streamingText);
       if (clean) {
-        setPhase('speaking');
-        setStatusText('Speaking...');
-        setDisplayText(clean);
+        setTimeout(() => {
+          setPhase('speaking');
+          setStatusText('Speaking...');
+          setDisplayText(clean);
+        }, 0);
 
         const completeText = getCompleteSpeechText(clean);
         if (completeText.length > processedTextLengthRef.current) {
@@ -214,9 +226,11 @@ export default function VoiceModeOverlay({
       }
 
       if (cleanText) {
-        setPhase('speaking');
-        setStatusText('Speaking...');
-        setDisplayText(cleanText);
+        setTimeout(() => {
+          setPhase('speaking');
+          setStatusText('Speaking...');
+          setDisplayText(cleanText);
+        }, 0);
       }
 
       finalizeSpeechQueue(() => {

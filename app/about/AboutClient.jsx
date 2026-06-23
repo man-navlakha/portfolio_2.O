@@ -12,13 +12,14 @@ import BentoVitals from '../Components/BentoVitals';
 import { useExperience } from '../context/ExperienceContext';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const AboutClient = () => {
     const { experiences, loading: expLoading } = useExperience();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        setTimeout(() => setMounted(true), 0);
     }, []);
     const processSteps = [
         {
@@ -63,9 +64,10 @@ const AboutClient = () => {
                         <RevealOnScroll>
                             <div className="relative">
                                 <div className="aspect-[3/4] md:aspect-[4/5] max-w-[500px] w-full rounded-[2.5rem] overflow-hidden bg-gray-200 dark:bg-gray-900 relative z-10">
-                                    <img
+                                    <Image
                                         src="https://ik.imagekit.io/pxc/mannavlakha/ps.png"
                                         alt="Profile"
+                                        fill
                                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 bg-[#f0f0f0] dark:bg-[#1a1a1a]"
                                     />
                                 </div>
@@ -190,7 +192,7 @@ const AboutClient = () => {
                                             <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-8 last:border-0 cursor-pointer">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 rounded-full overflow-hidden bg-white dark:bg-gray-800 border border-slate-200 dark:border-white/10 p-1 flex items-center justify-center">
-                                                        <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain" />
+                                                        <Image src={exp.logo} alt={exp.company} width={48} height={48} className="w-full h-full object-contain" />
                                                     </div>
                                                     <div>
                                                         <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand transition-colors">{exp.role}</h3>
