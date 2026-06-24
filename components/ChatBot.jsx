@@ -422,14 +422,14 @@ export default function ChatBot() {
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
         fullResponse += chunk;
-        
+
         let cleanBuffer = fullResponse;
         const sepIdx = cleanBuffer.indexOf('|||SUGGESTIONS|||');
         if (sepIdx !== -1) {
           cleanBuffer = cleanBuffer.substring(0, sepIdx);
         }
         cleanBuffer = cleanBuffer.replace('[SHOW_HIRE_FORM]', '');
-        
+
         streamBufferRef.current = cleanBuffer;
       }
 
@@ -633,10 +633,10 @@ export default function ChatBot() {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-15 right-6 z-100 hidden md:flex items-center gap-3 px-6 py-4 rounded-full shadow-xl transition-all duration-300 hover:scale-105 border
+        className={`fixed bottom-15 right-6 z-100 hidden md:flex items-center gap-3 px-6 py-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 border
     ${isOpen
             ? "bg-slate-900 text-white dark:bg-white dark:text-black border-slate-700 dark:border-white/20"
-            : "bg-white text-slate-900 dark:bg-[#1a1a1a] dark:text-white border-slate-200 dark:border-white/10"
+            : "bg-white text-slate-900 dark:bg-[#1a1a1a] dark:text-white border-slate-500/50 dark:border-white/10"
           }`}
       >
         {isOpen ? <X size={20} /> : <Bot size={20} />}
@@ -990,14 +990,14 @@ export default function ChatBot() {
                       ) : input.trim() ? (
                         <button
                           onClick={() => sendMessage(input)}
-                          className="w-10 h-10 rounded-full bg-[#1b2f6b] text-white flex items-center justify-center hover:opacity-90 transition-all"
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-[#41c9a1] dark:from-emerald-600 dark:to-[#2b9676] text-white flex items-center justify-center hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/25 dark:shadow-emerald-900/40"
                         >
                           <ArrowUp size={20} strokeWidth={2.5} />
                         </button>
                       ) : voiceHook.isSupported ? (
                         <button
                           onClick={() => setIsVoiceMode(true)}
-                          className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-500/20"
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-[#41c9a1] dark:from-emerald-600 dark:to-[#2b9676] text-white flex items-center justify-center hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/25 dark:shadow-emerald-900/40"
                           title="Voice mode"
                         >
                           <Mic size={18} strokeWidth={2.5} />
@@ -1005,7 +1005,7 @@ export default function ChatBot() {
                       ) : (
                         <button
                           disabled
-                          className="w-10 h-10 rounded-full bg-[#1b2f6b] text-white flex items-center justify-center opacity-50 cursor-not-allowed"
+                          className="w-10 h-10 rounded-full bg-slate-200 dark:bg-white/10 text-slate-400 dark:text-white/30 flex items-center justify-center cursor-not-allowed"
                         >
                           <ArrowUp size={20} strokeWidth={2.5} />
                         </button>
