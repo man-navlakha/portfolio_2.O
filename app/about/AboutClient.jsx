@@ -68,6 +68,7 @@ const AboutClient = () => {
                                         src="https://ik.imagekit.io/pxc/mannavlakha/ps.png"
                                         alt="Profile"
                                         fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 bg-[#f0f0f0] dark:bg-[#1a1a1a]"
                                     />
                                 </div>

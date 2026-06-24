@@ -1036,7 +1036,7 @@ export default function ChatBot() {
                 <ChevronLeft size={24} />
               </button>
               <div className="relative w-[90vw] h-[90vh]">
-                <Image src={lightboxImage} alt="Full view" fill className="object-contain rounded-lg shadow-2xl" />
+                <Image src={lightboxImage} alt="Full view" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-contain rounded-lg shadow-2xl" />
               </div>
             </motion.div>
           )}

@@ -108,7 +108,7 @@ export default async function BlogPost({ params }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
       <div className="min-h-screen bg-white dark:bg-[#050505] text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black pt-32">
@@ -172,6 +172,7 @@ export default async function BlogPost({ params }) {
                   src={blogMeta.img_link}
                   alt={blogMeta.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -207,6 +208,7 @@ export default async function BlogPost({ params }) {
                               src={post.img_link}
                               alt={post.title}
                               fill
+                              sizes="(max-width: 1200px) 100vw, 66vw"
                               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

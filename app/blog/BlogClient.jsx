@@ -52,6 +52,7 @@ export default function BlogClient({ blogs }) {
                                                     src={blog.img_link}
                                                     alt={blog.title}
                                                     fill
+                                                    sizes="(max-width: 768px) 100vw, 50vw"
                                                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                                 />
                                                 {/* Overlay */}

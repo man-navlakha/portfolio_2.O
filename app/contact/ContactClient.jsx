@@ -207,6 +207,7 @@ const ContactClient = () => {
                                             src="https://ik.imagekit.io/pxc/mannavlakha/t-man-removebg.png?updatedAt=1755338197921"
                                             alt="Profile"
                                             fill
+                                            sizes="200px"
                                             className="w-full h-full object-cover bg-[#f0f0f0] dark:bg-[#1a1a1a]"
                                         />
                                     </div>

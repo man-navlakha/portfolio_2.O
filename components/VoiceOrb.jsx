@@ -137,7 +137,7 @@ export default function VoiceOrb({ mode = 'idle', volume = 0, size = 120 }) {
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                background: `linear-gradient(135deg, ${theme.core.join(', ')})`,
+                backgroundImage: `linear-gradient(135deg, ${theme.core.join(', ')})`,
                 backgroundSize: '200% 200%',
                 animation: isActive ? 'vo-shimmer 4s ease infinite' : undefined,
               }}

@@ -327,12 +327,15 @@ export default function useVoiceMode() {
         if (isListeningRef.current) {
           try {
             recognition.stop();
-            setTimeout(() => {
-              if (isListeningRef.current) {
-                recognition.start();
-              }
-            }, 100);
           } catch (e) { /* ignore */ }
+          
+          setTimeout(() => {
+            if (isListeningRef.current) {
+              try {
+                recognition.start();
+              } catch (e) { /* ignore */ }
+            }
+          }, 100);
         }
         return;
       }
@@ -348,16 +351,17 @@ export default function useVoiceMode() {
     recognition.onend = () => {
       // Auto-restart if we're still supposed to be listening
       if (isListeningRef.current && !restartingRef.current) {
-        try {
-          setTimeout(() => {
-            if (isListeningRef.current) {
+        setTimeout(() => {
+          if (isListeningRef.current) {
+            try {
               recognition.start();
+            } catch (e) {
+              setIsListening(false);
+              isListeningRef.current = false;
+              setError('Failed to restart speech recognition');
             }
-          }, 100);
-        } catch (e) {
-          setIsListening(false);
-          isListeningRef.current = false;
-        }
+          }
+        }, 100);
       } else if (!restartingRef.current) {
         setIsListening(false);
         isListeningRef.current = false;

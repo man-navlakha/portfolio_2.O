@@ -110,6 +110,7 @@ const MiniMap = () => {
                 className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
                 alt="Location Map"
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
             />
             <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-transparent transition-colors" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

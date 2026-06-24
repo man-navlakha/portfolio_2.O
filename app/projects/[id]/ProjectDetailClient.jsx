@@ -116,6 +116,7 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                         src={project.image}
                                         alt={project.title}
                                         fill
+                                        sizes="(max-width: 1200px) 100vw, 66vw"
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -195,8 +196,9 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                             <div key={idx} className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 group">
                                                 <Image
                                                     src={screen}
-                                                    alt={`${project.title} screen ${idx + 1}`}
+                                                    alt={`Gallery Image ${idx + 1}`}
                                                     fill
+                                                    sizes="(max-width: 768px) 100vw, 33vw"
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                 />
                                             </div>
@@ -544,6 +546,7 @@ export default function ProjectDetailClient({ project: initialProject }) {
                                                     src={relatedP.image}
                                                     alt={relatedP.title}
                                                     fill
+                                                    sizes="(max-width: 768px) 100vw, 33vw"
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                 />
                                             )}

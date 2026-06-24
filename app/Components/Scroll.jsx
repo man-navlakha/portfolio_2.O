@@ -49,6 +49,7 @@ const Scroll = () => {
               <div className="relative flex h-6 w-6 whitespace-pre">
                 <Image
                   alt={skill.name}
+                  sizes="40px"
                   loading="lazy"
                   decoding="async"
                   fill

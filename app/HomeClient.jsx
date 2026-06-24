@@ -206,6 +206,7 @@ export default function Home({ topBlogs = [] }) {
                           src={project.image}
                           alt={project.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>
@@ -294,6 +295,7 @@ export default function Home({ topBlogs = [] }) {
                     src={expertiseImages[activeExpertise]}
                     alt="Expertise"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="w-full h-full object-cover opacity-80 animate-fade-in transition-all duration-500"
                   />
                 </div>
@@ -331,6 +333,7 @@ export default function Home({ topBlogs = [] }) {
                               src={blog.img_link}
                               alt={blog.title}
                               fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
                               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
