@@ -113,7 +113,214 @@ function getPortfolioContext() {
 
 // ─── Portfolio Knowledge Base ─────────────────────────────────────────────────
 
-// ─── Hire-Intent Detection ────────────────────────────────────────────────────
+// ─── Predefined Responses (Skip API for common questions) ─────────────────────
+const PREDEFINED_RESPONSES = [
+  // 1. Greetings
+  {
+    keywords: ['hello', 'hi', 'hey', 'howdy', 'hola', 'good morning', 'good afternoon', 'good evening', 'sup', 'yo', 'greetings'],
+    exactMatch: true,
+    response: `Hey there! 👋 Welcome to Man's portfolio!
+
+I'm Man's AI assistant — I can tell you all about his **skills**, **projects**, **experience**, and how to **get in touch**. What would you like to know?|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "How can I contact Man?"]`,
+  },
+  // 2. Thank You / Goodbye
+  {
+    keywords: ['thanks', 'thank you', 'thankyou', 'thx', 'bye', 'goodbye', 'good bye', 'see you', 'take care', 'later', 'cheers'],
+    exactMatch: true,
+    response: `You're welcome! 😊 It was great chatting with you.
+
+If you ever want to know more about Man's work or want to collaborate, feel free to come back anytime. Have a great day! 🙌|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "How can I contact Man?"]`,
+  },
+  // 3. Contact Info
+  {
+    keywords: ['contact', 'reach', 'get in touch', 'email', 'mail', 'connect', 'message him', 'talk to man'],
+    excludeKeywords: ['hire', 'freelance'],
+    response: `You can reach Man through any of these channels! 📬
+
+- **Email:** [mannnavlakha1021@gmail.com](mailto:mannnavlakha1021@gmail.com)
+- **LinkedIn:** [navlakhaman](https://www.linkedin.com/in/navlakhaman/)
+- **GitHub:** [man-navlakha](https://github.com/man-navlakha)
+- **Website:** [man-navlakha.netlify.app](https://man-navlakha.netlify.app)
+
+Feel free to drop a message — Man is always happy to connect! 😊|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "Is Man available for freelance?"]`,
+  },
+  // 4. Social Links
+  {
+    keywords: ['github', 'linkedin', 'social media', 'socials', 'social links', 'social profiles', 'online presence'],
+    response: `Here are Man's social profiles! 🔗
+
+- **LinkedIn:** [navlakhaman](https://www.linkedin.com/in/navlakhaman/) — Professional network & endorsements
+- **GitHub:** [man-navlakha](https://github.com/man-navlakha) — Open source projects & code
+- **Website:** [man-navlakha.netlify.app](https://man-navlakha.netlify.app) — Full portfolio
+
+Feel free to connect on any platform! 🤝|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "How can I contact Man?"]`,
+  },
+  // 5. Skills / Tech Stack
+  {
+    keywords: ['skills', 'tech stack', 'technologies', 'tools', 'what can you do', 'what does man know', 'programming languages', 'frameworks', 'languages'],
+    excludeKeywords: ['hire', 'freelance', 'project'],
+    response: `Man has a versatile full-stack skill set! 💻
+
+**Frontend:**
+- React.js, Next.js, TypeScript, Tailwind CSS, Framer Motion, HTML/CSS
+
+**Backend:**
+- Node.js, Express.js, Prisma
+
+**Databases:**
+- PostgreSQL, MongoDB
+
+**Other:**
+- Git & GitHub, Figma, SEO, Google Workspace Administration, IT Support & Troubleshooting
+
+He specializes in the **MERN stack** and loves building high-quality, impactful digital experiences! 🚀|||SUGGESTIONS|||["Tell me about Man's projects", "What is Man's experience?", "Is Man available for freelance?"]`,
+  },
+  // 6. Experience / Work History
+  {
+    keywords: ['experience', 'work history', 'career', 'worked', 'companies', 'jobs', 'roles', 'professional background', 'where have you worked'],
+    excludeKeywords: ['hire', 'freelance'],
+    response: `Man has a diverse professional journey across 6 roles! 💼
+
+1. **IT Support Technician** at Excellent Publicity _(Apr 2026 – Present)_ — SEO automation, Google Workspace admin, hardware repairs
+2. **IT Support Intern** at Excellent Publicity _(Jan – Apr 2026)_ — System setup, troubleshooting, Microsoft 365
+3. **Web Developer** at HarSar Innovations _(Mar – Apr 2025)_ — React.js, Node.js, PostgreSQL full-stack development
+4. **IT Help Desk Technician** at Parshwanath Solutions _(Feb – Oct 2024)_ — Desktop/laptop support, OS installation
+5. **Graphic Designer** at Naren Advertising _(Jun – Aug 2023)_ — Marketing creatives & branding
+6. **Email Campaign Manager** at Vision World Foundation _(Jun – Aug 2023)_ — Email marketing & analytics
+
+Check out the **[Experience Page](${SITE_URL}/experience)** for full details! 📄|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "How can I contact Man?"]`,
+  },
+  // 7. Current Role
+  {
+    keywords: ['current job', 'currently working', 'current role', 'where do you work', 'present role', 'right now', 'current company', 'working at'],
+    response: `Man is currently working as an **Information Technology Support Technician** at **Excellent Publicity** in Ahmedabad! 🏢
+
+He's been in this role since **April 2026** and handles:
+- 🛠️ SEO automation workflows
+- 🔐 Google Workspace administration
+- 💻 Hardware repairs & system maintenance
+- 📦 IT asset lifecycle management
+- 🌐 Network troubleshooting & software deployment
+
+Alongside this, he continues building full-stack projects independently! 🚀|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "Is Man available for freelance?"]`,
+  },
+  // 8. Education
+  {
+    keywords: ['education', 'degree', 'university', 'college', 'qualification', 'studied', 'academic', 'school', 'bca', 'msc'],
+    response: `Man holds a solid academic background! 🎓
+
+- **BCA** (Bachelor of Computer Applications) — Shreyarth University
+- **MSc-IT** (Master of Science in Information Technology) — Shreyarth University
+
+His academic foundation in computer science combined with hands-on industry experience makes him a well-rounded developer! 📚|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's experience", "How can I contact Man?"]`,
+  },
+  // 9. Resume / CV
+  {
+    keywords: ['resume', 'cv', 'download resume', 'download cv', 'curriculum vitae'],
+    response: `You can download Man's latest resume here! 📄
+
+📥 **[Download Man's Resume (PDF)](https://drive.google.com/file/d/1PmhKbUHWzxaZEv3PfyoJMcxXG_8TFn5-/view)**
+
+It includes his complete work experience, skills, education, and projects. Feel free to reach out after reviewing! 😊|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's experience", "How can I contact Man?"]`,
+  },
+  // 10. Location
+  {
+    keywords: ['where are you from', 'location', 'based', 'city', 'country', 'where do you live', 'where is man from', 'hometown'],
+    excludeKeywords: ['hire', 'job'],
+    response: `Man is based in **Ahmedabad, Gujarat, India** 🇮🇳
+
+He's open to both **local** and **remote** opportunities worldwide. Whether it's an on-site role in India or a remote collaboration across the globe — he's flexible! 🌍|||SUGGESTIONS|||["Is Man available for freelance?", "What are Man's skills?", "How can I contact Man?"]`,
+  },
+  // 11. About / Who is Man
+  {
+    keywords: ['who is man', 'who are you', 'tell me about man', 'about you', 'about man', 'introduce', 'introduction', 'yourself', 'what do you do'],
+    excludeKeywords: ['built this', 'made this', 'ai', 'chatbot'],
+    response: `Great question! Let me introduce Man 👋
+
+**Man Navlakha** is a passionate **Full Stack Developer (MERN Stack)** and digital designer based in Ahmedabad, India.
+
+He specializes in building high-quality, impactful digital experiences that blend **aesthetic design** with **robust engineering**. With expertise in React.js, Next.js, Node.js, and the entire MERN stack, he creates everything from portfolio websites to enterprise-grade platforms.
+
+He's currently working as an **IT Support Technician** at Excellent Publicity while building innovative side projects like **Mechanic Setu** and **EP SEO Audit**! 🚀|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "Is Man available for hire?"]`,
+  },
+  // 14. Availability
+  {
+    keywords: ['available', 'availability', 'free', 'open to work', 'open for work', 'taking on', 'accepting'],
+    excludeKeywords: ['hire', 'freelance', 'pricing', 'cost', 'rate'],
+    response: `Yes! Man is currently **open and available** for new opportunities! ✅
+
+He's accepting:
+- 🤝 **Freelance projects** — Web apps, dashboards, tools
+- 🏢 **Full-time positions** — On-site or remote
+- 🚀 **Collaborations** — Open source, startups, side projects
+
+If you have something in mind, feel free to reach out at **mannnavlakha1021@gmail.com** or fill out the hire form! 📬|||SUGGESTIONS|||["How can I contact Man?", "What are Man's skills?", "What types of projects does Man take on?"]`,
+  },
+  // 15. Who Built This / About the AI
+  {
+    keywords: ['who built this', 'who made this', 'who created this', 'what ai', 'how does this work', 'what model', 'which ai', 'chatbot', 'this website', 'how was this made'],
+    response: `This portfolio and AI assistant were built by **Man Navlakha** himself! 🛠️
+
+**The Portfolio:**
+- Built with **Next.js**, **Tailwind CSS**, and **Framer Motion**
+- Features smooth animations, dark mode, and a responsive design
+
+**This AI Assistant:**
+- Powered by **Man Navlakha**
+- Built with Next.js API routes & streaming responses
+- Includes voice mode, smart suggestions, and a hire form
+
+Man loves building these kinds of interactive experiences! ✨|||SUGGESTIONS|||["What are Man's skills?", "Tell me about Man's projects", "How can I contact Man?"]`,
+  },
+  // 16. Hire / Freelance
+  {
+    keywords: ['hire', 'hiring', 'freelance', 'contract', 'collaborate', 'collaboration', 'recruit', 'recruiting', 'job', 'work with', 'work together', 'opportunity', 'opportunities', 'position', 'looking for developer', 'project inquiry', 'project proposal', 'quote', 'pricing', 'cost', 'rate', 'want to hire', 'interested in hiring', 'looking to hire'],
+    response: `I'd love to connect about a potential opportunity! 🎉
+
+Man is currently **open to freelance projects, collaborations, and full-time opportunities**.
+
+Please fill out the quick form below and Man will get back to you as soon as possible!
+
+[SHOW_HIRE_FORM]|||SUGGESTIONS|||["What is Man's availability?", "What types of projects does Man take on?", "What is Man's tech stack?"]`,
+    isHireIntent: true,
+  },
+];
+
+function matchPredefinedResponse(message) {
+  const lower = message.trim().toLowerCase().replace(/[^\w\s]/g, '');
+
+  // First pass: check non-exactMatch (specific topic) entries
+  for (const entry of PREDEFINED_RESPONSES) {
+    if (entry.exactMatch) continue;
+
+    if (entry.excludeKeywords && entry.excludeKeywords.some(ek => lower.includes(ek))) {
+      continue;
+    }
+
+    if (entry.keywords.some(kw => lower.includes(kw))) {
+      return entry;
+    }
+  }
+
+  // Second pass: check exactMatch entries (greetings, goodbye) — only if no topic matched
+  for (const entry of PREDEFINED_RESPONSES) {
+    if (!entry.exactMatch) continue;
+
+    const words = lower.split(/\s+/);
+    if (words.length <= 3) {
+      // Use word-boundary regex so "hi" doesn't match inside "this"
+      const matched = entry.keywords.some(kw => {
+        const regex = new RegExp(`\\b${kw.replace(/\s+/g, '\\s+')}\\b`);
+        return regex.test(lower);
+      });
+      if (matched) return entry;
+    }
+  }
+
+  return null;
+}
+
+// ─── Hire-Intent Detection (kept as fallback) ─────────────────────────────────
 const HIRE_KEYWORDS = [
   'hire', 'hiring', 'recruit', 'recruiting', 'job', 'work with', 'work together',
   'freelance', 'contract', 'collaborate', 'collaboration', 'opportunity', 'opportunities',
@@ -133,7 +340,7 @@ function buildSystemPrompt(context, isVoiceMode = false) {
   if (aiSkills) {
     enhancedBehaviors += `\nPERSONA: ${aiSkills.persona}\n`;
     enhancedBehaviors += `TONE: ${aiSkills.tone}\n\n`;
-    
+
     if (aiSkills.ai_skills && aiSkills.ai_skills.length > 0) {
       enhancedBehaviors += `YOUR CAPABILITIES & SKILLS:\n`;
       aiSkills.ai_skills.forEach(skill => {
@@ -241,19 +448,14 @@ export async function POST(req) {
     }
   }
 
-  // Detect hire intent BEFORE calling AI — instant form trigger
-  if (type !== 'suggestions' && detectHireIntent(message)) {
-    const hireResponse = `I'd love to connect about a potential opportunity! 🎉
-
-Man is currently **open to freelance projects, collaborations, and full-time opportunities**.
-
-Please fill out the quick form below and Man will get back to you as soon as possible!
-
-[SHOW_HIRE_FORM]|||SUGGESTIONS|||["What is Man's availability?", "What types of projects does Man take on?", "What is Man's tech stack?"]`;
-
-    return new Response(hireResponse, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-    });
+  // ── Predefined responses — skip API for common/simple questions ──
+  if (type !== 'suggestions') {
+    const predefined = matchPredefinedResponse(message);
+    if (predefined) {
+      return new Response(predefined.response, {
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
   }
 
   const portfolioContext = getPortfolioContext();
@@ -314,19 +516,19 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
   for (let i = 0; i < modelsToUse.length; i++) {
     const modelName = modelsToUse[i];
     const isGeminiNative = useGeminiNative && modelName.startsWith('gemini-');
-    
-    const apiUrl = isGeminiNative 
+
+    const apiUrl = isGeminiNative
       ? 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions'
       : OPENROUTER_API_URL;
-      
+
     const currentApiKey = isGeminiNative ? process.env.GEMINI_API_KEY : apiKey;
-    
+
     try {
       const headers = {
         'Authorization': `Bearer ${currentApiKey}`,
         'Content-Type': 'application/json',
       };
-      
+
       // Only add OpenRouter-specific headers when using OpenRouter
       if (!isGeminiNative) {
         headers['HTTP-Referer'] = 'https://man-navlakha.netlify.app';
@@ -366,14 +568,14 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
         let suggestions = [];
         try {
           suggestions = JSON.parse(content);
-        } catch(e) {
+        } catch (e) {
           const match = content.match(/\[.*?\]/s);
           if (match) {
-            try { suggestions = JSON.parse(match[0]); } catch(err) {}
+            try { suggestions = JSON.parse(match[0]); } catch (err) { }
           }
         }
         if (!suggestions || suggestions.length === 0) {
-           suggestions = ["What are your skills?", "Tell me about your projects", "What's your experience?", "Are you available to hire?"];
+          suggestions = ["What are your skills?", "Tell me about your projects", "What's your experience?", "Are you available to hire?"];
         }
         return new Response(JSON.stringify({ suggestions }), {
           headers: { 'Content-Type': 'application/json' },
