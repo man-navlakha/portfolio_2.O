@@ -30,7 +30,7 @@ export default function Home({ topBlogs = [] }) {
   };
   return (
     <>
-      <div className="min-h-screen text-pretty bg-slate-50 dark:bg-[#0a0a0a] text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black">
+      <div className="min-h-screen text-pretty bg-transparent text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black">
         {/* Hero Section */}
         <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 pt-20">
           <div className="max-w-7xl mx-auto w-full">
@@ -238,7 +238,7 @@ export default function Home({ topBlogs = [] }) {
           </div>
         </section>
         {/* Expertise Section */}
-        <section className="py-24 px-6 md:px-12 lg:px-24 bg-slate-50 dark:bg-[#0a0a0a]">
+        <section className="py-24 px-6 md:px-12 lg:px-24 bg-transparent">
           <div className="max-w-7xl mx-auto">
             <RevealOnScroll>
               <div className="flex items-center gap-2 text-brand text-sm font-medium tracking-widest mb-4">

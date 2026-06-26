@@ -7,6 +7,7 @@ import ChatBot from "@/components/ChatBot";
 import CommandPalette from "./Components/CommandPalette";
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
+import ArrowGridBackground from './Components/ArrowGridBackground';
 
 // Font files are expected in `app/fonts`
 const satoshi = localFont({
@@ -152,6 +153,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${satoshi.variable} ${primary.variable} font-sans`} >
         <Providers>
+          <ArrowGridBackground />
           <Suspense fallback={null}>
             <ProgressBar />
           </Suspense>

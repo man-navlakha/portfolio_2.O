@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export default function CallToAction() {
     return (
-        <section className="py-12 px-6 md:px-12 lg:px-24 bg-slate-50 dark:bg-[#0a0a0a]">
+        <section className="py-12 px-6 md:px-12 lg:px-24 bg-transparent">
 
             <div className="max-w-7xl mx-auto">
                 <RevealOnScroll>

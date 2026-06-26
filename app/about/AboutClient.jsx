@@ -13,6 +13,7 @@ import { useExperience } from '../context/ExperienceContext';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ShaderCard from '../Components/ShaderCard';
 
 const AboutClient = () => {
     const { experiences, loading: expLoading } = useExperience();
@@ -55,7 +56,7 @@ const AboutClient = () => {
     ];
     return (
         <>
-            <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] text-slate-900 dark:text-white font-secondary selection:bg-brand selection:text-black pt-20">
+            <div className="min-h-screen bg-transparent text-slate-900 dark:text-white font-secondary selection:bg-brand selection:text-black pt-20">
 
                 {/* Hero Section */}
                 <section className="px-6 md:px-12 lg:px-24 py-12 md:py-24">
@@ -64,13 +65,7 @@ const AboutClient = () => {
                         <RevealOnScroll>
                             <div className="relative">
                                 <div className="aspect-[3/4] md:aspect-[4/5] max-w-[500px] w-full rounded-[2.5rem] overflow-hidden bg-gray-200 dark:bg-gray-900 relative z-10">
-                                    <Image
-                                        src="https://ik.imagekit.io/pxc/mannavlakha/ps.png"
-                                        alt="Profile"
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 50vw"
-                                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 bg-[#f0f0f0] dark:bg-[#1a1a1a]"
-                                    />
+                                    <ShaderCard />
                                 </div>
 
                                 {/* Rotating Badge */}
@@ -165,7 +160,7 @@ const AboutClient = () => {
                 </section>
 
                 {/* Experience */}
-                <section className="px-6 md:px-12 lg:px-24 py-24 bg-slate-50 dark:bg-[#0a0a0a]">
+                <section className="px-6 md:px-12 lg:px-24 py-24 bg-transparent">
                     <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
                         <RevealOnScroll>
                             <div>

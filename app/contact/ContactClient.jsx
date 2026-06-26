@@ -83,7 +83,7 @@ const ContactClient = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black pt-20">
+            <div className="min-h-screen bg-transparent text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black pt-20">
 
                 <section className="px-6 md:px-12 lg:px-24 py-12 md:py-24">
                     <div className="max-w-7xl mx-auto">
@@ -230,7 +230,7 @@ const ContactClient = () => {
                 </section>
 
                 {/* FAQs */}
-                <section className="px-6 md:px-12 lg:px-24 py-24 bg-slate-50 dark:bg-[#0a0a0a]">
+                <section className="px-6 md:px-12 lg:px-24 py-24 bg-transparent">
                     <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-16">
                         <RevealOnScroll>
                             <div>

@@ -30,7 +30,7 @@ export default function ProjectDetailClient({ project: initialProject }) {
     const [project, setProject] = React.useState(initialProject);
 
     if (contextLoading) return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0a0a0a]">
+        <div className="min-h-screen flex items-center justify-center bg-transparent">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-brand"></div>
         </div>
     );

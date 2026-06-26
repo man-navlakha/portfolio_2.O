@@ -18,14 +18,14 @@ const ExperiencePage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-brand" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] pt-32 pb-24 px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent pt-32 pb-24 px-6 relative overflow-hidden">
       {/* Dynamic Background Watermark */}
       <div className="absolute -left-20 top-60 opacity-[0.02] dark:opacity-[0.04] pointer-events-none select-none rotate-12 hidden lg:block transition-all duration-1000">
         {hoveredLogo && (
