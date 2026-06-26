@@ -1,20 +1,14 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function ArrowGridBackground() {
   const canvasRef = useRef(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
@@ -112,7 +106,7 @@ export default function ArrowGridBackground() {
       window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [mounted, resolvedTheme]);
+  }, [resolvedTheme]);
 
   return (
     <div className="fixed inset-0 w-full h-full pointer-events-none -z-50 font-sans">

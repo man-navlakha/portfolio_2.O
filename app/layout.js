@@ -130,25 +130,9 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
+          id="json-ld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-                  if (!theme && supportDarkMode) {
-                    localStorage.setItem('theme', 'dark');
-                  } else if (!theme) {
-                    localStorage.setItem('theme', 'light');
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
         />
       </head>
       <body className={`${satoshi.variable} ${primary.variable} font-sans`} >

@@ -19,7 +19,16 @@ function getBlogIndex() {
 // Helper: get blog content
 function getBlogContent(slug) {
   try {
-    const filePath = path.join(process.cwd(), "public", "Blog", `${slug}.json`);
+    // Security: Sanitize slug to prevent path traversal
+    const safeSlug = slug.replace(/[^a-zA-Z0-9_-]/g, '');
+    if (safeSlug !== slug || !safeSlug) return null;
+
+    const blogDir = path.join(process.cwd(), "public", "Blog");
+    const filePath = path.join(blogDir, `${safeSlug}.json`);
+
+    // Security: Verify resolved path stays within the Blog directory
+    if (!filePath.startsWith(blogDir)) return null;
+
     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
   } catch {
     return null;
@@ -107,6 +116,7 @@ export default async function BlogPost({ params }) {
   return (
     <>
       <script
+        id="json-ld-article"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />

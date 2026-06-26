@@ -1,6 +1,38 @@
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
+// ─── Security: Allowed origins for CSRF protection ────────────────────────────
+const ALLOWED_ORIGINS = [
+  'https://man-navlakha.netlify.app',
+  'http://localhost:3000',
+  'http://localhost:3001',
+];
+
+// ─── Security: Message length limits ──────────────────────────────────────────
+const MAX_MESSAGE_LENGTH = 1000;
+const MAX_HISTORY_LENGTH = 10;
+
+// ─── Security: Prompt injection detection ─────────────────────────────────────
+const INJECTION_PATTERNS = [
+  /ignore\s+(all\s+)?previous\s+instructions/i,
+  /ignore\s+(all\s+)?above\s+instructions/i,
+  /disregard\s+(all\s+)?previous/i,
+  /repeat\s+(your\s+)?(full\s+)?(system\s+)?prompt/i,
+  /show\s+(me\s+)?(your\s+)?(system\s+)?prompt/i,
+  /what\s+(is|are)\s+your\s+(system\s+)?instructions/i,
+  /you\s+are\s+now\s+(a|an)/i,
+  /\bact\s+as\s+(a|an)\b/i,
+  /\bDAN\b/,
+  /do\s+anything\s+now/i,
+  /jailbreak/i,
+  /bypass\s+(your\s+)?(safety|content|filter|rules)/i,
+  /enter\s+(developer|debug|admin)\s+mode/i,
+];
+
+function detectPromptInjection(msg) {
+  return INJECTION_PATTERNS.some(p => p.test(msg));
+}
+
 // ─── Rate Limiting ────────────────────────────────────────────────────────────
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -408,7 +440,16 @@ const MODELS_TO_TRY = [
 
 // ─── Main API Handler ─────────────────────────────────────────────────────────
 export async function POST(req) {
-  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+  // ── CSRF: Validate request origin ─────────────────────────────────────────
+  const origin = req.headers.get('origin');
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return new Response(
+      JSON.stringify({ error: 'Forbidden.' }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
 
   if (!checkRateLimit(ip)) {
     return new Response(
@@ -437,6 +478,22 @@ export async function POST(req) {
     return new Response('Message is required', { status: 400 });
   }
 
+  // ── Security: Enforce message length limit ────────────────────────────────
+  if (type !== 'suggestions' && message && message.length > MAX_MESSAGE_LENGTH) {
+    return new Response(
+      "Your message is too long. Please keep it under 1000 characters.|||SUGGESTIONS|||[\"What are Man's skills?\", \"Tell me about Man's projects\", \"How can I contact Man?\"]",
+      { status: 200, headers: { 'Content-Type': 'text/plain' } }
+    );
+  }
+
+  // ── Security: Detect prompt injection attempts ────────────────────────────
+  if (type !== 'suggestions' && message && detectPromptInjection(message)) {
+    return new Response(
+      "I'm Man's portfolio assistant and I can only share information about him. Is there something specific about Man's work or background you'd like to know? 😊|||SUGGESTIONS|||[\"What are Man's skills?\", \"Tell me about Man's projects\", \"How can I contact Man?\"]",
+      { status: 200, headers: { 'Content-Type': 'text/plain' } }
+    );
+  }
+
   // Detect simple greetings in Voice Mode to return instantly and save LLM tokens/latency
   if (isVoiceMode && type !== 'suggestions') {
     const cleanMsg = message.trim().toLowerCase().replace(/[^a-z\s]/g, '');
@@ -462,12 +519,15 @@ export async function POST(req) {
 
   let messages = [];
 
+  // ── Security: Sanitize path input for suggestions ──────────────────────────
+  const safePath = typeof path === 'string' ? path.replace(/[^a-zA-Z0-9/_-]/g, '').substring(0, 100) : '/';
+
   if (type === 'suggestions') {
     messages = [
       {
         role: 'system',
         content: `You are generating suggested questions for Man Navlakha's portfolio AI assistant. 
-The user is currently on the page path: "${path}".
+The user is currently on the page path: "${safePath}".
 Generate exactly 4 short, engaging questions the user could ask you based on this page context.
 If it's a blog page, ask about the blog content. If it's a projects page, ask about projects.
 Context about Man Navlakha:
@@ -483,9 +543,10 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
     ];
 
     // Add conversation history
-    const recentHistory = history
-      .filter(msg => msg.sender === 'user' || msg.sender === 'bot')
-      .slice(-10);
+    // ── Security: Limit and validate history entries ────────────────────────
+    const recentHistory = (Array.isArray(history) ? history : [])
+      .filter(msg => msg && (msg.sender === 'user' || msg.sender === 'bot') && typeof msg.text === 'string')
+      .slice(-MAX_HISTORY_LENGTH);
 
     for (const msg of recentHistory) {
       const cleanText = typeof msg.text === 'string'
@@ -555,11 +616,12 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
         const isModelError = response.status === 404 || response.status === 400 || errorText.includes('not available');
 
         if ((isQuotaError || isModelError) && i < modelsToUse.length - 1) {
-          console.warn(`Model ${modelName} failed (${response.status}), trying ${modelsToUse[i + 1]}...`);
+          console.warn(`Model ${modelName} failed (${response.status}), trying next...`);
           continue;
         }
 
-        throw new Error(`API error (${isGeminiNative ? 'Gemini' : 'OpenRouter'}): ${response.status} ${errorText}`);
+        // Security: Don't leak provider names in error messages
+        throw new Error(`AI service error: ${response.status}`);
       }
 
       if (type === 'suggestions') {
@@ -649,10 +711,19 @@ Example: ["What is this blog about?", "How long did this project take?", "What i
 
       console.error('OpenRouter API error:', error);
 
-      // Friendly user-facing error messages
+      // Friendly user-facing error messages (Security: don't leak internal details)
+      const fallbackSuggestions = ["What are Man's skills?", "Tell me about Man's projects", "How can I contact Man?"];
+
+      if (type === 'suggestions') {
+        return new Response(JSON.stringify({ suggestions: fallbackSuggestions }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
       let userErrorMsg;
       if (errorMsg.includes('401') || errorMsg.includes('Unauthorized') || errorMsg.includes('invalid')) {
-        userErrorMsg = '🔑 Invalid API key. Please check your OPENROUTER_API_KEY in .env.local|||SUGGESTIONS|||["How can I contact Man?", "What projects has Man built?", "What are Man\'s skills?"]';
+        userErrorMsg = '⚠️ The AI assistant is temporarily unavailable. Please try again later!|||SUGGESTIONS|||["How can I contact Man?", "What projects has Man built?", "What are Man\'s skills?"]';
       } else if (isQuotaError) {
         userErrorMsg = `⏳ Man's AI assistant is temporarily busy due to high demand! While I recharge, here's a quick summary:\n\n**Man Navlakha** is a Full Stack Developer (MERN Stack) based in Ahmedabad, India.\n\n- 💻 **Skills:** React, Next.js, Node.js, TypeScript, PostgreSQL, MongoDB\n- 🏢 **Current Role:** IT Support Technician at Excellent Publicity\n- 🚀 **Top Projects:** Mechanic Setu, Pixel Class, EP SEO Audit\n- 📧 **Contact:** mannnavlakha1021@gmail.com\n- 🔗 **LinkedIn:** [navlakhaman](https://linkedin.com/in/navlakhaman)\n\nPlease try again in a minute — I'll be back! 🔄|||SUGGESTIONS|||["What are Man's top projects?", "Tell me about Man's experience", "How can I contact Man?"]`;
       } else {

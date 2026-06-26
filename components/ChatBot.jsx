@@ -589,6 +589,7 @@ export default function ChatBot() {
       <div className="relative w-full mt-2 h-48 md:h-64">
         <Image
           src={src} alt={alt} fill
+          sizes="(max-width: 768px) 100vw, 640px"
           className="object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity border border-slate-200 dark:border-white/10"
           onClick={() => setLightboxImage(src)}
         />

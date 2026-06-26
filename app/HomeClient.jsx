@@ -24,9 +24,9 @@ export default function Home({ topBlogs = [] }) {
   const [activeExpertise, setActiveExpertise] = useState("item-1");
 
   const expertiseImages = {
-    "item-1": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1000&auto=format&fit=crop", // Development
-    "item-2": "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1000&auto=format&fit=crop", // UI/UX
-    "item-3": "https://images.unsplash.com/photo-1626785774573-4b799314346d?q=80&w=1000&auto=format&fit=crop"  // Branding
+    "item-1": "/project/portfolio.png",
+    "item-2": "/project/pixel.png",
+    "item-3": "/project/seo.png",
   };
   return (
     <>
@@ -395,5 +395,4 @@ export default function Home({ topBlogs = [] }) {
     </>
   )
 }
-
 
