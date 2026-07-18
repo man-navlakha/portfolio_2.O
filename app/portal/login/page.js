@@ -1,4 +1,5 @@
 import LoginClient from './LoginClient';
+import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Client Portal — Login',
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function LoginPage() {
-  return <LoginClient />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#050508] flex items-center justify-center">Loading...</div>}>
+      <LoginClient />
+    </Suspense>
+  );
 }
