@@ -36,7 +36,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' https: data: blob:",
-              "connect-src 'self' https://openrouter.ai https://generativelanguage.googleapis.com https://tts-production-57ce.up.railway.app",
+              "connect-src 'self' https://openrouter.ai https://generativelanguage.googleapis.com https://tts-production-57ce.up.railway.app https://*.supabase.co wss://*.supabase.co",
               "font-src 'self'",
               "media-src 'self' blob:",
               "frame-ancestors 'none'",
