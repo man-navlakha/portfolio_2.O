@@ -53,6 +53,15 @@ export default function ClientsPage() {
   const [resetError, setResetError] = useState('');
   const [resetSuccess, setResetSuccess] = useState('');
 
+  // Team Member state
+  const [teamMemberClient, setTeamMemberClient] = useState(null);
+  const [teamEmail, setTeamEmail] = useState('');
+  const [teamPassword, setTeamPassword] = useState('');
+  const [teamFullName, setTeamFullName] = useState('');
+  const [creatingTeamMember, setCreatingTeamMember] = useState(false);
+  const [teamError, setTeamError] = useState('');
+  const [teamSuccess, setTeamSuccess] = useState('');
+
   useEffect(() => {
     if (profile && !isAdmin) {
       router.push('/portal');
@@ -174,7 +183,51 @@ export default function ClientsPage() {
     setResettingPassword(false);
   };
 
+  const handleCreateTeamMember = async (e) => {
+    e.preventDefault();
+    setCreatingTeamMember(true);
+    setTeamError('');
+    setTeamSuccess('');
+
+    try {
+      const res = await fetch('/api/portal/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: teamEmail,
+          password: teamPassword,
+          fullName: teamFullName,
+          company: teamMemberClient.company, // Inherit company
+          parentClientId: teamMemberClient.id,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setTeamError(data.error || 'Failed to create team member');
+      } else {
+        setTeamSuccess(`Team member "${teamFullName}" created successfully!`);
+        setTeamEmail('');
+        setTeamPassword('');
+        setTeamFullName('');
+        setTimeout(() => {
+          setTeamMemberClient(null);
+          setTeamSuccess('');
+          fetchClients();
+        }, 2000);
+      }
+    } catch (err) {
+      setTeamError('Failed to create team member');
+    }
+
+    setCreatingTeamMember(false);
+  };
+
   if (!isAdmin) return null;
+
+  const primaryClients = clients.filter(c => !c.parent_client_id);
+  const getTeamMembers = (parentId) => clients.filter(c => c.parent_client_id === parentId);
 
   return (
     <div className="p-6 md:p-8 max-w-5xl mx-auto">
@@ -476,6 +529,98 @@ export default function ClientsPage() {
         )}
       </AnimatePresence>
 
+      {/* Add Team Member Modal */}
+      <AnimatePresence>
+        {teamMemberClient && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-md bg-[#0d0d14] border border-[#818cf8]/20 rounded-2xl p-6 shadow-xl"
+            >
+              <div className="flex items-center justify-between mb-5">
+                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                  <UserPlus className="w-4 h-4 text-[#818cf8]" />
+                  Add Team Member to {teamMemberClient.company || teamMemberClient.full_name}
+                </h3>
+                <button onClick={() => setTeamMemberClient(null)} className="text-gray-500 hover:text-white">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {teamError && (
+                <div className="flex items-center gap-2 p-3 mb-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                  <AlertCircle className="w-4 h-4" />
+                  {teamError}
+                </div>
+              )}
+              {teamSuccess && (
+                <div className="flex items-center gap-2 p-3 mb-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-sm">
+                  <CheckCircle className="w-4 h-4" />
+                  {teamSuccess}
+                </div>
+              )}
+
+              <form onSubmit={handleCreateTeamMember} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    value={teamFullName}
+                    onChange={(e) => setTeamFullName(e.target.value)}
+                    required
+                    placeholder="Jane Doe"
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#818cf8]/40 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={teamEmail}
+                    onChange={(e) => setTeamEmail(e.target.value)}
+                    required
+                    placeholder="team@example.com"
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#818cf8]/40 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    Password
+                  </label>
+                  <input
+                    type="text"
+                    value={teamPassword}
+                    onChange={(e) => setTeamPassword(e.target.value)}
+                    required
+                    placeholder="Min 6 characters"
+                    className="w-full px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#818cf8]/40 transition-all"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={creatingTeamMember}
+                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-[#818cf8] hover:bg-[#6366f1] text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-50"
+                >
+                  {creatingTeamMember ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
+                  Add Team Member
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Clients list */}
       {loading ? (
         <div className="space-y-3">
@@ -483,7 +628,7 @@ export default function ClientsPage() {
             <div key={i} className="h-20 bg-white/[0.03] rounded-2xl animate-pulse" />
           ))}
         </div>
-      ) : clients.length === 0 ? (
+      ) : primaryClients.length === 0 ? (
         <div className="bg-[#0d0d14]/80 border border-white/[0.06] rounded-2xl p-16 text-center">
           <Users className="w-12 h-12 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-white mb-1">No clients yet</h3>
@@ -499,67 +644,131 @@ export default function ClientsPage() {
           </button>
         </div>
       ) : (
-        <div className="space-y-3">
-          {clients.map((client, i) => (
-            <motion.div
-              key={client.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-[#0d0d14]/80 border border-white/[0.06] rounded-2xl p-5 hover:border-white/[0.12] transition-all"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#818cf8]/20 to-[#6366f1]/20 border border-white/[0.08] flex items-center justify-center text-sm font-bold text-white shrink-0">
-                  {client.full_name?.charAt(0)?.toUpperCase() || '?'}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-semibold text-white">{client.full_name || 'Unnamed'}</h3>
-                    {client.company && (
-                      <span className="text-[11px] text-gray-600">· {client.company}</span>
+        <div className="space-y-4">
+          {primaryClients.map((client, i) => {
+            const team = getTeamMembers(client.id);
+            return (
+              <motion.div
+                key={client.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-[#0d0d14]/80 border border-white/[0.06] rounded-2xl overflow-hidden hover:border-white/[0.12] transition-all"
+              >
+                {/* Primary Client Row */}
+                <div className="p-5 flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#818cf8]/20 to-[#6366f1]/20 border border-white/[0.08] flex items-center justify-center text-sm font-bold text-white shrink-0">
+                    {client.full_name?.charAt(0)?.toUpperCase() || '?'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-semibold text-white">{client.full_name || 'Unnamed'}</h3>
+                      {client.company && (
+                        <span className="text-[11px] text-gray-600">· {client.company}</span>
+                      )}
+                      <span className="px-2 py-0.5 bg-white/[0.06] text-gray-400 text-[10px] rounded uppercase tracking-wider font-semibold">
+                        Owner
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Joined {new Date(client.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    </p>
+                    {/* Project pills */}
+                    {client.client_projects?.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {client.client_projects.map((proj) => (
+                          <span
+                            key={proj.id}
+                            className="px-2 py-0.5 bg-[#30af5b]/10 text-[#30af5b] rounded-md text-[10px] font-medium"
+                          >
+                            {proj.title} ({proj.progress || 0}%)
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    Joined {new Date(client.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                  </p>
-                  {/* Project pills */}
-                  {client.client_projects?.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {client.client_projects.map((proj) => (
-                        <span
-                          key={proj.id}
-                          className="px-2 py-0.5 bg-[#30af5b]/10 text-[#30af5b] rounded-md text-[10px] font-medium"
-                        >
-                          {proj.title} ({proj.progress || 0}%)
-                        </span>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setTeamMemberClient(client);
+                        setTeamEmail('');
+                        setTeamPassword('');
+                        setTeamFullName('');
+                        setTeamError('');
+                        setTeamSuccess('');
+                      }}
+                      className="p-2 rounded-lg text-gray-600 hover:text-[#818cf8] hover:bg-[#818cf8]/10 transition-all"
+                      title="Add Team Member"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setResetPasswordClient(client);
+                        setNewPassword('');
+                        setResetError('');
+                        setResetSuccess('');
+                      }}
+                      className="p-2 rounded-lg text-gray-600 hover:text-amber-400 hover:bg-amber-500/10 transition-all"
+                      title="Change Password"
+                    >
+                      <Key className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClient(client.id)}
+                      className="p-2 rounded-lg text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                      title="Remove client"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Team Members List */}
+                {team.length > 0 && (
+                  <div className="border-t border-white/[0.04] bg-[#050508]/50 p-4 pl-16">
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Team Members</h4>
+                    <div className="space-y-3">
+                      {team.map((member) => (
+                        <div key={member.id} className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-xs font-bold text-gray-400">
+                              {member.full_name?.charAt(0)?.toUpperCase() || '?'}
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-300">{member.full_name || 'Unnamed'}</p>
+                              <p className="text-[11px] text-gray-600">Added {new Date(member.created_at).toLocaleDateString()}</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                setResetPasswordClient(member);
+                                setNewPassword('');
+                                setResetError('');
+                                setResetSuccess('');
+                              }}
+                              className="p-1.5 rounded-md text-gray-600 hover:text-amber-400 hover:bg-amber-500/10 transition-all"
+                              title="Change Password"
+                            >
+                              <Key className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteClient(member.id)}
+                              className="p-1.5 rounded-md text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                              title="Remove team member"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
                       ))}
                     </div>
-                  )}
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setResetPasswordClient(client);
-                      setNewPassword('');
-                      setResetError('');
-                      setResetSuccess('');
-                    }}
-                    className="p-2 rounded-lg text-gray-600 hover:text-amber-400 hover:bg-amber-500/10 transition-all"
-                    title="Change Password"
-                  >
-                    <Key className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteClient(client.id)}
-                    className="p-2 rounded-lg text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
-                    title="Remove client"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
       )}
     </div>

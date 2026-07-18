@@ -64,6 +64,8 @@ export default function DocumentsPage() {
     if (!files?.length) return;
     setUploading(true);
 
+    let hasErrors = false;
+
     for (const file of files) {
       if (file.size > 50 * 1024 * 1024) continue; // 50MB limit
 
@@ -88,7 +90,7 @@ export default function DocumentsPage() {
         else if (['xls', 'xlsx', 'csv'].includes(ext)) fileType = 'spreadsheet';
         else if (['fig', 'sketch', 'psd', 'ai', 'xd'].includes(ext)) fileType = 'design';
 
-        await supabase.from('documents').insert({
+        const { data: newDoc, error: insertError } = await supabase.from('documents').insert({
           client_id: user.id,
           project_id: projectFilter !== 'all' ? projectFilter : null,
           name: file.name,
@@ -96,13 +98,25 @@ export default function DocumentsPage() {
           file_type: fileType,
           file_size: file.size,
           uploaded_by: user.id,
-        });
+        }).select().single();
+
+        if (insertError) {
+          console.error("Document insert error:", insertError);
+          hasErrors = true;
+        }
+      } else {
+        console.error("Storage upload error:", uploadError);
+        hasErrors = true;
       }
     }
 
     setUploading(false);
-    setUploadSuccess(true);
-    setTimeout(() => setUploadSuccess(false), 3000);
+    if (!hasErrors) {
+      setUploadSuccess(true);
+      setTimeout(() => setUploadSuccess(false), 3000);
+    } else {
+      alert("There was an error uploading one or more files. Check the console for details.");
+    }
     fetchDocuments();
   };
 

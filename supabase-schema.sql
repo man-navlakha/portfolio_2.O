@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS profiles (
   company TEXT,
   avatar_url TEXT,
   role TEXT DEFAULT 'client' CHECK (role IN ('client', 'admin')),
+  parent_client_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -105,10 +106,14 @@ CREATE POLICY "Admins can delete profiles"
   USING (is_admin(auth.uid()));
 
 -- ── CLIENT PROJECTS ───────────────────────────────────────────
--- Clients see their own projects, admins see all
+-- Clients see their own projects, admin sees all, and team members see their parent's projects
 CREATE POLICY "View own projects or admin"
   ON client_projects FOR SELECT
-  USING (client_id = auth.uid() OR is_admin(auth.uid()));
+  USING (
+    client_id = auth.uid() OR 
+    client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+    is_admin(auth.uid())
+  );
 
 -- Admins can insert projects
 CREATE POLICY "Admins can create projects"
@@ -126,10 +131,14 @@ CREATE POLICY "Admins can delete projects"
   USING (is_admin(auth.uid()));
 
 -- ── DOCUMENTS ─────────────────────────────────────────────────
--- Clients see their own docs, admins see all
+-- Clients see their own docs, admins see all, and team members see their parent's docs
 CREATE POLICY "View own documents or admin"
   ON documents FOR SELECT
-  USING (client_id = auth.uid() OR is_admin(auth.uid()));
+  USING (
+    client_id = auth.uid() OR 
+    client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+    is_admin(auth.uid())
+  );
 
 -- Both clients and admins can upload documents
 CREATE POLICY "Users can insert documents"
@@ -142,20 +151,33 @@ CREATE POLICY "Delete own documents or admin"
   USING (uploaded_by = auth.uid() OR is_admin(auth.uid()));
 
 -- ── CONVERSATIONS ─────────────────────────────────────────────
--- Clients see their own conversations, admins see all
+-- Clients see their own conversations, admins see all, and team members see their parent's conversations
 CREATE POLICY "View own conversations or admin"
   ON conversations FOR SELECT
-  USING (client_id = auth.uid() OR admin_id = auth.uid() OR is_admin(auth.uid()));
+  USING (
+    client_id = auth.uid() OR 
+    client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+    admin_id = auth.uid() OR 
+    is_admin(auth.uid())
+  );
 
--- Clients can create conversations
+-- Clients can create conversations for themselves or their parent client
 CREATE POLICY "Clients can create conversations"
   ON conversations FOR INSERT
-  WITH CHECK (client_id = auth.uid());
+  WITH CHECK (
+    client_id = auth.uid() OR 
+    client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid())
+  );
 
 -- Both can update (for last_message_at)
 CREATE POLICY "Participants can update conversations"
   ON conversations FOR UPDATE
-  USING (client_id = auth.uid() OR admin_id = auth.uid() OR is_admin(auth.uid()));
+  USING (
+    client_id = auth.uid() OR 
+    client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+    admin_id = auth.uid() OR 
+    is_admin(auth.uid())
+  );
 
 -- ── MESSAGES ──────────────────────────────────────────────────
 -- Users can read messages in their conversations
@@ -165,7 +187,12 @@ CREATE POLICY "Read messages in own conversations"
     EXISTS (
       SELECT 1 FROM conversations
       WHERE conversations.id = messages.conversation_id
-      AND (conversations.client_id = auth.uid() OR conversations.admin_id = auth.uid() OR is_admin(auth.uid()))
+      AND (
+        conversations.client_id = auth.uid() OR 
+        conversations.client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+        conversations.admin_id = auth.uid() OR 
+        is_admin(auth.uid())
+      )
     )
   );
 
@@ -177,7 +204,12 @@ CREATE POLICY "Send messages in own conversations"
     EXISTS (
       SELECT 1 FROM conversations
       WHERE conversations.id = conversation_id
-      AND (conversations.client_id = auth.uid() OR conversations.admin_id = auth.uid() OR is_admin(auth.uid()))
+      AND (
+        conversations.client_id = auth.uid() OR 
+        conversations.client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+        conversations.admin_id = auth.uid() OR 
+        is_admin(auth.uid())
+      )
     )
   );
 
@@ -188,7 +220,12 @@ CREATE POLICY "Update messages read status"
     EXISTS (
       SELECT 1 FROM conversations
       WHERE conversations.id = messages.conversation_id
-      AND (conversations.client_id = auth.uid() OR conversations.admin_id = auth.uid() OR is_admin(auth.uid()))
+      AND (
+        conversations.client_id = auth.uid() OR 
+        conversations.client_id = (SELECT parent_client_id FROM profiles WHERE id = auth.uid()) OR 
+        conversations.admin_id = auth.uid() OR 
+        is_admin(auth.uid())
+      )
     )
   );
 

@@ -23,7 +23,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
-    const { email, password, fullName, company } = await request.json();
+    const { email, password, fullName, company, parentClientId } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
@@ -54,6 +54,7 @@ export async function POST(request) {
         full_name: fullName || null,
         company: company || null,
         role: 'client',
+        parent_client_id: parentClientId || null,
       });
 
     if (profileError) {
