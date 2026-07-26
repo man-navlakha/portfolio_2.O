@@ -1,5 +1,103 @@
 [
   {
+    "slug": "book-free-college-project-consultation",
+    "title": "Book a Free College Project Consultation | React, MERN, Python & AI Projects",
+    "short_description": "Need help with your college project? Book a free consultation with Man Navlakha. Get guidance on React, MERN Stack, Python, Django, AI, React Native, documentation, deployment, and viva preparation.",
+    "img_link": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+    "status": true,
+    "index": "yes",
+    "date": "2026-07-26",
+    "updated_date": "2026-07-26",
+    "author": "Man Navlakha",
+    "category": "Services",
+    "tags": [
+      "College Project",
+      "Project Consultation",
+      "React",
+      "MERN Stack",
+      "Python",
+      "Django",
+      "React Native",
+      "AI Projects",
+      "Final Year Project",
+      "BCA",
+      "MCA",
+      "Engineering"
+    ],
+    "read_time": "7 min read",
+    "featured": true,
+    "meta_details": {
+      "meta_title": "Book a Free College Project Consultation | Man Navlakha",
+      "meta_description": "Book a free consultation for your college project. Get expert guidance for React, MERN, Python, Django, AI, React Native, deployment, documentation, and viva preparation.",
+      "keywords": "college project help, final year project help, React project developer, MERN project developer, Python project help, Django project help, AI project development, React Native project, BCA project help, MCA project help, engineering project help, project consultation, custom software project, affordable college project",
+      "canonical_link": "https://man-navlakha.netlify.app/blog/book-free-college-project-consultation",
+      "og_type": "article",
+      "og_title": "Book a Free College Project Consultation",
+      "og_description": "Discuss your college project with Man Navlakha. Get guidance, development support, documentation, deployment, and viva preparation.",
+      "robots": "index,follow"
+    },
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "College Project Consultation",
+      "provider": {
+        "@type": "Person",
+        "name": "Man Navlakha"
+      },
+      "serviceType": "College Project Development & Consultation",
+      "areaServed": "India",
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://man-navlakha.netlify.app/blog/book-free-college-project-consultation"
+      }
+    }
+  },
+  {
+    "slug": "react-final-year-project-guide-2026",
+    "title": "React Final Year Project Guide (2026): Ideas, Architecture & Common Mistakes",
+    "short_description": "Planning to build a React final year project? Learn how to choose the right idea, structure your application, avoid common mistakes, and successfully complete your college project.",
+    "img_link": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=80",
+    "status": true,
+    "index": "yes",
+    "date": "2026-07-26",
+    "tags": [
+      "React",
+      "College Project",
+      "Final Year Project",
+      "MERN",
+      "BCA"
+    ],
+    "read_time": "12 min read",
+    "meta_details": {
+      "keywords": "React Final Year Project, React Project Ideas, BCA Project, MERN Project, React College Project, React Documentation, React Deployment",
+      "canonical_link": "https://man-navlakha.netlify.app/blog/react-final-year-project-guide-2026",
+      "og_type": "article"
+    }
+  },
+  {
+    "slug": "best-affordable-final-year-projects-2026",
+    "title": "Best Affordable Final Year Projects for Students (2026)",
+    "short_description": "Looking for an affordable college project? Explore budget-friendly React, MERN, Python, AI, and Android project ideas with tips to choose the right project without compromising quality.",
+    "img_link": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
+    "status": true,
+    "index": "yes",
+    "date": "2026-07-26",
+    "tags": [
+      "College Project",
+      "BCA",
+      "MERN",
+      "React",
+      "Python",
+      "Students"
+    ],
+    "read_time": "10 min read",
+    "meta_details": {
+      "keywords": "Affordable College Projects, Final Year Project, Low Budget Project, React Project, MERN Project, BCA Project",
+      "canonical_link": "https://man-navlakha.netlify.app/blog/best-affordable-final-year-projects-2026",
+      "og_type": "article"
+    }
+  },
+  {
     "slug": "advanced-react-patterns",
     "title": "Advanced React Patterns in 2026",
     "short_description": "Learn the best patterns for building scalable React apps with modern hooks, compound components, and render delegation.",

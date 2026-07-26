@@ -1,0 +1,232 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "React Final Year Project Guide (2026)",
+                "description": "Choosing a React project for your final year is exciting, but many students struggle with selecting the right idea, structuring their application, and finishing before submission. This guide explains everything from project selection to deployment while sharing practical advice that applies to real college projects."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "A successful project is not the one with the most features. It's the one that solves a real problem, is well structured, and can be confidently explained during your viva.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Most React College Projects Fail",
+                "description": "Many students begin coding immediately without planning. As deadlines approach, they add features randomly, ignore folder structure, skip documentation, and never deploy the application. These shortcuts often create more problems than they solve."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "Choosing an unrealistic project.",
+                    "No proper folder structure.",
+                    "Hardcoded data instead of APIs.",
+                    "Ignoring responsive design.",
+                    "No authentication.",
+                    "No documentation.",
+                    "No deployment before submission."
+                ]
+            }
+        },
+        {
+            "type": "image",
+            "data": {
+                "src": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
+                "alt": "Student building React project",
+                "caption": "Planning before coding saves hours of debugging later."
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "How to Choose the Right React Project",
+                "description": "Instead of picking the biggest project you can imagine, choose one that demonstrates multiple skills including authentication, CRUD operations, API integration, responsive UI, and deployment."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "number",
+                "items": [
+                    "Identify a real-world problem.",
+                    "Select features you can realistically complete.",
+                    "Design the UI before coding.",
+                    "Create database models.",
+                    "Build reusable React components.",
+                    "Deploy the application online."
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Recommended Technology Stack",
+                "description": "React works best when combined with modern backend and deployment tools."
+            }
+        },
+        {
+            "type": "code",
+            "data": {
+                "language": "text",
+                "code": "Frontend : React + Vite + Tailwind CSS\nBackend : Node.js + Express\nDatabase : PostgreSQL or MongoDB\nAuthentication : JWT\nHosting : Vercel + Render\nStorage : Cloudinary",
+                "show_copy_button": true
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Project Structure Example",
+                "description": "Keeping files organized makes development faster and impresses examiners."
+            }
+        },
+        {
+            "type": "code",
+            "data": {
+                "language": "text",
+                "code": "src/\n ├── components/\n ├── pages/\n ├── layouts/\n ├── hooks/\n ├── services/\n ├── context/\n ├── utils/\n ├── assets/\n └── App.jsx",
+                "show_copy_button": true
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Features That Impress During Viva",
+                "description": "Teachers usually ask about architecture, authentication, APIs, and deployment. Including these features makes your project stronger."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Login & Registration",
+                    "JWT Authentication",
+                    "Role Based Access",
+                    "Responsive Design",
+                    "REST API Integration",
+                    "Loading States",
+                    "Error Handling",
+                    "Dark Mode",
+                    "Deployment",
+                    "GitHub Repository"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Don't copy a GitHub project without understanding it. During the viva, you'll be expected to explain your architecture and implementation decisions.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Practice Explaining Your Project",
+                "description": "You should be able to explain why you chose React, how components communicate, how authentication works, where data is stored, and how the application is deployed."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "Official React Documentation",
+                "url": "https://react.dev"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Looking for Study Resources?",
+                "description": "If you're collecting notes, semester PDFs, subject resources, or looking for a cleaner way to organize your study materials, Pixel Class provides a centralized platform where students can access resources, discover classmates, and manage study content more efficiently."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "Visit Pixel Class",
+                "url": "https://pixel-class.vercel.app/"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Need Help Completing Your College Project?",
+                "description": "If you're running out of time, stuck on a bug, need deployment help, documentation, UI improvements, or want guidance building a React, MERN, Django, Python, AI, or React Native project, I provide one-to-one assistance. The goal is to help you understand your project while completing it successfully."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React Projects",
+                    "MERN Stack Projects",
+                    "Node.js APIs",
+                    "Python & Django Projects",
+                    "AI Projects",
+                    "React Native Apps",
+                    "Deployment Support",
+                    "Project Documentation",
+                    "PPT Preparation",
+                    "Viva Preparation"
+                ]
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "Chat on WhatsApp",
+                "url": "https://wa.me/919913151805"
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Frequently Asked Questions"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Which React project is best for BCA students?",
+                "answer": "Projects such as Student Management Systems, Library Management, E-Commerce platforms, Attendance Systems, AI Chat Applications, and Learning Management Systems are excellent choices because they demonstrate CRUD operations, authentication, responsive UI, and API integration."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Should I use React or Next.js for my college project?",
+                "answer": "If your syllabus specifically mentions React, React with Vite is usually sufficient. If you also want to demonstrate server-side rendering, SEO, and production-ready architecture, Next.js is a strong option."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do I need to deploy my project before submission?",
+                "answer": "Yes. Hosting your project on platforms like Vercel or Render allows examiners to access it easily and demonstrates that you understand the deployment process."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can I get help if I'm stuck?",
+                "answer": "Yes. Whether you're facing React errors, backend issues, deployment problems, documentation challenges, or need guidance completing your project, you can reach out through WhatsApp or email."
+            }
+        }
+    ]
+}

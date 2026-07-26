@@ -1,0 +1,207 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Book a Free College Project Consultation",
+                "description": "Planning your final year project? Before you spend days building the wrong thing, let's discuss your idea. I help BCA, MCA, Diploma, and Engineering students choose the right technology, define project scope, estimate timelines, and build projects they can confidently explain during their viva."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "💬 A 15–30 minute discussion can save you weeks of unnecessary work.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Book a Consultation?",
+                "description": "Many students start coding immediately without planning. They later discover missing features, database issues, or technologies that don't match their college requirements. A short consultation helps avoid these common mistakes."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Choose the right project idea",
+                    "Select the best technology stack",
+                    "Understand your college requirements",
+                    "Plan your database structure",
+                    "Estimate development time",
+                    "Avoid unnecessary features",
+                    "Get honest technical advice"
+                ]
+            }
+        },
+        {
+            "type": "image",
+            "data": {
+                "src": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+                "alt": "Students discussing project ideas",
+                "caption": "Good planning is the foundation of every successful project."
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What We Can Help You Build",
+                "description": "Whether you're starting from scratch or improving an existing project, we can help with modern technologies and real-world architectures."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js Projects",
+                    "MERN Stack Applications",
+                    "Next.js Projects",
+                    "Python Projects",
+                    "Django Applications",
+                    "Java Projects",
+                    "PHP Projects",
+                    "React Native Apps",
+                    "AI & Chatbot Projects",
+                    "Admin Dashboards",
+                    "Portfolio Websites",
+                    "Database Design"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Every project is planned around your syllabus, deadline, and budget—not with a one-size-fits-all approach.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Already Started Your Project?",
+                "description": "You don't need to begin again. If you're facing errors, incomplete features, deployment issues, or database problems, we can review your existing work and recommend the best next steps."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Bug fixing",
+                    "Feature development",
+                    "Authentication",
+                    "REST API integration",
+                    "Database optimization",
+                    "Responsive UI improvements",
+                    "Deployment support",
+                    "GitHub setup",
+                    "Performance improvements"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What's Included If You Work With Me?",
+                "description": "The goal isn't simply to deliver code. It's to help you submit a project you understand and can confidently present."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Custom project development",
+                    "Clean, organized source code",
+                    "Project explanation",
+                    "Database setup",
+                    "Documentation assistance",
+                    "Deployment guidance",
+                    "Presentation (PPT) support",
+                    "Viva preparation",
+                    "Support after delivery"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Student-Friendly Pricing",
+                "description": "Every project is different, so pricing depends on your requirements, deadline, and complexity. During the consultation, you'll receive a clear estimate before any work begins."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "No hidden charges. No unnecessary upselling. Just practical advice and transparent pricing.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Free Resources for Students",
+                "description": "Looking for notes, semester PDFs, and study resources? Pixel Class helps students organize learning materials, discover classmates, and access academic resources from one platform."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "Explore Pixel Class",
+                "url": "https://pixel-class.vercel.app/"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Ready to Discuss Your Project?",
+                "description": "Share your project idea, preferred technology, deadline, and college requirements. Whether you need complete development, debugging, documentation, or deployment help, we'll find the best solution together."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 Book a Meeting on WhatsApp",
+                "url": "https://wa.me/919913151805?text=Hi%20Man,%20I%20want%20to%20discuss%20my%20college%20project."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Man",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=College%20Project%20Consultation"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Is the consultation free?",
+                "answer": "Yes. The initial discussion is free. We'll understand your requirements, recommend a suitable approach, and explain the available options before any work begins."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help with an existing project?",
+                "answer": "Yes. If you've already started your project, I can help fix bugs, add features, improve the architecture, assist with deployment, or explain the implementation."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you only work with React projects?",
+                "answer": "No. Support is available for React, MERN Stack, Next.js, Python, Django, Java, PHP, React Native, AI projects, and other academic software projects."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Will I understand the project after it's completed?",
+                "answer": "That's the goal. Along with development, you'll receive guidance so you can explain the project's architecture, features, and implementation during your viva or presentation."
+            }
+        }
+    ]
+}

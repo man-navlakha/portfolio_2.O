@@ -1,0 +1,216 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Need Help With Your College Project? Let's Build It Together.",
+                "description": "Whether you're a BCA, MCA, Diploma, or Engineering student, completing a college project can be stressful. Tight deadlines, debugging issues, documentation, deployment, and viva preparation often become overwhelming. I help students build custom projects while explaining every important concept so they understand what they're submitting."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Build your project with confidence—not panic. Get guidance, clean code, documentation, deployment support, and post-delivery assistance.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Book a Project Consultation",
+                "description": "Before starting development, we'll discuss your college requirements, technology stack, features, deadline, and budget. This helps us recommend the right solution instead of building unnecessary features."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Free project discussion",
+                    "Requirement analysis",
+                    "Technology recommendation",
+                    "Timeline estimation",
+                    "Budget-friendly options",
+                    "No hidden charges"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "📅 Book a meeting with Man and discuss your project before you start.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Projects We Can Build",
+                "description": "From simple academic projects to full-stack applications, we help students create projects that are clean, practical, and suitable for demonstrations and viva examinations."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js Projects",
+                    "MERN Stack Projects",
+                    "Next.js Applications",
+                    "Node.js Backend APIs",
+                    "Python Projects",
+                    "Django Projects",
+                    "Java Projects",
+                    "PHP Projects",
+                    "AI & Chatbot Projects",
+                    "React Native Apps",
+                    "Portfolio Websites",
+                    "Admin Dashboards"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Need Help With Your College Project?",
+                "description": "If you've already started your project but are facing issues, you don't need to start over. We can help you complete, improve, or fix your existing work."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Fix coding errors",
+                    "Complete unfinished projects",
+                    "API integration",
+                    "Database design",
+                    "Authentication",
+                    "Deployment",
+                    "Responsive UI",
+                    "Bug fixing",
+                    "GitHub setup",
+                    "Performance improvements"
+                ]
+            }
+        },
+        {
+            "type": "image",
+            "data": {
+                "src": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+                "alt": "Students discussing project",
+                "caption": "Every successful project starts with proper planning."
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What's Included?",
+                "description": "Our goal is to help you submit a project you can confidently explain during your presentation."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Clean & organized source code",
+                    "Project explanation",
+                    "Database setup",
+                    "Project documentation",
+                    "Installation guide",
+                    "Deployment support",
+                    "PPT guidance",
+                    "Viva preparation",
+                    "Minor revisions after delivery"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Affordable pricing for students. Every project is quoted based on requirements rather than using one fixed price.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Students Choose Us",
+                "description": "Many project providers simply deliver files. We focus on helping you understand your project so you can confidently answer questions during your viva."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "Student-friendly pricing",
+                    "One-to-one communication",
+                    "Fast response",
+                    "Custom development",
+                    "Original implementation",
+                    "Modern technologies",
+                    "Support after delivery",
+                    "Clear documentation"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Looking for Study Resources?",
+                "description": "Pixel Class helps students organize semester notes, PDFs, and study materials in one place. You can also connect with classmates and manage your learning resources more efficiently."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "Visit Pixel Class",
+                "url": "https://pixel-class.vercel.app/"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Ready to Start?",
+                "description": "Tell us about your project idea, deadline, and technology requirements. We'll suggest the best approach and provide a budget-friendly solution."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 Chat on WhatsApp",
+                "url": "https://wa.me/919913151805"
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Man",
+                "url": "mailto:mannavlakha1021@gmail.com"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you build projects from scratch?",
+                "answer": "Yes. Projects are developed based on your college requirements, preferred technology, and timeline."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help if I've already started my project?",
+                "answer": "Yes. Whether you need bug fixes, additional features, deployment, or documentation, we can help improve your existing project."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you only work with React projects?",
+                "answer": "No. We also help with MERN Stack, Next.js, Python, Django, Java, PHP, AI, React Native, and other academic projects."
+            }
+        }
+    ]
+}
