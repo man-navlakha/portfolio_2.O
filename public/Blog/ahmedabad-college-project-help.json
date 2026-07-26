@@ -1,0 +1,195 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "College Project Help in Ahmedabad",
+                "description": "If you're a student in Ahmedabad looking for reliable help with your final year college project, you've come to the right place. Whether you're studying at GTU, LJ University, Silver Oak, Nirma, GLS, Indus, or any other Ahmedabad college, I help BCA, MCA, Diploma, and Engineering students build, fix, and confidently present their software projects."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "🎓 Serving students from GTU, LJ University, Silver Oak, Nirma University, GLS University, Indus University, and more — right here in Ahmedabad.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Students in Ahmedabad Choose This Service",
+                "description": "Ahmedabad is home to some of Gujarat's top colleges. But final year projects can be stressful — tight deadlines, unclear requirements, and technologies that students haven't worked with before. This service provides local, student-friendly guidance that actually works."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Local developer who understands Gujarat university project requirements",
+                    "Familiar with GTU, LJ University, Silver Oak, Nirma, GLS syllabi",
+                    "Student-friendly pricing with no hidden charges",
+                    "Clear communication via WhatsApp, no complicated process",
+                    "Support from idea selection to viva preparation",
+                    "Quick turnaround for urgent deadlines"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Who Is This Service For?",
+                "description": "This service is built around the real challenges Ahmedabad students face during their final semester. Whether it's your first time building a software project or you're stuck midway, there's a path forward."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "BCA Final Year Students",
+                    "MCA Final Year Students",
+                    "Engineering (CE / IT / CSE) Students",
+                    "Diploma Students",
+                    "Students who need mini projects or major projects",
+                    "Students who already started but are stuck"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What Technologies Can I Help With?",
+                "description": "Ahmedabad college syllabi vary, but most final year projects fall within these technology stacks. I can help you pick the right one or continue with what you've already started."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js — Component-based front-end development",
+                    "MERN Stack — MongoDB, Express, React, Node.js full-stack apps",
+                    "Next.js — Modern full-stack React framework",
+                    "Python — Scripting, automation, data projects",
+                    "Django — Python web framework for back-end projects",
+                    "Java — Enterprise-grade academic projects",
+                    "PHP — Traditional college project requirements",
+                    "React Native — Mobile app projects",
+                    "AI & Chatbot — GPT, NLP, and machine learning integrations",
+                    "Admin Dashboards — Data management systems"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Don't know which technology to use? During the free consultation, we'll recommend the best stack based on your syllabus, deadline, and skill level.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Common Problems Students Face — And How We Solve Them",
+                "description": "Many Ahmedabad students face the same challenges. Here are the most common issues and how we can help."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Project idea is too vague — We help narrow it down to something achievable within your deadline",
+                    "Technology mismatch — We recommend what fits your syllabus and skill set",
+                    "Bugs that won't go away — Code review and targeted bug fixing",
+                    "Database not working properly — Schema design and query optimization",
+                    "Login and authentication issues — Secure, working auth implementation",
+                    "Don't know how to deploy — Vercel, Netlify, or cPanel deployment guidance",
+                    "Missing documentation — We help create project reports and synopses",
+                    "Viva nervousness — We explain the entire project so you can answer confidently"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What You Get When You Work With Me",
+                "description": "This isn't a service that just hands you code. The goal is to help you submit a project you understand and can explain — because that's what matters in your viva."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Custom project development matched to your syllabus",
+                    "Clean, well-structured source code",
+                    "Project explanation sessions",
+                    "Database setup and configuration",
+                    "Documentation and project report support",
+                    "Deployment to live URL",
+                    "PPT and presentation help",
+                    "Viva preparation guidance",
+                    "Post-delivery support"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "No hidden fees. Pricing is discussed openly during the consultation based on your project size, deadline, and complexity.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Ready to Start? Book a Free Consultation",
+                "description": "Send a WhatsApp message with your project idea, college name, technology preference, and submission deadline. We'll plan the best approach together before anything begins."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 Chat on WhatsApp — College Project Help Ahmedabad",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20college%20project%20help%20in%20Ahmedabad."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=College%20Project%20Help%20Ahmedabad"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Which Ahmedabad colleges do you help with?",
+                "answer": "I regularly help students from GTU-affiliated colleges, LJ University, Silver Oak University, Nirma University, GLS University, Indus University, and other Ahmedabad-area colleges."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help if my project submission is next week?",
+                "answer": "Yes. Urgent timelines are possible. Share your requirements on WhatsApp and we'll discuss what's achievable within your deadline."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do I need to know programming to work with you?",
+                "answer": "No prior coding knowledge is required. You'll receive a working project with enough explanation to confidently present it during your viva."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help with documentation and project reports?",
+                "answer": "Yes. Assistance with project documentation, synopsis, and reports is available as part of the service."
+            }
+        }
+    ]
+}

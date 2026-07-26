@@ -1,0 +1,212 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Silver Oak University Project Help — Final Year Project Assistance in Ahmedabad",
+                "description": "Are you a Silver Oak University student working on your final year college project? Whether you're enrolled in BCA, MCA, BTech, or any engineering program at Silver Oak, I provide hands-on project development, debugging, documentation, deployment, and viva preparation support — right from Ahmedabad."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "🎓 Silver Oak University students get tailored project help — not generic code copied from the internet. Your project, your requirements, your deadline.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Silver Oak Students Choose This Service",
+                "description": "Silver Oak University emphasizes practical skills and project quality. Students are expected to submit well-functioning, well-documented software. This service bridges the gap between academic requirements and real-world development."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Understands Silver Oak University project evaluation criteria",
+                    "Located in Ahmedabad — accessible and responsive",
+                    "Supports BCA, MCA, BTech, and Diploma students",
+                    "No generic projects — everything is custom built",
+                    "Competitive, student-friendly pricing",
+                    "Quick turnaround for urgent submissions"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Who This Service Is For at Silver Oak",
+                "description": "This service is tailored for Silver Oak University students at any stage of their project — from idea selection to the final viva."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "BCA Final Year Students — Mini and major projects",
+                    "MCA Students — Advanced full-stack web projects",
+                    "BTech Students — Engineering software projects",
+                    "Diploma Computer Science Students",
+                    "Students with incomplete or broken projects",
+                    "Students aiming for higher grades and better presentations"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Supported Technologies for Silver Oak Projects",
+                "description": "Silver Oak University accepts diverse technology stacks. Here are the recommended and most commonly used options."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js — Industry-standard front-end development",
+                    "MERN Stack — Complete full-stack JavaScript applications",
+                    "Next.js — Full-stack framework with server-side rendering",
+                    "Python + Django — Data-driven and AI-based projects",
+                    "Java (Spring Boot) — Enterprise application projects",
+                    "PHP + MySQL — Widely accepted BCA stack",
+                    "React Native — Mobile app development projects",
+                    "Machine Learning & AI — Prediction and NLP-based systems"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Not sure which stack to use? During a free discussion, I'll recommend the best technology based on your course, semester, and timeline.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Project Ideas for Silver Oak University Students",
+                "description": "Here are proven project ideas that work well for Silver Oak University's BCA, MCA, and Engineering programs."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Student Fee and Invoice Management System",
+                    "Online Library Management with Book Issuing",
+                    "Smart Attendance Tracking with QR Code",
+                    "Placement and Recruitment Portal",
+                    "Hospital Appointment Booking System",
+                    "Online Examination and Result Platform",
+                    "Mess and Cafeteria Management System",
+                    "Alumni Network and Career Portal",
+                    "AI-based Document Summarizer",
+                    "Event Registration and Management System"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Need Help With an Existing Silver Oak Project?",
+                "description": "If your Silver Oak project is partially done and you're facing issues, I can pick up from where you left off."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Frontend UI bugs and layout issues",
+                    "Backend errors and API failures",
+                    "Database connection and schema problems",
+                    "Login and authentication failures",
+                    "Deployment configuration and hosting issues",
+                    "Missing features and incomplete modules",
+                    "Project documentation and report writing",
+                    "Presentation (PPT) creation",
+                    "Viva preparation and code explanation"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Complete Project Delivery — What's Included",
+                "description": "Every Silver Oak University project engagement delivers more than just code."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Fully functional, tested software application",
+                    "Clean, readable source code",
+                    "MongoDB or SQL database integration",
+                    "Authentication and role-based access control",
+                    "Responsive, modern UI",
+                    "Live deployment URL",
+                    "GitHub repository with documentation",
+                    "Project report and synopsis",
+                    "Detailed project walkthrough for viva"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Transparent pricing discussed before development begins. No hidden fees, no surprise charges — just quality work at fair rates.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Contact Me for Silver Oak University Project Help",
+                "description": "Drop a WhatsApp message with your project idea, course, Silver Oak department, and deadline. We'll figure out the best approach together before any work starts."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 WhatsApp — Silver Oak University Project Help",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20help%20with%20my%20Silver%20Oak%20University%20project."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=Silver%20Oak%20University%20Project%20Help"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help Silver Oak BCA and BTech students both?",
+                "answer": "Yes. I support students from all computer science and engineering programs at Silver Oak University — BCA, MCA, BTech, and Diploma."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Is PHP still accepted for Silver Oak projects?",
+                "answer": "Yes. PHP with MySQL is still accepted at Silver Oak. However, React, MERN, or Python projects often make a stronger impression during viva evaluations."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you deliver my Silver Oak project within a week?",
+                "answer": "For smaller and mid-sized projects, a 5–7 day delivery is possible. Contact me on WhatsApp with your requirements and deadline to confirm."
+            }
+        }
+    ]
+}

@@ -1,0 +1,221 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Nirma University Project Help — Final Year Software Project Assistance",
+                "description": "Are you a Nirma University student in Ahmedabad working on your final year project? Whether you're enrolled in BTech Computer Science, IT, MCA, or any other technical program at Nirma, I provide project development, debugging, deployment, documentation, and viva preparation support tailored to Nirma's high academic standards."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "🏆 Nirma University is one of Gujarat's most respected institutions. Your final year project should match that reputation — here's how I help.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Nirma University Projects Need Specialized Help",
+                "description": "Nirma University maintains high academic standards. Projects are evaluated rigorously by faculty, and students are expected to demonstrate deep understanding of their work during viva. Simply submitting working code isn't enough — you need to understand every part of your project."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Nirma projects require both working software and solid understanding",
+                    "Faculty evaluation focuses heavily on code quality and architecture",
+                    "Documentation and synopsis must be thorough and professional",
+                    "Students must explain technical decisions during viva",
+                    "Modern tech stacks are encouraged and appreciated by Nirma evaluators",
+                    "Deployment to a live URL adds credibility to your project"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Who This Service Is For at Nirma University",
+                "description": "This service is designed for Nirma students who need expert guidance at any stage of their project."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "BTech Computer Science & Engineering Students",
+                    "BTech Information Technology Students",
+                    "MCA Final Year Students",
+                    "Students doing capstone projects with real-world scope",
+                    "Students facing complex technical challenges",
+                    "Students who want a polished project with clean architecture"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Recommended Technologies for Nirma Projects",
+                "description": "Nirma University encourages industry-relevant technologies. These are the stacks that work best and impress faculty evaluators."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js + Next.js — Polished, production-grade front-end projects",
+                    "MERN Stack — Full-stack JavaScript with MongoDB, Express, React, Node",
+                    "Python with Django or FastAPI — Data-intensive and API-heavy projects",
+                    "Java (Spring Boot) — Enterprise-level backend systems",
+                    "Machine Learning & Deep Learning — AI, NLP, image classification projects",
+                    "REST API development — Clean, testable backend architecture",
+                    "Cloud Deployment — AWS, Vercel, Render for professional hosting",
+                    "React Native — Cross-platform mobile app submissions"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Nirma University evaluators appreciate modern architecture — clean APIs, component-based React frontends, and proper authentication are expected.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Project Ideas That Work Well for Nirma University",
+                "description": "These project ideas balance complexity with explainability — ideal for Nirma's evaluation process."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "AI-powered Resume Screening and Ranking System",
+                    "Real-time Collaborative Code Editor",
+                    "Smart Health Monitoring Dashboard with IoT Integration",
+                    "Multi-vendor E-commerce Platform with Stripe Payments",
+                    "Predictive Analytics Dashboard for Business Data",
+                    "Natural Language Processing-based FAQ Bot",
+                    "Blockchain-based Academic Credential Verification",
+                    "Automated CI/CD Pipeline Management Tool",
+                    "Real-time Delivery Tracking System",
+                    "AI Content Generation Platform with OpenAI API"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Already Working on Your Nirma Project? I Can Help",
+                "description": "If you've started your Nirma project but hit a technical wall, I can help without discarding your existing work. Here's what can be fixed or extended."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Complex React state management issues",
+                    "REST API design and implementation gaps",
+                    "Database optimization and query performance",
+                    "Authentication with JWT, OAuth, or session management",
+                    "Third-party API integrations",
+                    "Cloud deployment configuration",
+                    "Code refactoring for better architecture",
+                    "Performance optimization",
+                    "Testing and bug resolution",
+                    "Viva preparation and project explanation coaching"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What's Included in a Nirma University Project Engagement",
+                "description": "Here's what you receive when we work together on your Nirma final year project."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Fully functional, well-structured application",
+                    "Clean code with meaningful documentation in code",
+                    "Database design with proper relationships",
+                    "Authentication and authorization",
+                    "API development and testing",
+                    "Responsive, modern UI",
+                    "Deployment to a live, accessible URL",
+                    "GitHub repository with commit history",
+                    "Project report and technical documentation",
+                    "Viva walkthrough — architecture, decisions, and flow explanation"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Nirma evaluators ask hard questions. We prepare you with a thorough understanding of every component of your project — not just the surface.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Get Started With Your Nirma University Project",
+                "description": "Send me your project topic, department, expected features, and submission deadline on WhatsApp. We'll plan a technical approach that meets Nirma's standards."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 WhatsApp — Nirma University Project Help",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20help%20with%20my%20Nirma%20University%20project."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=Nirma%20University%20Project%20Help"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "What level of projects do you handle for Nirma University?",
+                "answer": "I handle everything from mid-complexity BTech projects to advanced MCA final year projects involving AI, APIs, real-time features, and cloud deployment."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help with machine learning or AI projects for Nirma?",
+                "answer": "Yes. Projects involving NLP, predictive analytics, recommendation systems, and OpenAI API integrations are all supported."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "How do you make sure I can explain the project during viva?",
+                "answer": "Every delivery includes an explanation session where I walk you through the architecture, key decisions, API flow, and code structure so you're fully prepared."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you help with documentation for Nirma's project submission?",
+                "answer": "Yes. Technical documentation, project synopsis, and reports are included based on your Nirma department requirements."
+            }
+        }
+    ]
+}

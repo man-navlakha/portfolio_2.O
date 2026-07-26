@@ -1,0 +1,218 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "GTU Project Help — Gujarat Technological University Final Year Projects",
+                "description": "Working on a GTU (Gujarat Technological University) final year project? Whether you're a BCA, MCA, or Engineering student, GTU project submissions require working software, proper documentation, and viva readiness. I help GTU students across Ahmedabad and Gujarat build, fix, and confidently present their academic software projects."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "🎓 GTU is one of Gujarat's largest universities with 500+ affiliated colleges. Get help that understands GTU project guidelines and submission requirements.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What Makes GTU Projects Different?",
+                "description": "GTU-affiliated college projects follow specific guidelines set by the university and individual departments. Understanding these requirements is essential to building a project that passes evaluation."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "GTU requires working, functional software — not just theory",
+                    "Projects must include proper documentation and synopsis",
+                    "Viva evaluation requires the student to explain the project clearly",
+                    "Technology stack is usually flexible but must be practical",
+                    "Deadlines are strict — delays can affect your semester",
+                    "Some departments require deployment or hosted demos"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Who This Service Is For",
+                "description": "This GTU project help service is designed for students who need guidance, development, or debugging support during their final semester."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "BCA Final Year Students at GTU-affiliated colleges",
+                    "MCA Final Year Students",
+                    "Engineering (CE / IT / CSE / EC) Students",
+                    "Diploma Students under GTU",
+                    "Students doing mini projects and major projects",
+                    "Students stuck midway and need urgent help"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Technologies for GTU Final Year Projects",
+                "description": "GTU evaluators assess based on functionality and explanation. Choose a technology stack that's appropriate for your semester level and that you can explain clearly."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js — Modern front-end development",
+                    "MERN Stack — Full-stack JavaScript (MongoDB, Express, React, Node)",
+                    "Next.js — SEO-friendly full-stack React framework",
+                    "Python with Django or Flask — Great for data and AI projects",
+                    "Java (Spring Boot) — Enterprise-level academic projects",
+                    "PHP with MySQL — Traditional GTU project requirements",
+                    "React Native — Mobile app submissions",
+                    "AI & Machine Learning — NLP, prediction, or chatbot projects"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Choosing the right technology is the first critical decision. During the free consultation, we'll match your technology to your semester, department requirements, and skill level.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Popular GTU Project Ideas",
+                "description": "Here are some project ideas that consistently work well for GTU final year submissions across BCA, MCA, and Engineering programs."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Student Information Management System",
+                    "Online Exam and Quiz Platform",
+                    "College Event Management System",
+                    "Employee Attendance Tracking System",
+                    "E-commerce Platform with Order Management",
+                    "Hospital Patient Management System",
+                    "Vehicle Parking Management System",
+                    "AI-based Resume Analyzer",
+                    "Real-time Chat and Notification System",
+                    "Grievance and Feedback Portal"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Already Started Your GTU Project?",
+                "description": "If you've already started but are facing technical issues, I can review your code and help you fix problems without starting over."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Bug fixing and error resolution",
+                    "Database connection and query issues",
+                    "Authentication and login problems",
+                    "API integration failures",
+                    "Deployment to hosting platform",
+                    "Missing features and incomplete modules",
+                    "Documentation and report writing",
+                    "PPT preparation",
+                    "Viva preparation and explanation"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What's Included in Every GTU Project Delivery",
+                "description": "When you work with me on your GTU project, here's exactly what you receive."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Working software application",
+                    "Clean, organized source code",
+                    "Database setup and configuration",
+                    "Authentication and role-based access",
+                    "Deployment to live URL (if required)",
+                    "Project documentation support",
+                    "Project walkthrough and viva preparation",
+                    "Post-delivery support"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Pricing is student-friendly and discussed openly before any work begins. No deposit required for consultation.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Get Help With Your GTU Project Today",
+                "description": "Share your GTU project idea, department, deadline, and technology preference. We'll plan the best solution together before anything starts."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 Chat on WhatsApp — GTU Project Help",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20help%20with%20my%20GTU%20final%20year%20project."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=GTU%20Project%20Help"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Which GTU colleges do you help students from?",
+                "answer": "I help students from GTU-affiliated colleges across Ahmedabad, Surat, Rajkot, Vadodara, and Gujarat. Whether it's a small college or a large campus, the support is the same."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "What if my GTU project deadline is very soon?",
+                "answer": "Urgent projects are possible. Share your deadline on WhatsApp and I'll let you know what's achievable in that time frame."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Will you help me understand the GTU project for viva?",
+                "answer": "Yes. Every project delivery includes a walkthrough. I'll explain the architecture, features, and code flow so you can answer viva questions confidently."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you provide documentation and synopsis for GTU submission?",
+                "answer": "Yes. Documentation and synopsis assistance is available. Proper project reports are part of the delivery."
+            }
+        }
+    ]
+}

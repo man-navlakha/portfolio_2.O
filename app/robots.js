@@ -3,7 +3,7 @@ export default function robots() {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/private/',
+            disallow: ['/portal/', '/api/', '/private/'],
         },
         sitemap: 'https://man-navlakha.netlify.app/sitemap.xml',
     }

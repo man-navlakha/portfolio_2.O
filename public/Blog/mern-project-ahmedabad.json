@@ -1,0 +1,207 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "MERN Stack Project Help in Ahmedabad",
+                "description": "Need help building a MERN Stack project in Ahmedabad? Whether you're a BCA, MCA, or Engineering student, or a startup looking to build a full-stack web application, I help plan, develop, debug, and deploy MERN Stack projects — with a strong focus on clean code and explainability."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "🚀 MERN Stack (MongoDB + Express.js + React.js + Node.js) is one of the most in-demand tech stacks in 2026 — build your project with it and stand out.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What Is the MERN Stack?",
+                "description": "MERN is a JavaScript-based full-stack framework that allows you to build complete web applications using a single programming language — JavaScript — for both the frontend and backend."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "M — MongoDB: NoSQL database for flexible data storage",
+                    "E — Express.js: Lightweight Node.js web framework for building APIs",
+                    "R — React.js: Frontend UI library for building interactive interfaces",
+                    "N — Node.js: JavaScript runtime that powers the server-side logic"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Choose MERN Stack for Your Ahmedabad College Project?",
+                "description": "MERN Stack projects are increasingly accepted and encouraged in GTU, LJ University, Nirma, Silver Oak, and other Ahmedabad colleges. Here's why it's an excellent choice."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Single language (JavaScript) for frontend and backend — easier to learn and present",
+                    "Industry-relevant skill that impresses during placements",
+                    "Free and open-source tools with strong community support",
+                    "Easily deployable to free platforms like Vercel and Render",
+                    "Flexible MongoDB database doesn't require rigid schema design",
+                    "React frontend looks polished and modern for your presentation"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "MERN Project Ideas for Ahmedabad Students",
+                "description": "Not sure what to build? Here are popular MERN Stack project ideas that work well for final year submissions."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Student Management System — Attendance, grades, and profiles",
+                    "Online Exam Platform — MCQ-based tests with auto-evaluation",
+                    "Job Portal — Post and apply for jobs with filtering",
+                    "E-commerce Store — Product listing, cart, and payments",
+                    "Hospital Management System — Patient records and appointments",
+                    "Real-time Chat Application — Using Socket.io",
+                    "Library Management System — Book issuing and tracking",
+                    "Expense Tracker — Personal finance management",
+                    "AI-powered Chatbot — Integrated with OpenAI API",
+                    "College Notice Board — Announcements and event management"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Need a custom project idea? Share your college requirements and I'll suggest the best MERN project for your semester.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "How the Development Process Works",
+                "description": "Every MERN Stack project follows a structured development process to ensure quality, timely delivery, and a project you can explain."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Consultation — Discuss idea, requirements, and deadline",
+                    "Planning — Define features, database schema, and API structure",
+                    "Backend Development — Node.js + Express REST API with MongoDB",
+                    "Frontend Development — React UI with routing and state management",
+                    "Authentication — JWT-based secure login and registration",
+                    "Testing — Bug fixing and feature validation",
+                    "Deployment — Live URL on Vercel, Render, or Railway",
+                    "Handover — Code walkthrough and viva preparation"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What You Get With Every MERN Project",
+                "description": "When you work with me for your MERN Stack project in Ahmedabad, here's what's included."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Full MERN Stack application (frontend + backend + database)",
+                    "REST API with proper routes and controllers",
+                    "MongoDB database with collections and relations",
+                    "JWT authentication and protected routes",
+                    "Responsive React UI",
+                    "GitHub repository with clean commit history",
+                    "Deployment to a live URL",
+                    "Project documentation and report assistance",
+                    "Viva preparation session"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "No unnecessary complexity. Every MERN project is built to be submission-ready and easy to explain — even if you're presenting it for the first time.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Already Have a MERN Project? I Can Fix It",
+                "description": "If you've already started your MERN project but are stuck on bugs, incomplete features, or deployment issues, I can step in and help without rebuilding everything."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "React rendering or state management errors",
+                    "Node.js or Express API issues",
+                    "MongoDB connection and query problems",
+                    "Authentication or JWT token bugs",
+                    "CORS and deployment configuration errors",
+                    "Missing features or incomplete UI"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Start Your MERN Project in Ahmedabad",
+                "description": "Share your project idea, college name, deadline, and any specific requirements via WhatsApp. We'll plan everything together before any work starts."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 Chat on WhatsApp — MERN Project Help Ahmedabad",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20help%20with%20my%20MERN%20Stack%20project%20in%20Ahmedabad."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=MERN%20Project%20Ahmedabad"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Is MERN Stack accepted in GTU and LJ University projects?",
+                "answer": "Yes. MERN Stack is accepted in most Gujarat university final year projects. It's a modern, industry-standard stack that evaluators recognize and appreciate."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "How much does a MERN Stack college project cost?",
+                "answer": "Pricing depends on the complexity, number of features, and your deadline. It's always discussed transparently before any work begins. No hidden charges."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can I understand and explain the MERN project after it's built?",
+                "answer": "Yes. Every project delivery includes a walkthrough so you understand the architecture, API routes, React components, and database structure — ready for your viva."
+            }
+        }
+    ]
+}

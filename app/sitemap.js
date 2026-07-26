@@ -1,60 +1,61 @@
 import rawProjects from "./data/projects.json";
+import experienceData from "./data/experience.json";
 import fs from "fs";
 import path from "path";
 import { normalizeProjects } from "../lib/project-normalizer";
 
 const projects = normalizeProjects(rawProjects);
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
+const BASE_URL = "https://man-navlakha.netlify.app";
 
 export default async function sitemap() {
-    const baseUrl = 'https://man-navlakha.netlify.app/';
+    const today = new Date().toISOString().split("T")[0];
 
-    const routes = ['', '/about', '/projects', '/contact', '/experience', '/blog'].map(
-        (route) => ({
-            url: `${baseUrl}${route}`,
-            lastModified: new Date().toISOString().split('T')[0],
-            changeFrequency: 'monthly',
-            priority: route === '' ? 1 : 0.8,
-        })
-    );
+    // ── Core pages ──────────────────────────────────────────────────────
+    const coreRoutes = [
+        { url: BASE_URL, priority: 1.0, changeFrequency: "weekly" },
+        { url: `${BASE_URL}/about`, priority: 0.8, changeFrequency: "monthly" },
+        { url: `${BASE_URL}/projects`, priority: 0.8, changeFrequency: "weekly" },
+        { url: `${BASE_URL}/experience`, priority: 0.8, changeFrequency: "monthly" },
+        { url: `${BASE_URL}/blog`, priority: 0.8, changeFrequency: "weekly" },
+        { url: `${BASE_URL}/contact`, priority: 0.7, changeFrequency: "monthly" },
+        { url: `${BASE_URL}/lab`, priority: 0.6, changeFrequency: "monthly" },
+    ].map((route) => ({ ...route, lastModified: today }));
 
-    let projectRoutes = [];
-    try {
-        const res = await fetch(`${BACKEND_URL}/api/v1/projects/`, {
-            next: { revalidate: 3600 } // Cache for 1 hour
-        });
-        if (res.ok) {
-            const projects = await res.json();
-            projectRoutes = projects.map((project) => ({
-                url: `${baseUrl}/projects/${project.id}`,
-                lastModified: new Date().toISOString().split('T')[0],
-                changeFrequency: 'monthly',
-                priority: 0.6,
-            }));
-        }
-    } catch (error) {
-        console.error("Error fetching projects for sitemap:", error);
-    }
+    // ── Project detail pages ────────────────────────────────────────────
+    const projectRoutes = projects.map((project) => ({
+        url: `${BASE_URL}/projects/${project.id}`,
+        lastModified: today,
+        changeFrequency: "monthly",
+        priority: 0.6,
+    }));
 
-    // Read blogs index
+    // ── Experience detail pages ─────────────────────────────────────────
+    const experienceRoutes = experienceData.map((exp) => ({
+        url: `${BASE_URL}/experience/${exp.id}`,
+        lastModified: today,
+        changeFrequency: "monthly",
+        priority: 0.6,
+    }));
+
+    // ── Blog posts ──────────────────────────────────────────────────────
     let blogRoutes = [];
     try {
         const blogIndexPath = path.join(process.cwd(), "public", "Blog", "blog.json");
         const rawBlogs = fs.readFileSync(blogIndexPath, "utf-8");
         const blogs = JSON.parse(rawBlogs);
-        
+
         blogRoutes = blogs
-            .filter(blog => blog.status === true && blog.index !== "no")
+            .filter((blog) => blog.status === true && blog.index !== "no")
             .map((blog) => ({
-                url: `${baseUrl}/blog/${blog.slug}`,
-                lastModified: blog.date || new Date().toISOString().split('T')[0],
-                changeFrequency: 'monthly',
+                url: `${BASE_URL}/blog/${blog.slug}`,
+                lastModified: blog.updated_date || blog.date || today,
+                changeFrequency: "weekly",
                 priority: 0.7,
             }));
     } catch (e) {
         console.error("Error reading blogs for sitemap:", e);
     }
 
-    return [...routes, ...projectRoutes, ...blogRoutes];
+    return [...coreRoutes, ...projectRoutes, ...experienceRoutes, ...blogRoutes];
 }

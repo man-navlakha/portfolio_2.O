@@ -1,0 +1,212 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "LJ University Project Help — Final Year Project Assistance",
+                "description": "Are you an LJ University student working on your final year project? Whether you're studying BCA, MCA, or Engineering at LJ University (LJU) in Ahmedabad, I help you build, debug, document, deploy, and present your software project with confidence."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "🎓 LJ University students deserve project help that understands their exact academic requirements — not generic online tutorials.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why LJ University Students Come to This Service",
+                "description": "LJ University has strong engineering and computer science programs. Its students are expected to submit working, well-documented software projects. The challenge is bridging the gap between classroom theory and actual project development."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Familiar with LJ University project evaluation guidelines",
+                    "Local Ahmedabad developer — easy to reach via WhatsApp",
+                    "Understands the LJU BCA, MCA, and Engineering curriculum",
+                    "Student-friendly pricing — no corporate rates",
+                    "Support from idea selection to viva preparation",
+                    "Urgent deadline projects also handled"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Who This Service Is For at LJ University",
+                "description": "This service is designed specifically for LJU students who need hands-on project support."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "BCA Final Year Students — Major and mini projects",
+                    "MCA Final Year Students — Advanced full-stack projects",
+                    "Engineering (CE / IT / CSE) Final Year Students",
+                    "LJU students stuck with bugs or incomplete features",
+                    "Students who started late and need to catch up",
+                    "Students who want a better project for higher marks"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Technologies for LJ University Projects",
+                "description": "LJU accepts a wide range of technologies for final year projects. Here are the most popular and recommended options."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js — Front-end projects with dynamic UI",
+                    "MERN Stack — Full-stack (MongoDB, Express, React, Node.js)",
+                    "Next.js — Modern web applications with SEO support",
+                    "Python + Django — Back-end and data-driven projects",
+                    "Java — Desktop or enterprise web applications",
+                    "PHP + MySQL — Traditional LJU BCA project stack",
+                    "React Native — Mobile application projects",
+                    "AI & Machine Learning — Smart system integrations"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "During the free consultation, I'll help you pick the technology that fits your LJU department requirements, your semester, and your comfort level.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Recommended LJ University Project Ideas",
+                "description": "Here are project ideas that work well for LJU final year submissions across departments."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Online Course and Learning Management System",
+                    "Student Attendance and Grade Tracker",
+                    "Placement Cell Management System",
+                    "Event and Fest Management Portal",
+                    "E-commerce with Admin Dashboard",
+                    "Smart Complaint Management System",
+                    "Hostel Room Booking System",
+                    "Job Board for College Graduates",
+                    "AI-based Career Guidance System",
+                    "Digital Notice Board Application"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Already Started Your LJU Project?",
+                "description": "If you've been working on your LJU project and hit a wall, I can step in without starting over. Here's what I can fix or improve."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "React or JavaScript frontend bugs",
+                    "Backend API and database issues",
+                    "Authentication and session management",
+                    "Incomplete module development",
+                    "UI responsiveness improvements",
+                    "Deployment and hosting configuration",
+                    "Documentation and project report",
+                    "PPT and presentation preparation",
+                    "Viva readiness coaching"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What You Receive With Every LJU Project",
+                "description": "From concept to submission, here's what every LJ University project engagement includes."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Fully working software application",
+                    "Structured, readable source code",
+                    "Database design and integration",
+                    "Authentication and role-based access",
+                    "Responsive UI design",
+                    "Deployment to a live URL",
+                    "GitHub repository setup",
+                    "Documentation and synopsis support",
+                    "Project explanation session for viva"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Every LJU project is delivered on time, explained clearly, and priced fairly — with no surprises.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Get Help With Your LJ University Project",
+                "description": "Share your LJU project requirements, course, deadline, and technology preference on WhatsApp. We'll plan the right approach before any work starts."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 WhatsApp — LJ University Project Help",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20help%20with%20my%20LJ%20University%20project."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=LJ%20University%20Project%20Help"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you help with LJU BCA and MCA projects both?",
+                "answer": "Yes. I help students across all computer science programs at LJ University, including BCA, MCA, and Engineering courses."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "What if I don't know which technology to use for my LJU project?",
+                "answer": "That's what the free consultation is for. Based on your course, semester, and your comfort level, I'll recommend the best technology for your project."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you complete my LJU project in 3–5 days?",
+                "answer": "Depending on the complexity, smaller projects can be completed within 5 days. Share your requirements and deadline on WhatsApp for an honest estimate."
+            }
+        }
+    ]
+}

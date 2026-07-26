@@ -1,0 +1,197 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "React Developer in Ahmedabad — College Project & Freelance Development",
+                "description": "Looking for a React developer in Ahmedabad for your college project, startup idea, or freelance requirement? I'm Man Navlakha — a React and MERN Stack developer based in Ahmedabad, Gujarat, helping students and businesses build fast, modern web applications."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "⚛️ From simple college projects to full-scale web applications — React development done right, here in Ahmedabad.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Why Hire a Local React Developer in Ahmedabad?",
+                "description": "Finding a skilled React developer locally in Ahmedabad means faster communication, better understanding of Gujarat university requirements, and the ability to meet in person when needed. As someone familiar with the local tech landscape, I understand both academic and freelance project needs."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Local developer — Ahmedabad, Gujarat",
+                    "Familiar with GTU, LJ University, Nirma, Silver Oak project requirements",
+                    "Available on WhatsApp for quick communication",
+                    "React, Next.js, and MERN Stack expertise",
+                    "Student-friendly and startup-friendly pricing",
+                    "Clean, maintainable code with proper documentation"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What I Build With React",
+                "description": "React is one of the most in-demand front-end libraries. Here's what I can develop for college projects, freelance clients, or startup MVPs."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "Single Page Applications (SPA)",
+                    "Admin Dashboards and CRM panels",
+                    "E-commerce frontend with cart and payment",
+                    "College management systems",
+                    "Student portals and academic platforms",
+                    "Booking and appointment systems",
+                    "Real-time chat applications",
+                    "Portfolio websites and personal branding sites",
+                    "Data visualization dashboards",
+                    "AI-integrated web interfaces"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "React Technology Stack I Work With",
+                "description": "Modern React development involves a complete ecosystem. Here are the tools and technologies I use to build production-ready applications."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js — UI component library",
+                    "Next.js — Full-stack React framework with SSR and SSG",
+                    "React Router — Client-side navigation",
+                    "Redux / Zustand — State management",
+                    "Tailwind CSS / Styled Components — Styling",
+                    "Node.js + Express — Backend API",
+                    "MongoDB / PostgreSQL — Database",
+                    "JWT Authentication — Secure login systems",
+                    "Vercel / Netlify — Deployment"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Every React project is built with performance, readability, and your deadline in mind — whether it's a college submission or a live product.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "React for College Projects in Ahmedabad",
+                "description": "React is now accepted and encouraged in most Gujarat university final year projects. Whether you're at GTU, LJ University, Nirma, Silver Oak, or GLS, a React-based project stands out and demonstrates industry-relevant skills."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "numbers",
+                "items": [
+                    "Select a project idea suited to your semester and syllabus",
+                    "Design the component structure and database schema",
+                    "Build the React frontend with clean UI",
+                    "Connect to Node.js or Python backend API",
+                    "Add authentication, authorization, and validation",
+                    "Deploy to a live URL with documentation",
+                    "Prepare for viva with a project walkthrough"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "What's Included in a React Project Build",
+                "description": "When you work with me on a React project in Ahmedabad, here's exactly what you get."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Complete React frontend development",
+                    "Backend API (Node.js or Python depending on requirement)",
+                    "Database design and integration",
+                    "Authentication system",
+                    "Responsive, mobile-friendly design",
+                    "Deployment to a live URL",
+                    "Clean GitHub repository",
+                    "Documentation and project report assistance",
+                    "Viva explanation session"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Pricing is transparent, discussed before work begins, and tailored to your budget — no surprises.",
+                "color": "yellow"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Let's Build Your React Project",
+                "description": "Whether you're a student in Ahmedabad who needs a final year project in React, or a business looking for a freelance React developer — let's start with a quick conversation."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 WhatsApp — Hire a React Developer in Ahmedabad",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20a%20React%20developer%20in%20Ahmedabad."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com?subject=React%20Developer%20Ahmedabad"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you build a React project for my GTU or LJ University submission?",
+                "answer": "Yes. I'm familiar with Gujarat university project requirements and can build a React application that meets your syllabus and is ready for viva."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you only work with React or other technologies too?",
+                "answer": "React is a core skill, but I also work with Next.js, Node.js, MongoDB, Python, and Django. Most college projects require a full-stack solution, which I can handle end to end."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "How long does it take to build a React project?",
+                "answer": "Simple projects typically take 5–10 days. More complex full-stack applications can take 2–4 weeks depending on the features. Urgent projects are also possible."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Will you explain how the React project works for my viva?",
+                "answer": "Yes. Every project delivery includes a walkthrough of the architecture, components, and key features so you can confidently answer questions during your viva."
+            }
+        }
+    ]
+}

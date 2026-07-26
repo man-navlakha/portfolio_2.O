@@ -1,0 +1,132 @@
+{
+    "blocks": [
+        {
+            "type": "title-description",
+            "data": {
+                "title": "BCA Final Year Project Help",
+                "description": "Working on a BCA Final Year Project Help project? Whether you're building a React application, a MERN Stack project, a Python system, or an AI-based solution, I can help you plan, build, debug, deploy, and understand your project."
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Every project should be original, easy to explain during your viva, and completed before your submission deadline.",
+                "color": "blue"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Who Is This Service For?",
+                "description": "This service is designed for BCA students who need technical guidance or development assistance with academic software projects."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "BCA Students",
+                    "MCA Students",
+                    "Engineering Students",
+                    "Diploma Students",
+                    "Last Semester Projects",
+                    "Mini Projects",
+                    "Major Projects"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Technologies We Support",
+                "description": "Choose the stack that fits your project requirements."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "bullets",
+                "items": [
+                    "React.js",
+                    "Next.js",
+                    "Node.js",
+                    "Express.js",
+                    "MongoDB",
+                    "PostgreSQL",
+                    "Python",
+                    "Django",
+                    "Java",
+                    "PHP",
+                    "React Native",
+                    "AI & Chatbot Development"
+                ]
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Need Help With an Existing Project?",
+                "description": "Already started your BCA project? I can help fix issues instead of rebuilding everything."
+            }
+        },
+        {
+            "type": "data-list",
+            "data": {
+                "style": "check",
+                "items": [
+                    "Bug fixing",
+                    "Database issues",
+                    "Authentication",
+                    "Deployment",
+                    "API integration",
+                    "Documentation",
+                    "PPT",
+                    "Viva preparation"
+                ]
+            }
+        },
+        {
+            "type": "highlight",
+            "data": {
+                "text": "Student-friendly pricing with transparent estimates based on your project's requirements.",
+                "color": "green"
+            }
+        },
+        {
+            "type": "title-description",
+            "data": {
+                "title": "Free Consultation Before You Decide",
+                "description": "We'll discuss your project idea, college requirements, deadline, and budget before any development starts."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "📱 Chat on WhatsApp",
+                "url": "https://wa.me/919913151805?text=Hi%20Man%2C%20I%20need%20help%20with%20my%20BCA%20project."
+            }
+        },
+        {
+            "type": "external-link",
+            "data": {
+                "title": "✉️ Email Me",
+                "url": "mailto:mannavlakha1021@gmail.com"
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Can you help if my project is already half completed?",
+                "answer": "Yes. I can review your existing work, identify problems, and help complete or improve it."
+            }
+        },
+        {
+            "type": "faq",
+            "data": {
+                "question": "Do you provide documentation and deployment support?",
+                "answer": "Yes. Documentation, deployment guidance, and project explanation can be included based on your requirements."
+            }
+        }
+    ]
+}
