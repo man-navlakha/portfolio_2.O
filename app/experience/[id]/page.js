@@ -83,5 +83,41 @@ export async function generateStaticParams() {
 
 export default async function ExperiencePage({ params }) {
     const { id } = await params;
-    return <ExperienceDetailClient id={id} />;
+    const localExp = findExperience(id);
+
+    const breadcrumbLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://man-navlakha.netlify.app",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Experience",
+                item: "https://man-navlakha.netlify.app/experience",
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                name: localExp ? `${localExp.role} at ${localExp.company}` : "Experience Detail",
+                item: `https://man-navlakha.netlify.app/experience/${id}`,
+            },
+        ],
+    };
+
+    return (
+        <>
+            <script
+                id="json-ld-breadcrumb"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd).replace(/</g, '\\u003c') }}
+            />
+            <ExperienceDetailClient id={id} />
+        </>
+    );
 }

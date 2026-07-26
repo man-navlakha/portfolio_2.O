@@ -5,6 +5,9 @@ import BlogClient from "./BlogClient";
 export const metadata = {
   title: "Blog",
   description: "Read my latest articles about web development, design, SEO, and software engineering.",
+  alternates: {
+    canonical: '/blog',
+  },
   openGraph: {
     title: "Blog | Man Navlakha",
     description: "Thoughts, learnings, and tutorials on web development and design.",

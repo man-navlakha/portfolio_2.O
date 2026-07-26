@@ -113,12 +113,43 @@ export default async function BlogPost({ params }) {
     },
   };
 
+  // BreadcrumbList structured data for navigation
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://man-navlakha.netlify.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://man-navlakha.netlify.app/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: blogMeta.title,
+        item: `https://man-navlakha.netlify.app/blog/${resolvedParams.slug}`,
+      },
+    ],
+  };
+
   return (
     <>
       <script
         id="json-ld-article"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        id="json-ld-breadcrumb"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd).replace(/</g, '\\u003c') }}
       />
 
       <div className="min-h-screen bg-white dark:bg-[#050505] text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black pt-32">

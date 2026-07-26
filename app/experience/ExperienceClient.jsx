@@ -28,7 +28,7 @@ const ExperienceClient = () => {
     <div className="min-h-screen bg-transparent pt-32 pb-24 px-6 relative overflow-hidden">
       <div className="absolute -left-20 top-60 opacity-[0.02] dark:opacity-[0.04] pointer-events-none select-none rotate-12 hidden lg:block transition-all duration-1000">
         {hoveredLogo && (
-          <Image key={hoveredLogo} src={hoveredLogo} alt="" width={600} height={600} className="object-contain grayscale animate-fade-in" />
+          <Image key={hoveredLogo} src={hoveredLogo} alt="Company logo watermark" role="presentation" width={600} height={600} className="object-contain grayscale animate-fade-in" />
         )}
       </div>
 

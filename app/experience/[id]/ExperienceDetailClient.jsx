@@ -72,7 +72,7 @@ export default function ExperienceDetailClient({ id }) {
         <div className="min-h-screen bg-[#fafafa] dark:bg-[#050505] text-slate-900 dark:text-white pt-32 pb-24 px-4 md:px-6 relative overflow-hidden">
             {/* Large Background Logo Watermark */}
             <div className="absolute -left-20 top-40 opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none rotate-12 hidden lg:block">
-                <Image src={experience.logo} alt="" width={500} height={500} className="object-contain grayscale" />
+                <Image src={experience.logo} alt="Company logo watermark" role="presentation" width={500} height={500} className="object-contain grayscale" />
             </div>
 
             <div className="max-w-4xl mx-auto relative z-10">

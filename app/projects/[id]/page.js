@@ -60,5 +60,39 @@ export default async function ProjectDetailPage({ params }) {
     notFound();
   }
 
-  return <ProjectDetailClient project={project} />;
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://man-navlakha.netlify.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Projects",
+        item: "https://man-navlakha.netlify.app/projects",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.title,
+        item: `https://man-navlakha.netlify.app/projects/${project.id}`,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        id="json-ld-breadcrumb"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd).replace(/</g, '\\u003c') }}
+      />
+      <ProjectDetailClient project={project} />
+    </>
+  );
 }

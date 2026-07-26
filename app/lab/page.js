@@ -1,8 +1,11 @@
 import ShaderCard from "../Components/ShaderCard";
 
 export const metadata = {
-  title: "Lab | Man Navlakha",
-  description: "Experimental shader effects and creative coding experiments.",
+  title: "Lab",
+  description: "Explore experimental shader effects, creative coding experiments, and interactive web art by Man Navlakha.",
+  alternates: {
+    canonical: '/lab',
+  },
 };
 
 export default function LabPage() {

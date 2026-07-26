@@ -28,6 +28,11 @@ export default function Home({ topBlogs = [] }) {
     "item-2": "/project/pixel.png",
     "item-3": "/project/seo.png",
   };
+  const expertiseAltText = {
+    "item-1": "Web development project screenshot showcasing React and Next.js portfolio",
+    "item-2": "UI/UX design project screenshot for Pixel Class application",
+    "item-3": "SEO audit dashboard screenshot showing search optimization results",
+  };
   return (
     <>
       <div className="min-h-screen text-pretty bg-transparent text-slate-900 dark:text-white font-sans selection:bg-brand selection:text-black">
@@ -73,7 +78,7 @@ export default function Home({ topBlogs = [] }) {
                   <AnimatedButton
                     hoverColor="bg-slate-900 dark:bg-white"
                     hoverTextColor="group-hover:text-white dark:group-hover:text-black"
-                  >Know me better
+                  >About Me
                   </AnimatedButton></Link>
               </div>
             </RevealOnScroll>
@@ -293,7 +298,7 @@ export default function Home({ topBlogs = [] }) {
                   <Image
                     key={activeExpertise}
                     src={expertiseImages[activeExpertise]}
-                    alt="Expertise"
+                    alt={expertiseAltText[activeExpertise] || "Expertise area screenshot"}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="w-full h-full object-cover opacity-80 animate-fade-in transition-all duration-500"
