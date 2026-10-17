@@ -13,8 +13,8 @@ const nextConfig = {
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'ui-avatars.com' },
-      // Replaced devrajchatribin.com (robots.txt blocked Googlebot) with simpleicons CDN
-      { protocol: 'https', hostname: 'cdn.simpleicons.org' },
+      // Replaced devrajchatribin.com (robots.txt blocked Googlebot) with jsDelivr CDN
+      { protocol: 'https', hostname: 'cdn.jsdelivr.net' },
     ],
   },
   // ─── Security Headers ────────────────────────────────────────────────────────

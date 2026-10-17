@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic';
 import { ArrowUpRight, Download, Brain, PenTool, Code2, Rocket, ShieldCheck, Sparkles, ChevronRight } from 'lucide-react';
 import CallToAction from '../Components/CallToAction';
 import RevealOnScroll from '../Components/ui/RevealOnScroll';
@@ -13,7 +14,16 @@ import { useExperience } from '../context/ExperienceContext';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ShaderCard from '../Components/ShaderCard';
+// Dynamic import with ssr:false — ShaderCard uses WebGL/Three.js which is
+// browser-only. Static import caused React hydration error #418 (server/client
+// DOM mismatch). ssr:false renders a skeleton server-side and mounts the
+// canvas only after hydration, eliminating the mismatch for Googlebot.
+const ShaderCard = dynamic(() => import('../Components/ShaderCard'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gray-200 dark:bg-gray-900 animate-pulse rounded-[2.5rem]" />
+  ),
+});
 
 const AboutClient = () => {
     const { experiences, loading: expLoading } = useExperience();

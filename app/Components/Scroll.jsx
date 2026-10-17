@@ -1,23 +1,23 @@
 import React from 'react'
 import Image from 'next/image';
 
-// Using cdn.simpleicons.org — a public CDN with no robots.txt crawler restrictions,
-// replacing devrajchatribin.com whose robots.txt blocked Googlebot from loading icons.
+// Using cdn.jsdelivr.net (jsDelivr) — battle-tested CDN fully accessible to Googlebot.
+// cdn.simpleicons.org returned "Other error" for some icons during Googlebot crawl.
 const SKILLS = [
-  { name: "HTML",        src: "https://cdn.simpleicons.org/html5/E34F26" },
-  { name: "CSS",         src: "https://cdn.simpleicons.org/css3/1572B6" },
-  { name: "JavaScript",  src: "https://cdn.simpleicons.org/javascript/F7DF1E" },
-  { name: "TypeScript",  src: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { name: "React.js",   src: "https://cdn.simpleicons.org/react/61DAFB" },
-  { name: "Next.js",    src: "https://cdn.simpleicons.org/nextdotjs/000000/ffffff" },
-  { name: "Node.js",    src: "https://cdn.simpleicons.org/nodedotjs/339933" },
-  { name: "Express.js", src: "https://cdn.simpleicons.org/express/000000/ffffff" },
-  { name: "MySQL",       src: "https://cdn.simpleicons.org/mysql/4479A1" },
-  { name: "MongoDB",     src: "https://cdn.simpleicons.org/mongodb/47A248" },
-  { name: "PostgreSQL",  src: "https://cdn.simpleicons.org/postgresql/4169E1" },
-  { name: "Figma",       src: "https://cdn.simpleicons.org/figma/F24E1E" },
-  { name: "TailwindCSS", src: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
-  { name: "Git",         src: "https://cdn.simpleicons.org/git/F05032" },
+  { name: "HTML",        src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/html5.svg" },
+  { name: "CSS",         src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/css3.svg" },
+  { name: "JavaScript",  src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/javascript.svg" },
+  { name: "TypeScript",  src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/typescript.svg" },
+  { name: "React.js",   src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/react.svg" },
+  { name: "Next.js",    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nextdotjs.svg" },
+  { name: "Node.js",    src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nodedotjs.svg" },
+  { name: "Express.js", src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/express.svg" },
+  { name: "MySQL",       src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mysql.svg" },
+  { name: "MongoDB",     src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mongodb.svg" },
+  { name: "PostgreSQL",  src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/postgresql.svg" },
+  { name: "Figma",       src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/figma.svg" },
+  { name: "TailwindCSS", src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/tailwindcss.svg" },
+  { name: "Git",         src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/git.svg" },
 ];
 
 // Duplicate for seamless marquee loop
@@ -46,7 +46,8 @@ const Scroll = () => {
                   decoding="async"
                   fill
                   unoptimized
-                  className="object-contain h-full w-full"
+                  // simple-icons SVGs are black by default — invert to white in dark mode
+                  className="object-contain h-full w-full dark:invert transition-all duration-300"
                   src={skill.src}
                 />
               </div>

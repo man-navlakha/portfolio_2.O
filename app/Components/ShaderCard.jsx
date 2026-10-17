@@ -148,10 +148,12 @@ export default function ShaderCard({ showOverlay = true }) {
     window.addEventListener("resize", onResize);
 
     let animationFrameId;
-    const clock = new THREE.Clock();
+    // THREE.Timer replaces deprecated THREE.Clock
+    const timer = new THREE.Timer();
+    let startTime = performance.now() / 1000;
 
     const render = () => {
-      uniforms.u_time.value = clock.getElapsedTime();
+      uniforms.u_time.value = (performance.now() / 1000) - startTime;
 
       uniforms.u_hoverState.value +=
         (targetHoverState - uniforms.u_hoverState.value) * 0.05;
@@ -175,6 +177,8 @@ export default function ShaderCard({ showOverlay = true }) {
       geometry.dispose();
       material.dispose();
       imageTexture.dispose();
+      // forceContextLoss prevents WebGL GPU stall (ReadPixels) warning in Googlebot
+      renderer.forceContextLoss();
       renderer.dispose();
     };
   }, []);
